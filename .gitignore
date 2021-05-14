@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+mvnw
+mvnw.cmd
+.mvn/wrapper
+
 ### STS ###
 .apt_generated
 .classpath

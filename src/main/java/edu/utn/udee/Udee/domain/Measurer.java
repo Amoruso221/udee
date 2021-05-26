@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,16 +20,22 @@ public class Measurer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer serialNumber;
 
+    @Column
     private String brand;
+
+    @Column
     private String model;
+
+    @Column
     private Double measurement;
 
-    //Cliente 1-1
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "measurer")
+    private List<Measurement> measurements;
 
-    //Mediciones 1-N
+
+
+    //Domicilio 1-1
 
     //Facturas N-1
-
-    //Medidor
 
 }

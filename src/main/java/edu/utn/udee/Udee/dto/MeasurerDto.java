@@ -1,10 +1,14 @@
 package edu.utn.udee.Udee.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import edu.utn.udee.Udee.domain.Measurement;
+import edu.utn.udee.Udee.domain.Measurer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,12 +21,22 @@ public class MeasurerDto {
     private String brand;
     private String model;
     private Double measurement;
+    private List<Measurement> measurements;
 
-    //Cliente 1-1
-
-    //Mediciones 1-N
+    //Domicilio 1-1
 
     //Facturas N-1
 
-    //Medidor
+
+
+    public static MeasurerDto from(Measurer measurer){
+        return MeasurerDto.builder().
+                serialNumber(measurer.getSerialNumber()).
+                brand(measurer.getBrand()).
+                model(measurer.getModel()).
+                measurement(measurer.getMeasurement()).
+                measurements(measurer.getMeasurements()).
+                build();
+    }
+
 }

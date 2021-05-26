@@ -7,6 +7,7 @@ import edu.utn.udee.Udee.exceptions.ClientExistsException;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.service.AddressService;
 import edu.utn.udee.Udee.service.ClientService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,23 +25,18 @@ public class ClientController {
 
     private final AddressService addressService;
     private final ClientService clientService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public ClientController (AddressService addressService, ClientService clientService){
+    public ClientController (AddressService addressService, ClientService clientService, ModelMapper modelMapper){
         this.addressService = addressService;
         this.clientService = clientService;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity addClient(@RequestBody ClientDto clientDto) throws ClientExistsException {
-        Client newClient = clientService.addClient(
-                Client.builder().
-                        id(clientDto.getId()).
-                        name(clientDto.getName()).
-                        surname(clientDto.getSurname()).
-                        dni(clientDto.getDni()).
-                        address(clientDto.getAddress()).
-                        build());
+        Client newClient = clientService.addClient(modelMapper.map(clientDto, Client.class));
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -51,8 +47,8 @@ public class ClientController {
     }
 
     @PutMapping(produces = "application/json")
-    public ResponseEntity<Client> editClient(@RequestBody Client client) throws ClientNotExistsException {
-        Client editedClient = clientService.editClient(client);
+    public ResponseEntity editClient(@RequestBody ClientDto clientDto) throws ClientNotExistsException {
+        Client editedClient = clientService.editClient(modelMapper.map(clientDto, Client.class));
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -73,9 +69,9 @@ public class ClientController {
     }
 
     @GetMapping(value = "{id}", produces = "application/json")
-    public ResponseEntity<Client> findClientById(@PathVariable(value = "id") Integer id) throws ClientNotExistsException {
+    public ResponseEntity<ClientDto> findClientById(@PathVariable(value = "id") Integer id) throws ClientNotExistsException {
         Client client = clientService.findClientById(id);
-        return ResponseEntity.ok(client);
+        return ResponseEntity.ok(ClientDto.from(client));
     }
 
     @DeleteMapping(value = "{id}", produces = "application/json")

@@ -2,6 +2,7 @@ package edu.utn.udee.Udee.controller;
 
 
 import edu.utn.udee.Udee.domain.Client;
+import edu.utn.udee.Udee.dto.ClientDto;
 import edu.utn.udee.Udee.exceptions.ClientExistsException;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.service.AddressService;
@@ -16,7 +17,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/clients")
@@ -32,8 +32,15 @@ public class ClientController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity addClient(@RequestBody Client client) throws ClientExistsException {
-        Client newClient = clientService.addClient(client);
+    public ResponseEntity addClient(@RequestBody ClientDto clientDto) throws ClientExistsException {
+        Client newClient = clientService.addClient(
+                Client.builder().
+                        id(clientDto.getId()).
+                        name(clientDto.getName()).
+                        surname(clientDto.getSurname()).
+                        dni(clientDto.getDni()).
+                        address(clientDto.getAddress()).
+                        build());
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

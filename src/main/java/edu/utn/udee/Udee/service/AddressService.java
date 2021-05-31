@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AddressService {
 
@@ -39,5 +41,9 @@ public class AddressService {
 
     public void deleteAddressById(Integer id) throws AddressNotExistsException {
         addressRepository.deleteById(id);
+    }
+
+    public List<Address> findAddressesByClient(Integer id) {
+        return addressRepository.findAddressByClientId(id);
     }
 }

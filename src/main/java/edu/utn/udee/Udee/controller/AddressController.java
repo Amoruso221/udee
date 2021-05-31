@@ -1,13 +1,12 @@
 package edu.utn.udee.Udee.controller;
 
 import edu.utn.udee.Udee.domain.Address;
-import edu.utn.udee.Udee.domain.Client;
+import edu.utn.udee.Udee.dto.AddressDto;
 import edu.utn.udee.Udee.exceptions.AddressExistsException;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
-import edu.utn.udee.Udee.exceptions.ClientExistsException;
-import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.service.AddressService;
 import edu.utn.udee.Udee.service.ClientService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/addresses")
@@ -25,16 +25,18 @@ public class AddressController {
 
     private final AddressService addressService;
     private final ClientService clientService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public AddressController(AddressService addressService, ClientService clientService){
+    public AddressController(AddressService addressService, ClientService clientService, ModelMapper modelMapper){
         this.addressService = addressService;
         this.clientService = clientService;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity addAddress(@RequestBody Address address) throws AddressExistsException {
-        Address newAddress = addressService.addAddress(address);
+    public ResponseEntity addAddress(@RequestBody AddressDto addressDto) throws AddressExistsException {
+        Address newAddress = addressService.addAddress(modelMapper.map(addressDto, Address.class));
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -45,7 +47,7 @@ public class AddressController {
     }
 
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<Address>> allAddress(Pageable pageable){
+    public ResponseEntity<List<AddressDto>> allAddress(Pageable pageable){
         Page page = addressService.allAddress(pageable);
         return ResponseEntity.
                 status(HttpStatus.OK).
@@ -55,9 +57,9 @@ public class AddressController {
     }
 
     @GetMapping(value = "{id}", produces = "application/json")
-    public ResponseEntity<Address> findAddressById(@PathVariable(value = "id") Integer id) throws AddressNotExistsException {
-        Address client = addressService.findAddressById(id);
-        return ResponseEntity.ok(client);
+    public ResponseEntity<AddressDto> findAddressById(@PathVariable(value = "id") Integer id) throws AddressNotExistsException {
+        Address address = addressService.findAddressById(id);
+        return ResponseEntity.ok(AddressDto.from(address));
     }
 
     @DeleteMapping(value = "{id}", produces = "application/json")
@@ -65,5 +67,20 @@ public class AddressController {
         addressService.deleteAddressById(id);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping(value = "client/{id}", produces = "application/json")
+    public ResponseEntity<List<AddressDto>> getAddressesByClient(@PathVariable(value = "id") Integer id) {
+        List<Address> addresses = addressService.findAddressesByClient(id);
+        List<AddressDto> addressDtoList =
+                addresses.stream().map(o -> AddressDto.builder().
+                        id(o.getId()).
+                        address(o.getAddress()).
+                        city(o.getCity()).
+                        state(o.getState()).
+                        country(o.getCountry()).
+                        build()).
+                        collect(Collectors.toList());
+        return ResponseEntity.status(addressDtoList.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).body(addressDtoList);
     }
 }

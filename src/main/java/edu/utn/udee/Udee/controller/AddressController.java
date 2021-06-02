@@ -49,11 +49,12 @@ public class AddressController {
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<AddressDto>> allAddress(Pageable pageable){
         Page page = addressService.allAddress(pageable);
-        return ResponseEntity.
+        /*return ResponseEntity.
                 status(HttpStatus.OK).
                 header("X-Total-Count", Long.toString(page.getTotalElements())).
                 header("X-Total-Pages", Long.toString(page.getTotalPages())).
-                body(page.getContent());
+                body(page.getContent());*/
+        return response(page);
     }
 
     @GetMapping(value = "{id}", produces = "application/json")
@@ -82,5 +83,14 @@ public class AddressController {
                         build()).
                         collect(Collectors.toList());
         return ResponseEntity.status(addressDtoList.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).body(addressDtoList);
+    }
+
+    private ResponseEntity response(Page page) {
+        HttpStatus httpStatus = page.getContent().isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return ResponseEntity.
+                status(httpStatus).
+                header("X-Total-Count", Long.toString(page.getTotalElements())).
+                header("X-Total-Pages", Long.toString(page.getTotalPages())).
+                body(page.getContent());
     }
 }

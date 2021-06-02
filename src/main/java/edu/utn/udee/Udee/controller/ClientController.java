@@ -62,11 +62,12 @@ public class ClientController {
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<ClientDto>> allClients(Pageable pageable){
         Page page = clientService.allClients(pageable);
-        return ResponseEntity.
+        /*return ResponseEntity.
                 status(HttpStatus.OK).
                 header("X-Total-Count", Long.toString(page.getTotalElements())).
                 header("X-Total-Pages", Long.toString(page.getTotalPages())).
-                body(page.getContent());
+                body(page.getContent());*/
+        return response(page);
     }
 
     @GetMapping(value = "{id}", produces = "application/json")
@@ -80,5 +81,29 @@ public class ClientController {
         clientService.deleteClientById(id);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    // privados
+
+    /*private ResponseEntity response(List list, Page page) {
+        HttpStatus status = !list.isEmpty() ? HttpStatus.OK : HttpStatus.NO_CONTENT;
+        return ResponseEntity.status(status).
+                header("X-Total-Count", Long.toString(page.getTotalElements())).
+                header("X-Total-Pages", Long.toString(page.getTotalPages())).
+                body(page.getContent());
+    }*/
+
+
+    /*private ResponseEntity response(List list) {
+        return ResponseEntity.status(list.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK).body(list);
+    }*/
+
+    private ResponseEntity response(Page page) {
+        HttpStatus httpStatus = page.getContent().isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return ResponseEntity.
+                status(httpStatus).
+                header("X-Total-Count", Long.toString(page.getTotalElements())).
+                header("X-Total-Pages", Long.toString(page.getTotalPages())).
+                body(page.getContent());
     }
 }

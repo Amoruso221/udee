@@ -14,7 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -36,8 +38,9 @@ public class MeasurementController {
 
     //***ADD NEW***//
     @PostMapping(consumes = "application/json")
-    public ResponseEntity addMeasurement (@RequestBody MeasurementDto measurementDto) throws MeasurerNotExistsException {
-        measurementService.addMeasurement(Measurement.builder().
+    public ResponseEntity addMeasurement (@RequestBody MeasurementDto measurementDto)
+            throws MeasurerNotExistsException {
+        Measurement newMeasurement = measurementService.addMeasurement(Measurement.builder().
                     idMeasurement(measurementDto.getIdMeasurement()).
                     kwh(measurementDto.getKwh()).
                     dateTime(measurementDto.getDateTime()).
@@ -79,12 +82,17 @@ public class MeasurementController {
 //                    dateTime(measurementDto.getDateTime()).
 //                    build());
 //        }
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newMeasurement.getIdMeasurement())
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 
     //***GET ALL***//
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<Measurement>> getAll(Pageable pageable){
+    public ResponseEntity<List<MeasurementDto>> getAll(Pageable pageable){
         Page page = measurementService.getAll(pageable);
         return ResponseEntity.
                 status(HttpStatus.OK).
@@ -103,9 +111,10 @@ public class MeasurementController {
 
     //***DELETE BY ID***//
     @DeleteMapping(path = "/{id}", produces = "application/json")
-    public ResponseEntity deleteMeasurement(@PathVariable Integer id){
+    public ResponseEntity deleteMeasurement(@PathVariable Integer id)
+            throws MeasurerNotExistsException{
         measurementService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

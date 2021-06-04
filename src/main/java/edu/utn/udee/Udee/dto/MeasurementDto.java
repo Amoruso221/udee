@@ -28,7 +28,13 @@ public class MeasurementDto {
                 idMeasurement(measurement.getIdMeasurement()).
                 kwh(measurement.getKwh()).
                 dateTime(measurement.getDateTime()).
-                measurer(MeasurerDto.from(measurement.getMeasurer())).
+//                measurer(MeasurerDto.from(measurement.getMeasurer())).
+                measurer(MeasurerDto.builder().
+                    serialNumber(measurer.getSerialNumber()).
+                    brand(measurer.getBrand()).
+                    model(measurer.getModel()).
+                    measurement(measurer.getMeasurement()).
+                    build()).
                 build();
     }
 }

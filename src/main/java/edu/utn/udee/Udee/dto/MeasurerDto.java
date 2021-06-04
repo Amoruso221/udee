@@ -1,6 +1,7 @@
 package edu.utn.udee.Udee.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import edu.utn.udee.Udee.domain.Address;
 import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.domain.Measurer;
 import lombok.AllArgsConstructor;
@@ -21,11 +22,9 @@ public class MeasurerDto {
     private String brand;
     private String model;
     private Double measurement;
-    private List<Measurement> measurements;
-
-    //Domicilio 1-1
-
-    //Facturas N-1
+    private List<MeasurementDto> measurements;
+    private AddressDto address;
+    private List<BillDto> bills;
 
 
 
@@ -35,7 +34,9 @@ public class MeasurerDto {
                 brand(measurer.getBrand()).
                 model(measurer.getModel()).
                 measurement(measurer.getMeasurement()).
-                measurements(measurer.getMeasurements()).
+                //measurements(measurer.getMeasurements()).
+                address(AddressDto.from(measurer.getAddress())).
+                //Bills
                 build();
     }
 

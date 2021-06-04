@@ -32,10 +32,11 @@ public class Measurer {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "measurer")
     private List<Measurement> measurements;
 
+    @OneToOne
+    @JoinColumn(name = "id")
+    private Address address;
 
-
-    //Domicilio 1-1
-
-    //Facturas N-1
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "measurer")
+    private List<Bill> bills;
 
 }

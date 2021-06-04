@@ -19,6 +19,7 @@ public class AddressDto {
     String state;
     String country;
     ClientDto client;
+    RateDto rate;
 
     public static AddressDto from (Address address) {
         return AddressDto.builder().
@@ -28,6 +29,7 @@ public class AddressDto {
                 state(address.getState()).
                 country(address.getCountry()).
                 client(ClientDto.from(address.getClient())).
+                rate(RateDto.from(address.getRate())).
                 build();
     }
 }

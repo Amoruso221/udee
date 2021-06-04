@@ -37,5 +37,10 @@ public class Address {
     @JoinColumn(name="client", nullable = false)
     Client client;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="rate", nullable = false)
+    Rate rate;
+
 
 }

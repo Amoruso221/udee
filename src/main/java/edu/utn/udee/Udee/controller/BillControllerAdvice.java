@@ -1,7 +1,8 @@
 package edu.utn.udee.Udee.controller;
 
+import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.exceptions.ErrorMessage;
-import edu.utn.udee.Udee.exceptions.MeasurerNotExistsException;
+import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,14 +10,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class MeasurerControllerAdvice {
+public class BillControllerAdvice {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(value = {MeasurerNotExistsException.class})
-    public ResponseEntity<ErrorMessage> measurerNotExists(){
+    @ExceptionHandler(value = {BillNotExistsException.class})
+    public ResponseEntity<ErrorMessage> billNotExists(){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).
-                body(ErrorMessage.builder().code("MRNE").message("THE MEASURER DOES NO EXISTS.").
+                body(ErrorMessage.builder().code("BNE").message("THE BILL DOES NO EXIST.").
                         build());
     }
-
 }

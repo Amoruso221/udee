@@ -37,4 +37,9 @@ public class Measurement {
     @JoinColumn(name = "measurer_serial_number", nullable = false)
     private Measurer measurer;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bill_id")
+    private Bill bill;
+
 }

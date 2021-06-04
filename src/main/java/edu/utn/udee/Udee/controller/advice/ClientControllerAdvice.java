@@ -1,4 +1,4 @@
-package edu.utn.udee.Udee.controller;
+package edu.utn.udee.Udee.controller.advice;
 
 import edu.utn.udee.Udee.exceptions.ClientExistsException;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;

@@ -1,0 +1,1 @@
+INSERT INTO users(username, password) values ('backoffice', '1234'),('cliente','1234');

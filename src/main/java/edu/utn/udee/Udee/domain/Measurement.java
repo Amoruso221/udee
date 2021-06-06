@@ -1,15 +1,12 @@
 package edu.utn.udee.Udee.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.naming.Name;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -35,7 +32,7 @@ public class Measurement {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "measurer_serial_number", nullable = false)
-    private Measurer measurer;
+    private Meter meter;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

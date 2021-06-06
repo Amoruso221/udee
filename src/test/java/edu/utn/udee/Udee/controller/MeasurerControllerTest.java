@@ -1,17 +1,13 @@
 package edu.utn.udee.Udee.controller;
 
-import edu.utn.udee.Udee.domain.Measurer;
-import edu.utn.udee.Udee.dto.MeasurerDto;
-import edu.utn.udee.Udee.service.MeasurerService;
-import org.junit.Assert;
+import edu.utn.udee.Udee.dto.MeterDto;
+import edu.utn.udee.Udee.service.MeterService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.Collections;
 
 import static edu.utn.udee.Udee.TestUtils.*;
 import static org.junit.Assert.*;
@@ -21,26 +17,26 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class MeasurerControllerTest {
 
-    MeasurerController measurerController;
+    MeterController measurerController;
 
     ModelMapper modelMapper;
 
     @Mock
-    MeasurerService measurerService;
+    MeterService meterService;
 
     @Before
     public void setUp(){
         initMocks(this);
-        measurerController = new MeasurerController(measurerService, modelMapper);
+        measurerController = new MeterController(meterService, modelMapper);
     }
 
     @Test
     public void addMeasurerIsOk(){
         //Given
-        when(measurerService.addMeasurer(createMeasurerWithBrandAndModel())).
+        when(meterService.addMeter(createMeasurerWithBrandAndModel())).
                 thenReturn(createNewMeasurer());
         //Then
-        ResponseEntity response = measurerController.addMeasurer(modelMapper.map(createMeasurerWithBrandAndModel(), MeasurerDto.class));
+        ResponseEntity response = measurerController.addMeter(modelMapper.map(createMeasurerWithBrandAndModel(), MeterDto.class));
         //Asserts
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(createNewMeasurer(), response.getBody());

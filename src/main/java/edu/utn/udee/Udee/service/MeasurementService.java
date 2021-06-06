@@ -1,16 +1,13 @@
 package edu.utn.udee.Udee.service;
 
 import edu.utn.udee.Udee.domain.Measurement;
-import edu.utn.udee.Udee.domain.Measurer;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
-import edu.utn.udee.Udee.exceptions.MeasurerNotExistsException;
+import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.repository.MeasurementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDateTime;
 
@@ -28,8 +25,8 @@ public class MeasurementService {
 
     public Measurement addMeasurement(Measurement measurement) {
         measurement.setDateTime(LocalDateTime.now());
-        if (measurement.getMeasurer().getSerialNumber() != null)
-            measurement.getMeasurer().setMeasurement(measurement.getMeasurer().getMeasurement() + measurement.getKwh());
+        if (measurement.getMeter().getSerialNumber() != null)
+            measurement.getMeter().setMeasurement(measurement.getMeter().getMeasurement() + measurement.getKwh());
         return measurementRepository.save(measurement);
     }
 
@@ -44,9 +41,9 @@ public class MeasurementService {
     }
 
     public void deleteById(Integer id)
-            throws MeasurerNotExistsException{
+            throws MeterNotExistsException {
         if (measurementRepository.existsById(id))
             measurementRepository.deleteById(id);
-        else throw new MeasurerNotExistsException();
+        else throw new MeterNotExistsException();
     }
 }

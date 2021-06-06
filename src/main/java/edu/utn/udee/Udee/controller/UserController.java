@@ -54,15 +54,16 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/userDetails")
-    public ResponseEntity<User> userDetails(Authentication auth) {
-        return ResponseEntity.ok((User) auth.getPrincipal());
+    @GetMapping(value = "userDetails")
+    public ResponseEntity<UserDto> userDetails(Authentication auth) {
+        return ResponseEntity.ok((UserDto) auth.getPrincipal());
     }
 
 
     private String generateToken(UserDto userDto) {
         try {
             List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList("DEFAULT_USER");
+
             String token = Jwts
                     .builder()
                     .setId("JWT")

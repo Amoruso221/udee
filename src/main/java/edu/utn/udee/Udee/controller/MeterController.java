@@ -1,12 +1,12 @@
 package edu.utn.udee.Udee.controller;
 
-import edu.utn.udee.Udee.domain.Measurer;
-import edu.utn.udee.Udee.dto.MeasurerDto;
+import edu.utn.udee.Udee.domain.Meter;
+import edu.utn.udee.Udee.dto.MeterDto;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
-import edu.utn.udee.Udee.exceptions.MeasurerNotExistsException;
-import edu.utn.udee.Udee.service.MeasurerService;
+import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
+import edu.utn.udee.Udee.service.MeterService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,15 +20,15 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/measurer")
-public class MeasurerController {
+@RequestMapping("/api/meters")
+public class MeterController {
 
-    private final MeasurerService measurerService;
+    private final MeterService meterService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public MeasurerController(MeasurerService measurerService, ModelMapper modelMapper) {
-        this.measurerService = measurerService;
+    public MeterController(MeterService meterService, ModelMapper modelMapper) {
+        this.meterService = meterService;
         this.modelMapper = modelMapper;
     }
 
@@ -36,26 +36,26 @@ public class MeasurerController {
 
     //***ADD NEW***//
     @PostMapping(consumes = "application/json")
-    public ResponseEntity addMeasurer (@RequestBody MeasurerDto measurerDto){
+    public ResponseEntity addMeter (@RequestBody MeterDto measurerDto){
 //        measurerService.addMeasurer(Measurer.builder().
 //                        serialNumber(measurerDto.getSerialNumber()).
 //                        brand(measurerDto.getBrand()).
 //                        model(measurerDto.getModel()).
 //                        measurement(measurerDto.getMeasurement()).
 //                        build());
-        Measurer newMeasurer = measurerService.addMeasurer(modelMapper.map(measurerDto, Measurer.class));
+        Meter newMeter = meterService.addMeter(modelMapper.map(measurerDto, Meter.class));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(newMeasurer.getSerialNumber())
+                .buildAndExpand(newMeter.getSerialNumber())
                 .toUri();
         return ResponseEntity.created(location).build();
     }
 
     //***GET ALL***//
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<MeasurerDto>> getAll(Pageable pageable){
-            Page page = measurerService.getAll(pageable);
+    public ResponseEntity<List<MeterDto>> getAll(Pageable pageable){
+            Page page = meterService.getAll(pageable);
             return ResponseEntity.
                     status(HttpStatus.OK).
                     header("X-Total-Count", Long.toString(page.getTotalElements())).
@@ -65,42 +65,42 @@ public class MeasurerController {
 
     //***GET BY ID***//
     @GetMapping(path = "/{serialNumber}", produces = "application/json")
-    public ResponseEntity<MeasurerDto> getBySerialNumber (@PathVariable Integer serialNumber)
-            throws MeasurerNotExistsException {
-        Measurer measurer = measurerService.getBySerialNumber(serialNumber);
-        return ResponseEntity.ok(MeasurerDto.from(measurer));
+    public ResponseEntity<MeterDto> getBySerialNumber (@PathVariable Integer serialNumber)
+            throws MeterNotExistsException {
+        Meter meter = meterService.getBySerialNumber(serialNumber);
+        return ResponseEntity.ok(MeterDto.from(meter));
     }
 
     //***DELETE BY ID***//
     @DeleteMapping(path = "/{serialNumber}", produces = "application/json")
-    public ResponseEntity deleteMeasurer(@PathVariable Integer serialNumber)
-            throws MeasurerNotExistsException{
-        measurerService.deleteBySerialNumber(serialNumber);
+    public ResponseEntity deleteMeter(@PathVariable Integer serialNumber)
+            throws MeterNotExistsException {
+        meterService.deleteBySerialNumber(serialNumber);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     //***ADD MEASUREMENT***//
     @PutMapping(path = "/{serialNumber}/measurement/{idMeasurement}", produces = "application/json")
-    public ResponseEntity addMeasurementToMeasurer (@PathVariable Integer serialNumber, @PathVariable Integer idMeasurement)
-            throws MeasurerNotExistsException, MeasurementNotExistsException {
-        measurerService.addMeasurementToMeasurer(serialNumber, idMeasurement);
+    public ResponseEntity addMeasurementToMeter (@PathVariable Integer serialNumber, @PathVariable Integer idMeasurement)
+            throws MeterNotExistsException, MeasurementNotExistsException {
+        meterService.addMeasurementToMeter(serialNumber, idMeasurement);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     //***ADD ADDRESS***//
     @PutMapping(path = "/{serialNumber}/address/{id}", produces = "application/json")
-    public ResponseEntity addAddressToMeasurer (@PathVariable Integer serialNumber, @PathVariable Integer id)
-            throws MeasurerNotExistsException, AddressNotExistsException {
-        measurerService.addAddressToMeasurer(serialNumber, id);
+    public ResponseEntity addAddressToMeter(@PathVariable Integer serialNumber, @PathVariable Integer id)
+            throws MeterNotExistsException, AddressNotExistsException {
+        meterService.addAddressToMeter(serialNumber, id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 
     //***ADD BILL***//
     @PutMapping(path = "/{serialNumber}/bill/{id}", produces = "application/json")
-    public ResponseEntity addBillToMeasurer (@PathVariable Integer serialNumber, @PathVariable Integer id)
-            throws MeasurerNotExistsException, BillNotExistsException {
-        measurerService.addBillToMeasurer(serialNumber, id);
+    public ResponseEntity addBillToMeter (@PathVariable Integer serialNumber, @PathVariable Integer id)
+            throws MeterNotExistsException, BillNotExistsException {
+        meterService.addBillToMeter(serialNumber, id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

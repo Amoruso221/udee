@@ -1,23 +1,23 @@
 package edu.utn.udee.Udee;
 
 import edu.utn.udee.Udee.domain.Measurement;
-import edu.utn.udee.Udee.domain.Measurer;
+import edu.utn.udee.Udee.domain.Meter;
 
 import java.util.Collections;
 import java.util.List;
 
 public class TestUtils {
 
-    public static Measurer createMeasurerWithBrandAndModel(){
-        Measurer m = new Measurer();
+    public static Meter createMeasurerWithBrandAndModel(){
+        Meter m = new Meter();
         m.setBrand("Philips");
         m.setModel("Deluxe");
         return m;
     }
 
-    public static Measurer createNewMeasurer(){
+    public static Meter createNewMeasurer(){
         List<Measurement> measurementsEmptyList = Collections.emptyList();
-        Measurer m = Measurer.builder().
+        Meter m = Meter.builder().
                 serialNumber(1).
                 brand("Philips").
                 model("Deluxe").

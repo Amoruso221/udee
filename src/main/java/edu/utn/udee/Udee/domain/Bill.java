@@ -1,7 +1,6 @@
 package edu.utn.udee.Udee.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.data.annotation.AccessType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +24,7 @@ public class Bill {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "measurer_serial_number", nullable = false)
-    private Measurer measurer;
+    private Meter meter;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bill")
     private List<Measurement> measurements;

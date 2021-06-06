@@ -1,6 +1,7 @@
 package edu.utn.udee.Udee.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import edu.utn.udee.Udee.domain.enums.RolType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,4 +24,8 @@ public class User {
     @JsonIgnore
     @Column
     String password;
+
+    @Column(name = "rol")
+    @Enumerated(EnumType.STRING)
+    RolType rolType;
 }

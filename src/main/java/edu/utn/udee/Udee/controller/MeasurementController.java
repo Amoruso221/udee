@@ -3,9 +3,9 @@ package edu.utn.udee.Udee.controller;
 import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.dto.MeasurementDto;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
-import edu.utn.udee.Udee.exceptions.MeasurerNotExistsException;
+import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.service.MeasurementService;
-import edu.utn.udee.Udee.service.MeasurerService;
+import edu.utn.udee.Udee.service.MeterService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,13 +23,13 @@ import java.util.List;
 public class MeasurementController {
 
     private final MeasurementService measurementService;
-    private final MeasurerService measurerService;
+    private final MeterService meterService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public MeasurementController(MeasurementService measurementService, MeasurerService measurerService, ModelMapper modelMapper) {
+    public MeasurementController(MeasurementService measurementService, MeterService meterService, ModelMapper modelMapper) {
         this.measurementService = measurementService;
-        this.measurerService = measurerService;
+        this.meterService = meterService;
         this.modelMapper = modelMapper;
     }
 
@@ -38,39 +38,39 @@ public class MeasurementController {
     //***ADD NEW***//
     @PostMapping(consumes = "application/json")
     public ResponseEntity addMeasurement (@RequestBody MeasurementDto measurementDto)
-            throws MeasurerNotExistsException {
+            throws MeterNotExistsException {
         Measurement newMeasurement = measurementService.addMeasurement(Measurement.builder().
                     idMeasurement(measurementDto.getIdMeasurement()).
                     kwh(measurementDto.getKwh()).
                     dateTime(measurementDto.getDateTime()).
-                    measurer(measurerService.getBySerialNumber(measurementDto.getMeasurer().getSerialNumber())).
+                meter(meterService.getBySerialNumber(measurementDto.getMeter().getSerialNumber())).
                     build());
 //        Measurement measurement = Measurement.builder().
 //                idMeasurement(measurementDto.getIdMeasurement()).
 //                kwh(measurementDto.getKwh()).
 //                dateTime(measurementDto.getDateTime()).
 //                build();
-//        if (measurementDto.getMeasurer().getSerialNumber() != null)
-//            measurement.setMeasurer(measurerService.getBySerialNumber(measurementDto.getMeasurer().getSerialNumber()));
+//        if (measurementDto.getMeter().getSerialNumber() != null)
+//            measurement.setMeter(meterService.getBySerialNumber(measurementDto.getMeter().getSerialNumber()));
 //        measurementService.addMeasurement(measurement);
 //        **********
-//        Measurer measurer = modelMapper.map(measurementDto.getMeasurer(), Measurer.class);
+//        Meter meter = modelMapper.map(measurementDto.getMeter(), Meter.class);
 //        Measurement measurement = modelMapper.map(measurementDto, Measurement.class);
-//        measurement.setMeasurer(measurer);
+//        measurement.setMeter(meter);
 //        measurementService.addMeasurement(measurement);
 //        **********
-//        MeasurerDto measurerDto = measurementDto.getMeasurer();
-//        if (measurementDto.getMeasurer() != null) {
+//        MeterDto meterDto = measurementDto.getMeter();
+//        if (measurementDto.getMeter() != null) {
 //            measurementService.addMeasurement(Measurement.builder().
 //                    idMeasurement(measurementDto.getIdMeasurement()).
 //                    kwh(measurementDto.getKwh()).
 //                    dateTime(measurementDto.getDateTime()).
-//                    measurer(measurerService.getBySerialNumber(measurementDto.getMeasurer().getSerialNumber())).
-////                    measurer(Measurer.builder().
-////                            serialNumber(measurerDto.getSerialNumber()).
-////                            brand(measurerDto.getBrand()).
-////                            model(measurerDto.getModel()).
-////                            measurement(measurerDto.getMeasurement()).
+//                    meter(meterService.getBySerialNumber(measurementDto.getMeter().getSerialNumber())).
+////                    meter(Meter.builder().
+////                            serialNumber(meterDto.getSerialNumber()).
+////                            brand(meterDto.getBrand()).
+////                            model(meterDto.getModel()).
+////                            measurement(meterDto.getMeasurement()).
 ////                            build()).
 //                    build());
 //        }
@@ -111,7 +111,7 @@ public class MeasurementController {
     //***DELETE BY ID***//
     @DeleteMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity deleteMeasurement(@PathVariable Integer id)
-            throws MeasurerNotExistsException{
+            throws MeterNotExistsException {
         measurementService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

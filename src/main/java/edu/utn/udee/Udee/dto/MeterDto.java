@@ -1,7 +1,7 @@
 package edu.utn.udee.Udee.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import edu.utn.udee.Udee.domain.Measurer;
+import edu.utn.udee.Udee.domain.Meter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MeasurerDto {
+public class MeterDto {
 
     private Integer serialNumber;
     private String brand;
@@ -26,14 +26,14 @@ public class MeasurerDto {
 
 
 
-    public static MeasurerDto from(Measurer measurer){
-        return MeasurerDto.builder().
-                serialNumber(measurer.getSerialNumber()).
-                brand(measurer.getBrand()).
-                model(measurer.getModel()).
-                measurement(measurer.getMeasurement()).
-                //measurements(measurer.getMeasurements()).
-                address(AddressDto.from(measurer.getAddress())).
+    public static MeterDto from(Meter meter){
+        return MeterDto.builder().
+                serialNumber(meter.getSerialNumber()).
+                brand(meter.getBrand()).
+                model(meter.getModel()).
+                measurement(meter.getMeasurement()).
+                //measurements(meter.getMeasurements()).
+                address(AddressDto.from(meter.getAddress())).
                 //Bills
                 build();
     }

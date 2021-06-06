@@ -24,7 +24,7 @@ public class Bill {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "measurer_serial_number", nullable = false)
-    private Measurer measurer;
+    private Meter meter;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bill")
     private List<Measurement> measurements;

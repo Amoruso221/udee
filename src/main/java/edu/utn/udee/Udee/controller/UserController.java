@@ -54,7 +54,7 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/userDetails")
+    @GetMapping(value = "userDetails")
     public ResponseEntity<UserDto> userDetails(Authentication auth) {
         return ResponseEntity.ok((UserDto) auth.getPrincipal());
     }
@@ -62,7 +62,9 @@ public class UserController {
 
     private String generateToken(UserDto userDto) {
         try {
-            List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList("DEFAULT_USER");
+            String role = userDto.getRol().toString();
+            List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList(role);
+
             String token = Jwts
                     .builder()
                     .setId("JWT")

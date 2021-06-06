@@ -32,7 +32,7 @@ public class Measurement {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "measurer_serial_number", nullable = false)
-    private Measurer measurer;
+    private Meter meter;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

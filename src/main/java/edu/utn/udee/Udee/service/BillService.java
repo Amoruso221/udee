@@ -51,7 +51,7 @@ public class BillService {
         if (billRepository.existsById(idBill)) {
             Bill bill = this.getById(idBill);
             Measurement measurement = measurementService.getById(idMeasurement);
-            bill.setAmount(bill.getAmount() + (measurement.getKwh() * bill.getMeasurer().getAddress().getRate().getAmount()));
+            bill.setAmount(bill.getAmount() + (measurement.getKwh() * bill.getMeter().getAddress().getRate().getAmount()));
             measurement.setBill(bill);
             bill.getMeasurements().add(measurement);
             billRepository.save(bill);

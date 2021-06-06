@@ -17,14 +17,14 @@ import java.util.List;
 public class BillDto {
 
     private Integer id;
-    private MeasurerDto measurer;
+    private MeterDto meter;
     private List<MeasurementDto> measurements;
     private Double amount;
 
     public static BillDto from(Bill bill){
         return BillDto.builder().
                 id(bill.getId()).
-                measurer(MeasurerDto.from(bill.getMeasurer())).
+                meter(MeterDto.from(bill.getMeter())).
                 //Measurements?
                 amount(bill.getAmount()).
                 build();

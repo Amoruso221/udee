@@ -4,9 +4,9 @@ import edu.utn.udee.Udee.domain.Bill;
 import edu.utn.udee.Udee.dto.BillDto;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
-import edu.utn.udee.Udee.exceptions.MeasurerNotExistsException;
+import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.service.BillService;
-import edu.utn.udee.Udee.service.MeasurerService;
+import edu.utn.udee.Udee.service.MeterService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,13 +24,13 @@ import java.util.List;
 public class BillController {
 
     private final BillService billService;
-    private final MeasurerService measurerService;
+    private final MeterService meterService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public BillController(BillService billService, MeasurerService measurerService, ModelMapper modelMapper) {
+    public BillController(BillService billService, MeterService meterService, ModelMapper modelMapper) {
         this.billService = billService;
-        this.measurerService = measurerService;
+        this.meterService = meterService;
         this.modelMapper = modelMapper;
     }
 
@@ -39,9 +39,9 @@ public class BillController {
     //***ADD NEW***//
     @PostMapping(consumes = "application/json")
     public ResponseEntity addBill (@RequestBody BillDto billDto)
-            throws MeasurerNotExistsException {
+            throws MeterNotExistsException {
         Bill newbill = billService.addBill(Bill.builder().
-                measurer(measurerService.getBySerialNumber(billDto.getMeasurer().getSerialNumber())).
+                meter(meterService.getBySerialNumber(billDto.getMeter().getSerialNumber())).
                 build());
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -80,7 +80,7 @@ public class BillController {
 
     //***ADD MEASUREMENT***//
     @PutMapping(path = "/{idBill}/measurement/{idMeasurement}", produces = "application/json")
-    public ResponseEntity addMeasurementToMeasurer (@PathVariable Integer idBill, @PathVariable Integer idMeasurement)
+    public ResponseEntity addMeasurementToBill (@PathVariable Integer idBill, @PathVariable Integer idMeasurement)
             throws BillNotExistsException, MeasurementNotExistsException {
         billService.addMeasurementToBill(idBill, idMeasurement);
         return ResponseEntity.status(HttpStatus.OK).build();

@@ -13,8 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "measurers")
-public class Measurer {
+@Table(name = "meters")
+public class Meter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,14 +29,14 @@ public class Measurer {
     @Column
     private Double measurement;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "measurer")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "meter")
     private List<Measurement> measurements;
 
     @OneToOne
     @JoinColumn(name = "id")
     private Address address;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "measurer")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "meter")
     private List<Bill> bills;
 
 }

@@ -1,16 +1,13 @@
 package edu.utn.udee.Udee.service;
 
 import edu.utn.udee.Udee.domain.Measurement;
-import edu.utn.udee.Udee.domain.Measurer;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeasurerNotExistsException;
 import edu.utn.udee.Udee.repository.MeasurementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDateTime;
 

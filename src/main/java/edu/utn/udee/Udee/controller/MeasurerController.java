@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -53,6 +54,7 @@ public class MeasurerController {
     }
 
     //***GET ALL***//
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<MeasurerDto>> getAll(Pageable pageable){
             Page page = measurerService.getAll(pageable);

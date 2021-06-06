@@ -23,4 +23,5 @@ public class User {
     @JsonIgnore
     @Column
     String password;
+
 }

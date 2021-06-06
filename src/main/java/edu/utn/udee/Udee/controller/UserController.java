@@ -55,8 +55,8 @@ public class UserController {
 
 
     @GetMapping(value = "/userDetails")
-    public ResponseEntity<User> userDetails(Authentication auth) {
-        return ResponseEntity.ok((User) auth.getPrincipal());
+    public ResponseEntity<UserDto> userDetails(Authentication auth) {
+        return ResponseEntity.ok((UserDto) auth.getPrincipal());
     }
 
 

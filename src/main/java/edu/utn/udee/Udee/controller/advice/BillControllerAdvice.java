@@ -2,7 +2,6 @@ package edu.utn.udee.Udee.controller.advice;
 
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.exceptions.ErrorMessage;
-import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

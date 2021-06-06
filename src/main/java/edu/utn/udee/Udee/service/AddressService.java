@@ -1,10 +1,8 @@
 package edu.utn.udee.Udee.service;
 
 import edu.utn.udee.Udee.domain.Address;
-import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.exceptions.AddressExistsException;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
-import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

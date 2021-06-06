@@ -1,9 +1,7 @@
 package edu.utn.udee.Udee.controller;
 
 import edu.utn.udee.Udee.domain.Bill;
-import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.dto.BillDto;
-import edu.utn.udee.Udee.dto.MeasurementDto;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeasurerNotExistsException;

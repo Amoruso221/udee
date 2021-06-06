@@ -1,7 +1,6 @@
 package edu.utn.udee.Udee.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.data.annotation.AccessType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

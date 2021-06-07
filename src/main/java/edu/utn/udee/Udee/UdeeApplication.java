@@ -27,6 +27,7 @@ public class UdeeApplication {
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
 					.antMatchers(HttpMethod.POST, "/login").permitAll()
+					.antMatchers("/api/*").permitAll()
 					.anyRequest().authenticated();
 		}
 	}

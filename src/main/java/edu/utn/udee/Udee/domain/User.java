@@ -1,7 +1,7 @@
 package edu.utn.udee.Udee.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import edu.utn.udee.Udee.domain.enums.RolType;
+import edu.utn.udee.Udee.domain.enums.Rol;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,5 +27,5 @@ public class User {
 
     @Column(name = "rol")
     @Enumerated(EnumType.STRING)
-    RolType rolType;
+    Rol rol;
 }

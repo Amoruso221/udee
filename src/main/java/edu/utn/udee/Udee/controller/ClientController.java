@@ -62,11 +62,6 @@ public class ClientController {
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<ClientDto>> allClients(Pageable pageable){
         Page page = clientService.allClients(pageable);
-        /*return ResponseEntity.
-                status(HttpStatus.OK).
-                header("X-Total-Count", Long.toString(page.getTotalElements())).
-                header("X-Total-Pages", Long.toString(page.getTotalPages())).
-                body(page.getContent());*/
         return response(page);
     }
 

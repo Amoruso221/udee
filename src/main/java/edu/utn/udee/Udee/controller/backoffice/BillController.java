@@ -1,4 +1,4 @@
-package edu.utn.udee.Udee.controller;
+package edu.utn.udee.Udee.controller.backoffice;
 
 import edu.utn.udee.Udee.domain.Bill;
 import edu.utn.udee.Udee.dto.BillDto;
@@ -20,7 +20,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/bill")
+@RequestMapping("/api/backoffice/bill")
 public class BillController {
 
     private final BillService billService;
@@ -34,14 +34,12 @@ public class BillController {
         this.modelMapper = modelMapper;
     }
 
-
-
     //***ADD NEW***//
-    @PostMapping(consumes = "application/json")
+    /*@PostMapping(consumes = "application/json")
     public ResponseEntity addBill (@RequestBody BillDto billDto)
             throws MeterNotExistsException {
         Bill newbill = billService.addBill(Bill.builder().
-                meter(meterService.getBySerialNumber(billDto.getMeasurer().getSerialNumber())).
+                meter(meterService.getBySerialNumber(billDto.getMeter().getSerialNumber())).
                 build());
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -49,7 +47,7 @@ public class BillController {
                 .buildAndExpand(newbill.getId())
                 .toUri();
         return ResponseEntity.created(location).build();
-    }
+    }*/
 
     //***GET ALL***//
     @GetMapping(produces = "application/json")
@@ -80,7 +78,7 @@ public class BillController {
 
     //***ADD MEASUREMENT***//
     @PutMapping(path = "/{idBill}/measurement/{idMeasurement}", produces = "application/json")
-    public ResponseEntity addMeasurementToMeasurer (@PathVariable Integer idBill, @PathVariable Integer idMeasurement)
+    public ResponseEntity addMeasurementToBill (@PathVariable Integer idBill, @PathVariable Integer idMeasurement)
             throws BillNotExistsException, MeasurementNotExistsException {
         billService.addMeasurementToBill(idBill, idMeasurement);
         return ResponseEntity.status(HttpStatus.OK).build();

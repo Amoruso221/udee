@@ -32,7 +32,7 @@ public class MeterDto {
                 brand(meter.getBrand()).
                 model(meter.getModel()).
                 measurement(meter.getMeasurement()).
-                //measurements(measurer.getMeasurements()).
+                //measurements(meter.getMeasurements()).
                 address(AddressDto.from(meter.getAddress())).
                 //Bills
                 build();

@@ -1,7 +1,6 @@
-package edu.utn.udee.Udee.controller;
+package edu.utn.udee.Udee.controller.backoffice;
 
 import edu.utn.udee.Udee.domain.Address;
-import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.dto.AddressDto;
 import edu.utn.udee.Udee.exceptions.AddressExistsException;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
@@ -13,17 +12,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/api/addresses")
+@RequestMapping(value = "/api/backoffice/addresses")
 public class AddressController {
 
     private final AddressService addressService;
@@ -39,28 +35,19 @@ public class AddressController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity addAddress(@RequestBody AddressDto addressDto) throws AddressExistsException {
-
         Address newAddress = addressService.addAddress(modelMapper.map(addressDto, Address.class));
+        URI location = returnAddressLocation(newAddress);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newAddress.getId())
-                .toUri();
         return ResponseEntity.created(location).build();
     }
 
-    /*@PutMapping(consumes = "application/json")
+    @PutMapping(consumes = "application/json")
     public ResponseEntity editAddress(@RequestBody AddressDto addressDto) throws AddressNotExistsException {
         Address editedAddress = addressService.editAddress(modelMapper.map(addressDto, Address.class));
+        URI location = returnAddressLocation(editedAddress);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(editedAddress.getId())
-                .toUri();
         return ResponseEntity.created(location).build();
-    }*/
+    }
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<AddressDto>> allAddress(Pageable pageable){
@@ -73,6 +60,16 @@ public class AddressController {
         addressService.deleteAddressById(id);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    private URI returnAddressLocation(Address address){
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(address.getId())
+                .toUri();
+
+        return location;
     }
 
     private ResponseEntity response(Page page) {

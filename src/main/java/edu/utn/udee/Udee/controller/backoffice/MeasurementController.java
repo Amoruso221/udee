@@ -1,4 +1,4 @@
-package edu.utn.udee.Udee.controller;
+package edu.utn.udee.Udee.controller.backoffice;
 
 import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.dto.MeasurementDto;
@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/measurement")
+@RequestMapping("/api/backoffice/measurement")
 public class MeasurementController {
 
     private final MeasurementService measurementService;
@@ -43,34 +43,34 @@ public class MeasurementController {
                     idMeasurement(measurementDto.getIdMeasurement()).
                     kwh(measurementDto.getKwh()).
                     dateTime(measurementDto.getDateTime()).
-                meter(meterService.getBySerialNumber(measurementDto.getMeasurer().getSerialNumber())).
+                meter(meterService.getBySerialNumber(measurementDto.getMeter().getSerialNumber())).
                     build());
 //        Measurement measurement = Measurement.builder().
 //                idMeasurement(measurementDto.getIdMeasurement()).
 //                kwh(measurementDto.getKwh()).
 //                dateTime(measurementDto.getDateTime()).
 //                build();
-//        if (measurementDto.getMeasurer().getSerialNumber() != null)
-//            measurement.setMeasurer(measurerService.getBySerialNumber(measurementDto.getMeasurer().getSerialNumber()));
+//        if (measurementDto.getMeter().getSerialNumber() != null)
+//            measurement.setMeter(meterService.getBySerialNumber(measurementDto.getMeter().getSerialNumber()));
 //        measurementService.addMeasurement(measurement);
 //        **********
-//        Measurer measurer = modelMapper.map(measurementDto.getMeasurer(), Measurer.class);
+//        Meter meter = modelMapper.map(measurementDto.getMeter(), Meter.class);
 //        Measurement measurement = modelMapper.map(measurementDto, Measurement.class);
-//        measurement.setMeasurer(measurer);
+//        measurement.setMeter(meter);
 //        measurementService.addMeasurement(measurement);
 //        **********
-//        MeasurerDto measurerDto = measurementDto.getMeasurer();
-//        if (measurementDto.getMeasurer() != null) {
+//        MeterDto meterDto = measurementDto.getMeter();
+//        if (measurementDto.getMeter() != null) {
 //            measurementService.addMeasurement(Measurement.builder().
 //                    idMeasurement(measurementDto.getIdMeasurement()).
 //                    kwh(measurementDto.getKwh()).
 //                    dateTime(measurementDto.getDateTime()).
-//                    measurer(measurerService.getBySerialNumber(measurementDto.getMeasurer().getSerialNumber())).
-////                    measurer(Measurer.builder().
-////                            serialNumber(measurerDto.getSerialNumber()).
-////                            brand(measurerDto.getBrand()).
-////                            model(measurerDto.getModel()).
-////                            measurement(measurerDto.getMeasurement()).
+//                    meter(meterService.getBySerialNumber(measurementDto.getMeter().getSerialNumber())).
+////                    meter(Meter.builder().
+////                            serialNumber(meterDto.getSerialNumber()).
+////                            brand(meterDto.getBrand()).
+////                            model(meterDto.getModel()).
+////                            measurement(meterDto.getMeasurement()).
 ////                            build()).
 //                    build());
 //        }

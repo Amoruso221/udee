@@ -1,7 +1,6 @@
 package edu.utn.udee.Udee.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import edu.utn.udee.Udee.domain.Address;
 import edu.utn.udee.Udee.domain.Rate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

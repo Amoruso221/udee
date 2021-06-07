@@ -1,17 +1,13 @@
 package edu.utn.udee.Udee.service;
 
 import edu.utn.udee.Udee.domain.Address;
-import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.exceptions.AddressExistsException;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
-import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AddressService {
@@ -53,10 +49,6 @@ public class AddressService {
 
             return editedAddress;
     }
-
-    /*public List<Address> findAddressesByClient(Integer id) {
-        return addressRepository.findAddressByClientId(id);
-    }*/
 
     public Address findAddressById(Integer id) throws AddressNotExistsException {
         return addressRepository.findById(id).orElseThrow(AddressNotExistsException::new);

@@ -18,14 +18,14 @@ import edu.utn.udee.Udee.domain.Meter;
 @Service
 public class MeterService {
 
-    private final MeterRepository measurerRepository;
+    private final MeterRepository meterRepository;
     private final MeasurementService measurementService;
     private final AddressService addressService;
     private final BillService billService;
 
     @Autowired
-    public MeterService(MeterRepository measurerRepository, MeasurementService measurementService, AddressService addressService, BillService billService) {
-        this.measurerRepository = measurerRepository;
+    public MeterService(MeterRepository meterRepository, MeasurementService measurementService, AddressService addressService, BillService billService) {
+        this.meterRepository = meterRepository;
         this.measurementService = measurementService;
         this.addressService = addressService;
         this.billService = billService;
@@ -35,58 +35,58 @@ public class MeterService {
 
     public Meter addMeter(Meter meter) {
         meter.setMeasurement(0.0);
-        return measurerRepository.save(meter);
+        return meterRepository.save(meter);
     }
 
     public Page<Meter> getAll(Pageable pageable) {
-        return measurerRepository.findAll(pageable);
+        return meterRepository.findAll(pageable);
     }
 
     public Meter getBySerialNumber(Integer serialNumber)
             throws MeterNotExistsException {
-        return measurerRepository.findById(serialNumber).
+        return meterRepository.findById(serialNumber).
                 orElseThrow(MeterNotExistsException::new);
     }
 
     public void deleteBySerialNumber(Integer serialNumber)
             throws MeterNotExistsException {
-        if (measurerRepository.existsById(serialNumber))
-            measurerRepository.deleteById(serialNumber);
+        if (meterRepository.existsById(serialNumber))
+            meterRepository.deleteById(serialNumber);
         else throw new MeterNotExistsException();
     }
 
     public void addMeasurementToMeter(Integer serialNumber, Integer idMeasurement)
             throws MeterNotExistsException, MeasurementNotExistsException {
-        if (measurerRepository.existsById(serialNumber)) {
+        if (meterRepository.existsById(serialNumber)) {
             Meter meter = this.getBySerialNumber(serialNumber);
             Measurement measurement = measurementService.getById(idMeasurement);
             meter.setMeasurement(meter.getMeasurement() + measurement.getKwh());
             measurement.setMeter(meter);
             meter.getMeasurements().add(measurement);
-            measurerRepository.save(meter);
+            meterRepository.save(meter);
         }
         else throw new MeterNotExistsException();
     }
 
     public void addAddressToMeter(Integer serialNumber, Integer id)
             throws MeterNotExistsException, AddressNotExistsException {
-        if (measurerRepository.existsById(serialNumber)) {
+        if (meterRepository.existsById(serialNumber)) {
             Meter meter = this.getBySerialNumber(serialNumber);
             Address address = addressService.findAddressById(id);
             meter.setAddress(address);
-            measurerRepository.save(meter);
+            meterRepository.save(meter);
         }
         else throw new MeterNotExistsException();
     }
 
     public void addBillToMeter(Integer serialNumber, Integer id)
             throws MeterNotExistsException, BillNotExistsException {
-        if (measurerRepository.existsById(serialNumber)){
+        if (meterRepository.existsById(serialNumber)){
             Meter meter = this.getBySerialNumber(serialNumber);
             Bill bill = billService.getById(id);
             bill.setMeter(meter);
             meter.getBills().add(bill);
-            measurerRepository.save(meter);
+            meterRepository.save(meter);
         }
         else throw new MeterNotExistsException();
     }

@@ -20,7 +20,7 @@ public class MeasurementDto {
     private Integer idMeasurement;
     private Double kwh;
     private LocalDateTime dateTime;
-    private MeterDto measurer;
+    private MeterDto meter;
 
     public static MeasurementDto from(Measurement measurement) {
         Meter meter = measurement.getMeter();
@@ -29,7 +29,7 @@ public class MeasurementDto {
                 kwh(measurement.getKwh()).
                 dateTime(measurement.getDateTime()).
 //                measurer(MeasurerDto.from(measurement.getMeasurer())).
-                measurer(MeterDto.builder().
+                meter(MeterDto.builder().
                     serialNumber(meter.getSerialNumber()).
                     brand(meter.getBrand()).
                     model(meter.getModel()).

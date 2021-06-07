@@ -1,4 +1,4 @@
-package edu.utn.udee.Udee.controller;
+package edu.utn.udee.Udee.controller.backoffice;
 
 import edu.utn.udee.Udee.domain.Meter;
 import edu.utn.udee.Udee.dto.MeterDto;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -20,7 +21,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/meters")
+@RequestMapping("/api/backoffice/meter")
 public class MeterController {
 
     private final MeterService meterService;
@@ -32,18 +33,16 @@ public class MeterController {
         this.modelMapper = modelMapper;
     }
 
-
-
     //***ADD NEW***//
     @PostMapping(consumes = "application/json")
-    public ResponseEntity addMeter (@RequestBody MeterDto measurerDto){
-//        measurerService.addMeasurer(Measurer.builder().
-//                        serialNumber(measurerDto.getSerialNumber()).
-//                        brand(measurerDto.getBrand()).
-//                        model(measurerDto.getModel()).
-//                        measurement(measurerDto.getMeasurement()).
+    public ResponseEntity addMeter (@RequestBody MeterDto meterDto){
+//        meterService.addMeter(Meter.builder().
+//                        serialNumber(meterDto.getSerialNumber()).
+//                        brand(meterDto.getBrand()).
+//                        model(meterDto.getModel()).
+//                        measurement(meterDto.getMeasurement()).
 //                        build());
-        Meter newMeter = meterService.addMeter(modelMapper.map(measurerDto, Meter.class));
+        Meter newMeter = meterService.addMeter(modelMapper.map(meterDto, Meter.class));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

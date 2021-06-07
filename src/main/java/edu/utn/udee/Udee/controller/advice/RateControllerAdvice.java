@@ -1,7 +1,6 @@
 package edu.utn.udee.Udee.controller.advice;
 
 import edu.utn.udee.Udee.exceptions.ErrorMessage;
-import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.RateExistsException;
 import edu.utn.udee.Udee.exceptions.RateNotExistsException;
 import org.springframework.http.HttpStatus;

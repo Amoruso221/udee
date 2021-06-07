@@ -1,1 +1,1 @@
-INSERT INTO users(username, password, rol) values ('employee1', '1234', 'ROLE_EMPLOYEE'),('client1','1234', 'ROLE_CLIENT');
+INSERT INTO users(username, password, rol) values ('employee1', '1234', 'ROLE_BACKOFFICE'),('client1','1234', 'ROLE_CLIENT');

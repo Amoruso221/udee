@@ -29,9 +29,10 @@ public class UdeeApplication {
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
 						.antMatchers(HttpMethod.POST, "/login").permitAll()
-						.antMatchers("/api/clients/**").hasRole("EMPLOYEE")
-					.anyRequest().authenticated()
-					.and().httpBasic();
+						.antMatchers("/api/backoffice/**").hasRole("BACKOFFICE")
+						.antMatchers("/api/client/**").hasRole("CLIENT")
+						.anyRequest().authenticated()
+						.and().httpBasic();
 		}
 	}
 }

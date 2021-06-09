@@ -10,9 +10,12 @@ import java.util.List;
 
 @Repository
 public interface AddressRepository extends CrudRepository<Address,Integer> {
-    //Boolean existsById(Integer id);
     Boolean existsByAddress(String address);
     Page<Address> findAll(Pageable pageable);
+<<<<<<< HEAD
     List<Address> findAddressByClientId(Integer id);
     Address findAddressByAddress(String address);
+=======
+    //List<Address> findAddressByClientId(Integer id);
+>>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d
 }

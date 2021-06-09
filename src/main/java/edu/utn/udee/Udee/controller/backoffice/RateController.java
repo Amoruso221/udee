@@ -1,4 +1,4 @@
-package edu.utn.udee.Udee.controller;
+package edu.utn.udee.Udee.controller.backoffice;
 
 import edu.utn.udee.Udee.domain.Rate;
 import edu.utn.udee.Udee.dto.RateDto;
@@ -19,7 +19,11 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+<<<<<<< HEAD:src/main/java/edu/utn/udee/Udee/controller/RateController.java
 @RequestMapping("/api/rates")
+=======
+@RequestMapping("/api/backoffice/rate")
+>>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d:src/main/java/edu/utn/udee/Udee/controller/backoffice/RateController.java
 public class RateController {
 
     private final RateService rateService;

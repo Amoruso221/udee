@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class AddressService {
 
@@ -33,18 +31,30 @@ public class AddressService {
         return addressRepository.findAll(pageable);
     }
 
-    public Address findAddressById(Integer id) throws AddressNotExistsException {
-        return addressRepository.findById(id).orElseThrow(AddressNotExistsException::new);
-    }
-
     public void deleteAddressById(Integer id) throws AddressNotExistsException {
         addressRepository.deleteById(id);
     }
 
-    public List<Address> findAddressesByClient(Integer id) {
-        return addressRepository.findAddressByClientId(id);
+    public Address editAddress(Address address) throws AddressNotExistsException {
+            Address editedAddress = addressRepository.findById(address.getId()).orElseThrow(AddressNotExistsException::new);
+
+            editedAddress.setCity(address.getCity());
+            editedAddress.setClient(address.getClient());
+            editedAddress.setCountry(address.getCountry());
+            editedAddress.setAddress(address.getAddress());
+            editedAddress.setRate(address.getRate());
+            editedAddress.setState(address.getState());
+
+            addressRepository.save(editedAddress);
+
+            return editedAddress;
     }
 
+    public Address findAddressById(Integer id) throws AddressNotExistsException {
+        return addressRepository.findById(id).orElseThrow(AddressNotExistsException::new);
+    }
+
+<<<<<<< HEAD
     public Address findAddressByAddress(String address){
         return addressRepository.findAddressByAddress(address);
     }
@@ -52,4 +62,7 @@ public class AddressService {
     /*public Address editAddress(Address address) throws AddressNotExistsException {
         if(addressRepository.)
     }*/
+=======
+
+>>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d
 }

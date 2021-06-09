@@ -1,4 +1,4 @@
-package edu.utn.udee.Udee.controller;
+package edu.utn.udee.Udee.controller.backoffice;
 
 import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.dto.MeasurementDto;
@@ -19,7 +19,11 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+<<<<<<< HEAD:src/main/java/edu/utn/udee/Udee/controller/MeasurementController.java
 @RequestMapping("/api/measurements")
+=======
+@RequestMapping("/api/backoffice/measurement")
+>>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d:src/main/java/edu/utn/udee/Udee/controller/backoffice/MeasurementController.java
 public class MeasurementController {
 
     private final MeasurementService measurementService;

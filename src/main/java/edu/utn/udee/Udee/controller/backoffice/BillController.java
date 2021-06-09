@@ -1,4 +1,4 @@
-package edu.utn.udee.Udee.controller;
+package edu.utn.udee.Udee.controller.backoffice;
 
 import edu.utn.udee.Udee.domain.Bill;
 import edu.utn.udee.Udee.dto.BillDto;
@@ -21,7 +21,11 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+<<<<<<< HEAD:src/main/java/edu/utn/udee/Udee/controller/BillController.java
 @RequestMapping("/api/bills")
+=======
+@RequestMapping("/api/backoffice/bill")
+>>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d:src/main/java/edu/utn/udee/Udee/controller/backoffice/BillController.java
 public class BillController {
 
     private final BillService billService;
@@ -35,6 +39,7 @@ public class BillController {
         this.modelMapper = modelMapper;
     }
 
+<<<<<<< HEAD:src/main/java/edu/utn/udee/Udee/controller/BillController.java
     private URI getLocation (Bill bill) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -45,13 +50,29 @@ public class BillController {
 
 
 
+=======
+>>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d:src/main/java/edu/utn/udee/Udee/controller/backoffice/BillController.java
     //***ADD NEW***//
-    @PostMapping(consumes = "application/json")
+    /*@PostMapping(consumes = "application/json")
     public ResponseEntity addBill (@RequestBody BillDto billDto)
+<<<<<<< HEAD:src/main/java/edu/utn/udee/Udee/controller/BillController.java
             throws ClientNotExistsException, MeterNotExistsException{
         Bill newbill = billService.addBill(modelMapper.map(billDto,Bill.class));
         return ResponseEntity.created(getLocation(newbill)).build();
     }
+=======
+            throws MeterNotExistsException {
+        Bill newbill = billService.addBill(Bill.builder().
+                meter(meterService.getBySerialNumber(billDto.getMeter().getSerialNumber())).
+                build());
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newbill.getId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }*/
+>>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d:src/main/java/edu/utn/udee/Udee/controller/backoffice/BillController.java
 
     //***GET ALL***//
     @GetMapping(produces = "application/json")

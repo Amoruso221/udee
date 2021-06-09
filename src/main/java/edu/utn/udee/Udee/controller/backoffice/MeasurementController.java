@@ -19,7 +19,11 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+<<<<<<< HEAD:src/main/java/edu/utn/udee/Udee/controller/MeasurementController.java
+@RequestMapping("/api/measurements")
+=======
 @RequestMapping("/api/backoffice/measurement")
+>>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d:src/main/java/edu/utn/udee/Udee/controller/backoffice/MeasurementController.java
 public class MeasurementController {
 
     private final MeasurementService measurementService;
@@ -31,6 +35,14 @@ public class MeasurementController {
         this.measurementService = measurementService;
         this.meterService = meterService;
         this.modelMapper = modelMapper;
+    }
+
+    private URI getLocation (Measurement measurement) {
+        return ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(measurement.getIdMeasurement())
+                .toUri();
     }
 
 
@@ -81,12 +93,7 @@ public class MeasurementController {
 //                    dateTime(measurementDto.getDateTime()).
 //                    build());
 //        }
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newMeasurement.getIdMeasurement())
-                .toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(getLocation(newMeasurement)).build();
     }
 
     //***GET ALL***//

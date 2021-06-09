@@ -21,6 +21,7 @@ public class MeasurementDto {
     private Double kwh;
     private LocalDateTime dateTime;
     private MeterDto meter;
+    private Integer idBill;
 
     public static MeasurementDto from(Measurement measurement) {
         Meter meter = measurement.getMeter();
@@ -35,6 +36,7 @@ public class MeasurementDto {
                     model(meter.getModel()).
                     measurement(meter.getMeasurement()).
                     build()).
+                 idBill(measurement.getIdBill()).
                 build();
     }
 }

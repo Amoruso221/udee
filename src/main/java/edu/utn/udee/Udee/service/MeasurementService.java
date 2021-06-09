@@ -25,6 +25,7 @@ public class MeasurementService {
 
     public Measurement addMeasurement(Measurement measurement) {
         measurement.setDateTime(LocalDateTime.now());
+        measurement.setIdBill(0);
         if (measurement.getMeter().getSerialNumber() != null)
             measurement.getMeter().setMeasurement(measurement.getMeter().getMeasurement() + measurement.getKwh());
         return measurementRepository.save(measurement);

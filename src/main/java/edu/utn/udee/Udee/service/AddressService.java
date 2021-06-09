@@ -54,5 +54,15 @@ public class AddressService {
         return addressRepository.findById(id).orElseThrow(AddressNotExistsException::new);
     }
 
+<<<<<<< HEAD
+    public Address findAddressByAddress(String address){
+        return addressRepository.findAddressByAddress(address);
+    }
 
+    /*public Address editAddress(Address address) throws AddressNotExistsException {
+        if(addressRepository.)
+    }*/
+=======
+
+>>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d
 }

@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +22,7 @@ public class AddressDto {
     String country;
     ClientDto client;
     RateDto rate;
+    List<Integer> bills;
 
     public static AddressDto from (Address address) {
         return AddressDto.builder().
@@ -30,6 +33,7 @@ public class AddressDto {
                 country(address.getCountry()).
                 client(ClientDto.from(address.getClient())).
                 rate(RateDto.from(address.getRate())).
+                bills(address.getBills()).
                 build();
     }
 }

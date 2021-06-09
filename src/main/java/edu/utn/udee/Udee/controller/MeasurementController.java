@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/measurement")
+@RequestMapping("/api/measurements")
 public class MeasurementController {
 
     private final MeasurementService measurementService;
@@ -31,6 +31,14 @@ public class MeasurementController {
         this.measurementService = measurementService;
         this.meterService = meterService;
         this.modelMapper = modelMapper;
+    }
+
+    private URI getLocation (Measurement measurement) {
+        return ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(measurement.getIdMeasurement())
+                .toUri();
     }
 
 
@@ -81,12 +89,7 @@ public class MeasurementController {
 //                    dateTime(measurementDto.getDateTime()).
 //                    build());
 //        }
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newMeasurement.getIdMeasurement())
-                .toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(getLocation(newMeasurement)).build();
     }
 
     //***GET ALL***//

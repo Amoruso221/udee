@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/rate")
+@RequestMapping("/api/rates")
 public class RateController {
 
     private final RateService rateService;
@@ -31,6 +31,14 @@ public class RateController {
         this.modelMapper = modelMapper;
     }
 
+    private URI getLocation (Rate rate) {
+        return ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(rate.getId())
+                .toUri();
+    }
+
 
 
     //***ADD NEW***//
@@ -38,12 +46,7 @@ public class RateController {
     public ResponseEntity addRate (@RequestBody RateDto rateDto)
             throws RateExistsException {
         Rate newRate = rateService.addRate(modelMapper.map(rateDto, Rate.class));
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newRate.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(getLocation(newRate)).build();
     }
 
     //***GET ALL***//
@@ -74,7 +77,7 @@ public class RateController {
     }
 
     //***ADD ADDRESS***//
-    @PutMapping(path = "/{idRate}/address/{idAddress}", produces = "application/json")
+    @PutMapping(path = "/{idRate}/addresses/{idAddress}", produces = "application/json")
     public ResponseEntity addAddressToRate (@PathVariable Integer idRate, @PathVariable Integer idAddress)
             throws RateNotExistsException, AddressNotExistsException {
         rateService.addAddressToRate(idRate, idAddress);

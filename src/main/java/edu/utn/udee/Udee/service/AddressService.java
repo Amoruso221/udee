@@ -45,6 +45,10 @@ public class AddressService {
         return addressRepository.findAddressByClientId(id);
     }
 
+    public Address findAddressByAddress(String address){
+        return addressRepository.findAddressByAddress(address);
+    }
+
     /*public Address editAddress(Address address) throws AddressNotExistsException {
         if(addressRepository.)
     }*/

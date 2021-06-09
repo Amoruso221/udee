@@ -79,15 +79,5 @@ public class MeterService {
         else throw new MeterNotExistsException();
     }
 
-    public void addBillToMeter(Integer serialNumber, Integer id)
-            throws MeterNotExistsException, BillNotExistsException {
-        if (meterRepository.existsById(serialNumber)){
-            Meter meter = this.getBySerialNumber(serialNumber);
-            Bill bill = billService.getById(id);
-            bill.setMeter(meter);
-            meter.getBills().add(bill);
-            meterRepository.save(meter);
-        }
-        else throw new MeterNotExistsException();
-    }
+
 }

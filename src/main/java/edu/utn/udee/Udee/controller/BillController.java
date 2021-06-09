@@ -3,6 +3,7 @@ package edu.utn.udee.Udee.controller;
 import edu.utn.udee.Udee.domain.Bill;
 import edu.utn.udee.Udee.dto.BillDto;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
+import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.service.BillService;
@@ -20,7 +21,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/bill")
+@RequestMapping("/api/bills")
 public class BillController {
 
     private final BillService billService;
@@ -34,21 +35,22 @@ public class BillController {
         this.modelMapper = modelMapper;
     }
 
+    private URI getLocation (Bill bill) {
+        return ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(bill.getId())
+                .toUri();
+    }
+
 
 
     //***ADD NEW***//
     @PostMapping(consumes = "application/json")
     public ResponseEntity addBill (@RequestBody BillDto billDto)
-            throws MeterNotExistsException {
-        Bill newbill = billService.addBill(Bill.builder().
-                meter(meterService.getBySerialNumber(billDto.getMeter().getSerialNumber())).
-                build());
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newbill.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
+            throws ClientNotExistsException, MeterNotExistsException{
+        Bill newbill = billService.addBill(modelMapper.map(billDto,Bill.class));
+        return ResponseEntity.created(getLocation(newbill)).build();
     }
 
     //***GET ALL***//
@@ -75,14 +77,6 @@ public class BillController {
     public ResponseEntity deleteBill(@PathVariable Integer id)
             throws BillNotExistsException{
         billService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    //***ADD MEASUREMENT***//
-    @PutMapping(path = "/{idBill}/measurement/{idMeasurement}", produces = "application/json")
-    public ResponseEntity addMeasurementToBill (@PathVariable Integer idBill, @PathVariable Integer idMeasurement)
-            throws BillNotExistsException, MeasurementNotExistsException {
-        billService.addMeasurementToBill(idBill, idMeasurement);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

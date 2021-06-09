@@ -14,4 +14,5 @@ public interface AddressRepository extends CrudRepository<Address,Integer> {
     Boolean existsByAddress(String address);
     Page<Address> findAll(Pageable pageable);
     List<Address> findAddressByClientId(Integer id);
+    Address findAddressByAddress(String address);
 }

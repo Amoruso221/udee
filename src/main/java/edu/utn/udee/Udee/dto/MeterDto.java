@@ -22,7 +22,6 @@ public class MeterDto {
     private Double measurement;
     private List<MeasurementDto> measurements;
     private AddressDto address;
-    private List<BillDto> bills;
 
 
 
@@ -34,7 +33,6 @@ public class MeterDto {
                 measurement(meter.getMeasurement()).
                 //measurements(meter.getMeasurements()).
                 address(AddressDto.from(meter.getAddress())).
-                //Bills
                 build();
     }
 

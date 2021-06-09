@@ -21,7 +21,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/meter")
+@RequestMapping("/api/meters")
 public class MeterController {
 
     private final MeterService meterService;
@@ -31,6 +31,14 @@ public class MeterController {
     public MeterController(MeterService meterService, ModelMapper modelMapper) {
         this.meterService = meterService;
         this.modelMapper = modelMapper;
+    }
+
+    private URI getLocation (Meter meter) {
+        return ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(meter.getSerialNumber())
+                .toUri();
     }
 
 
@@ -45,12 +53,7 @@ public class MeterController {
 //                        measurement(meterDto.getMeasurement()).
 //                        build());
         Meter newMeter = meterService.addMeter(modelMapper.map(meterDto, Meter.class));
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newMeter.getSerialNumber())
-                .toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(getLocation(newMeter)).build();
     }
 
     //***GET ALL***//
@@ -81,7 +84,7 @@ public class MeterController {
     }
 
     //***ADD MEASUREMENT***//
-    @PutMapping(path = "/{serialNumber}/measurement/{idMeasurement}", produces = "application/json")
+    @PutMapping(path = "/{serialNumber}/measurements/{idMeasurement}", produces = "application/json")
     public ResponseEntity addMeasurementToMeter (@PathVariable Integer serialNumber, @PathVariable Integer idMeasurement)
             throws MeterNotExistsException, MeasurementNotExistsException {
         meterService.addMeasurementToMeter(serialNumber, idMeasurement);
@@ -89,7 +92,7 @@ public class MeterController {
     }
 
     //***ADD ADDRESS***//
-    @PutMapping(path = "/{serialNumber}/address/{id}", produces = "application/json")
+    @PutMapping(path = "/{serialNumber}/addresses/{id}", produces = "application/json")
     public ResponseEntity addAddressToMeter(@PathVariable Integer serialNumber, @PathVariable Integer id)
             throws MeterNotExistsException, AddressNotExistsException {
         meterService.addAddressToMeter(serialNumber, id);
@@ -97,11 +100,11 @@ public class MeterController {
     }
 
 
-    //***ADD BILL***//
-    @PutMapping(path = "/{serialNumber}/bill/{id}", produces = "application/json")
-    public ResponseEntity addBillToMeter (@PathVariable Integer serialNumber, @PathVariable Integer id)
-            throws MeterNotExistsException, BillNotExistsException {
-        meterService.addBillToMeter(serialNumber, id);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
+//    //***ADD BILL***//
+//    @PutMapping(path = "/{serialNumber}/bills/{id}", produces = "application/json")
+//    public ResponseEntity addBillToMeter (@PathVariable Integer serialNumber, @PathVariable Integer id)
+//            throws MeterNotExistsException, BillNotExistsException {
+//        meterService.addBillToMeter(serialNumber, id);
+//        return ResponseEntity.status(HttpStatus.OK).build();
+//    }
 }

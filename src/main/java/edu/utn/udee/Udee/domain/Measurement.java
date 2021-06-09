@@ -34,9 +34,12 @@ public class Measurement {
     @JoinColumn(name = "measurer_serial_number", nullable = false)
     private Meter meter;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bill_id")
-    private Bill bill;
+    @Column
+    private Integer idBill;
+
+    public Measurement setidBill(Integer newIbBill){
+        this.idBill = newIbBill;
+        return this;
+    }
 
 }

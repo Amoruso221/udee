@@ -44,5 +44,5 @@ public class Address {
     Rate rate;
 
     @Column
-    private List<Integer> bills;
+    private List<Bill> bills;
 }

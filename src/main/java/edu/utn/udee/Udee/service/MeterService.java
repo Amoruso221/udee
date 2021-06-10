@@ -1,10 +1,9 @@
 package edu.utn.udee.Udee.service;
 
 import edu.utn.udee.Udee.domain.Address;
-import edu.utn.udee.Udee.domain.Bill;
 import edu.utn.udee.Udee.domain.Measurement;
+import edu.utn.udee.Udee.domain.Meter;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
-import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.repository.MeterRepository;
@@ -12,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import edu.utn.udee.Udee.domain.Meter;
 
 @Service
 public class MeterService {

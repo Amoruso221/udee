@@ -40,6 +40,8 @@ public class BillService {
         Measurement finalMeasurement = measurements.get(measurements.size()-1);
         Double totalMeasurement = measurements.stream().mapToDouble(x->x.getKwh()).sum();
         Rate rate = address.getRate();
+
+
         Bill newBill = Bill.builder().
                 id(bill.getId()).
                 dniClient(client.getDni()).

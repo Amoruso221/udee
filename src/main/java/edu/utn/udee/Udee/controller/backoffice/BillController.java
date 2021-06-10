@@ -21,11 +21,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-<<<<<<< HEAD:src/main/java/edu/utn/udee/Udee/controller/BillController.java
-@RequestMapping("/api/bills")
-=======
 @RequestMapping("/api/backoffice/bill")
->>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d:src/main/java/edu/utn/udee/Udee/controller/backoffice/BillController.java
 public class BillController {
 
     private final BillService billService;
@@ -39,7 +35,6 @@ public class BillController {
         this.modelMapper = modelMapper;
     }
 
-<<<<<<< HEAD:src/main/java/edu/utn/udee/Udee/controller/BillController.java
     private URI getLocation (Bill bill) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -50,8 +45,6 @@ public class BillController {
 
 
 
-=======
->>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d:src/main/java/edu/utn/udee/Udee/controller/backoffice/BillController.java
     //***ADD NEW***//
     /*@PostMapping(consumes = "application/json")
     public ResponseEntity addBill (@RequestBody BillDto billDto)
@@ -72,7 +65,6 @@ public class BillController {
                 .toUri();
         return ResponseEntity.created(location).build();
     }*/
->>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d:src/main/java/edu/utn/udee/Udee/controller/backoffice/BillController.java
 
     //***GET ALL***//
     @GetMapping(produces = "application/json")

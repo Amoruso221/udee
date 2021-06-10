@@ -35,10 +35,10 @@ public class Measurement {
     private Meter meter;
 
     @Column
-    private Integer idBill;
+    private Bill bill;
 
-    public Measurement setidBill(Integer newIbBill){
-        this.idBill = newIbBill;
+    public Measurement setBill(Bill newBill){
+        this.bill = newBill;
         return this;
     }
 

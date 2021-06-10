@@ -12,6 +12,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
+=======
+import edu.utn.udee.Udee.domain.Meter;
+
+import java.util.List;
+
+>>>>>>> e5525dd85fb81ad70e8fcc5c531044b66b782b25
 @Service
 public class MeterService {
 
@@ -37,6 +44,10 @@ public class MeterService {
 
     public Page<Meter> getAll(Pageable pageable) {
         return meterRepository.findAll(pageable);
+    }
+
+    public List<Meter> getAll(){
+        return meterRepository.getAll();
     }
 
     public Meter getBySerialNumber(Integer serialNumber)

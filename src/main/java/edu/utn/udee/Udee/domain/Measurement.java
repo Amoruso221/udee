@@ -34,6 +34,7 @@ public class Measurement {
     @JoinColumn(name = "measurer_serial_number", nullable = false)
     private Meter meter;
 
+<<<<<<< HEAD
     @Column
     private Bill bill;
 
@@ -41,5 +42,9 @@ public class Measurement {
         this.bill = newBill;
         return this;
     }
+=======
+    @Column(columnDefinition = "boolean default false")
+    private Boolean billed;
+>>>>>>> e5525dd85fb81ad70e8fcc5c531044b66b782b25
 
 }

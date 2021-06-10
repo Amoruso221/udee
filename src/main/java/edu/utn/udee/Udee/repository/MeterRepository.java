@@ -7,9 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface MeterRepository extends CrudRepository<Meter, Integer>{
 
     Page<Meter> findAll(Pageable pageable);
+    List<Meter> getAll();
 
 }

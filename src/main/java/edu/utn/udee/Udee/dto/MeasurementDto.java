@@ -22,7 +22,11 @@ public class MeasurementDto {
     private Double kwh;
     private LocalDateTime dateTime;
     private MeterDto meter;
+<<<<<<< HEAD
     private Bill bill;
+=======
+    private Boolean billed;
+>>>>>>> e5525dd85fb81ad70e8fcc5c531044b66b782b25
 
     public static MeasurementDto from(Measurement measurement) {
         Meter meter = measurement.getMeter();
@@ -30,14 +34,17 @@ public class MeasurementDto {
                 idMeasurement(measurement.getIdMeasurement()).
                 kwh(measurement.getKwh()).
                 dateTime(measurement.getDateTime()).
-//                measurer(MeasurerDto.from(measurement.getMeasurer())).
                 meter(MeterDto.builder().
                     serialNumber(meter.getSerialNumber()).
                     brand(meter.getBrand()).
                     model(meter.getModel()).
                     measurement(meter.getMeasurement()).
                     build()).
+<<<<<<< HEAD
                  bill(measurement.getBill()).
+=======
+                        billed(measurement.getBilled()).
+>>>>>>> e5525dd85fb81ad70e8fcc5c531044b66b782b25
                 build();
     }
 }

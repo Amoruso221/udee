@@ -42,7 +42,10 @@ public class Address {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="rate", nullable = false)
     Rate rate;
+<<<<<<< HEAD
 
     @Column
     private List<Bill> bills;
+=======
+>>>>>>> e5525dd85fb81ad70e8fcc5c531044b66b782b25
 }

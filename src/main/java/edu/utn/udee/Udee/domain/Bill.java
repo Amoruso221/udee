@@ -21,54 +21,32 @@ public class Bill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-        //***CLIENT***//
-    @Column
-    private Integer dniClient;
-    @Column
-    private String fullNameClient;
-        //***ADDRESS***//
-    @Column
-    private String address;
-    @Column
-    private String city;
-    @Column
-    private String state;
-    @Column
-    private String country;
-        //***METER***//
-    @Column
-    private Integer serialNumberMeter;
-        //***MEASUREMENTS***//
-    @Column
-    private Double initialMeasurement;
-    @Column
-    private Double finalMeasurement;
-    @Column
-    private Double totalMeasurement;
-    @Column
-    private LocalDateTime dateTimeInitialmeasurement;
-    @Column
-    private LocalDateTime dateTimeFinalmeasurement;
-        //***RATE***//
-    @Column
-    private String descriptionRate;
-    @Column
-    private Double amountRate;
-        //***TOTAL***//
-    @Column
-    private Double totalAmount; // = totalMeasurement * amountRate
+    Integer id;
 
 
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "measurer_serial_number", nullable = false)
-//    private Meter meter;
-//
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bill")
-//    private List<Measurement> measurements;
-//
-//    @Column
-//    private Double amount; //Measurement * Rate
+    @Column
+    Client client;
+
+
+    @Column
+    Rate rate;
+
+
+
+    @Column
+    Meter meter;
+
+    @Column
+    List<Measurement> measurements;
+
+
+    @Column
+    Double totalAmount;
+
+    @Column(columnDefinition = "boolean default false")
+    Boolean paid;
+
+    @Column
+    Address address;
 }

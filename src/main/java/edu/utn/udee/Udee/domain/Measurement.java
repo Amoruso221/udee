@@ -34,12 +34,7 @@ public class Measurement {
     @JoinColumn(name = "measurer_serial_number", nullable = false)
     private Meter meter;
 
-    @Column
-    private Integer idBill;
-
-    public Measurement setidBill(Integer newIbBill){
-        this.idBill = newIbBill;
-        return this;
-    }
+    @Column(columnDefinition = "boolean default false")
+    private Boolean billed;
 
 }

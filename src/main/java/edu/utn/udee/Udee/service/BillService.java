@@ -30,7 +30,7 @@ public class BillService {
 
 
 
-    public Bill addBill(Bill bill)
+    /*public Bill addBill(Bill bill)
             throws ClientNotExistsException, MeterNotExistsException {
         Client client = clientService.findClientById(bill.getDniClient());
         Address address = addressService.findAddressByAddress(bill.getAddress());
@@ -59,7 +59,7 @@ public class BillService {
                 totalAmount(totalMeasurement * rate.getAmount()).
                 build();
         return billRepository.save(newBill);
-    }
+    }*/
 
     public Page getAll(Pageable pageable) {
         return billRepository.findAll(pageable);

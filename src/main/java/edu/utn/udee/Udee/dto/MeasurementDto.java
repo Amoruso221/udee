@@ -1,6 +1,7 @@
 package edu.utn.udee.Udee.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import edu.utn.udee.Udee.domain.Bill;
 import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.domain.Meter;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class MeasurementDto {
     private Double kwh;
     private LocalDateTime dateTime;
     private MeterDto meter;
-    private Integer idBill;
+    private Boolean billed;
 
     public static MeasurementDto from(Measurement measurement) {
         Meter meter = measurement.getMeter();
@@ -29,14 +30,13 @@ public class MeasurementDto {
                 idMeasurement(measurement.getIdMeasurement()).
                 kwh(measurement.getKwh()).
                 dateTime(measurement.getDateTime()).
-//                measurer(MeasurerDto.from(measurement.getMeasurer())).
                 meter(MeterDto.builder().
                     serialNumber(meter.getSerialNumber()).
                     brand(meter.getBrand()).
                     model(meter.getModel()).
                     measurement(meter.getMeasurement()).
                     build()).
-                 idBill(measurement.getIdBill()).
+                        billed(measurement.getBilled()).
                 build();
     }
 }

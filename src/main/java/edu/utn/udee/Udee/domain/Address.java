@@ -42,7 +42,4 @@ public class Address {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="rate", nullable = false)
     Rate rate;
-
-    @Column
-    private List<Integer> bills;
 }

@@ -1,5 +1,6 @@
 package edu.utn.udee.Udee.controller.backoffice;
 
+import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.domain.Meter;
 import edu.utn.udee.Udee.dto.MeterDto;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
@@ -19,13 +20,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-<<<<<<< HEAD:src/main/java/edu/utn/udee/Udee/controller/MeterController.java
-@RequestMapping("/api/meters")
-=======
 @RequestMapping("/api/backoffice/meter")
->>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d:src/main/java/edu/utn/udee/Udee/controller/backoffice/MeterController.java
 public class MeterController {
 
     private final MeterService meterService;
@@ -37,7 +35,6 @@ public class MeterController {
         this.modelMapper = modelMapper;
     }
 
-<<<<<<< HEAD:src/main/java/edu/utn/udee/Udee/controller/MeterController.java
     private URI getLocation (Meter meter) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -47,9 +44,6 @@ public class MeterController {
     }
 
 
-
-=======
->>>>>>> 86cc351654a7012676be8bcc5477970dfaba572d:src/main/java/edu/utn/udee/Udee/controller/backoffice/MeterController.java
     //***ADD NEW***//
     @PostMapping(consumes = "application/json")
     public ResponseEntity addMeter (@RequestBody MeterDto meterDto){
@@ -105,6 +99,13 @@ public class MeterController {
         meterService.addAddressToMeter(serialNumber, id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+   /* public List<Measurement> listUnbilledMeasurements (Integer idNewBill) {
+        List<Measurement> unbilledMeasurements = this.measurements.stream()
+                .filter(x -> x.getIdBill() == 0).collect(Collectors.toList());
+        this.measurements.stream().map(x -> x.setIdBill(idNewBill));
+        return unbilledMeasurements;
+    }*/
 
 
 //    //***ADD BILL***//

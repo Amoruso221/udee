@@ -36,12 +36,4 @@ public class Meter {
     @OneToOne
     @JoinColumn(name = "id")
     private Address address;
-
-
-    public List<Measurement> listUnbilledMeasurements (Integer idNewBill) {
-        List<Measurement> unbilledMeasurements = this.measurements.stream()
-                .filter(x -> x.getIdBill() == 0).collect(Collectors.toList());
-        this.measurements.stream().map(x -> x.setidBill(idNewBill));
-        return unbilledMeasurements;
-    }
 }

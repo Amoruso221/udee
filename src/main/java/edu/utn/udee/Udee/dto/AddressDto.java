@@ -2,6 +2,7 @@ package edu.utn.udee.Udee.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.utn.udee.Udee.domain.Address;
+import edu.utn.udee.Udee.domain.Bill;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,6 @@ public class AddressDto {
     String country;
     ClientDto client;
     RateDto rate;
-    List<Integer> bills;
 
     public static AddressDto from (Address address) {
         return AddressDto.builder().
@@ -33,7 +33,6 @@ public class AddressDto {
                 country(address.getCountry()).
                 client(ClientDto.from(address.getClient())).
                 rate(RateDto.from(address.getRate())).
-                bills(address.getBills()).
                 build();
     }
 }

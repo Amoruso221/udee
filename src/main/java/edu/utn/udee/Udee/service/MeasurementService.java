@@ -23,8 +23,6 @@ public class MeasurementService {
 
     public Measurement addMeasurement(Measurement measurement) {
         measurement.setDateTime(LocalDateTime.now());
-        if (measurement.getMeter().getSerialNumber() != null)
-            measurement.getMeter().setMeasurement(measurement.getMeter().getMeasurement() + measurement.getKwh());
         return measurementRepository.save(measurement);
     }
 

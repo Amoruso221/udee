@@ -21,7 +21,6 @@ public class TestUtils {
                 serialNumber(1).
                 brand("Philips").
                 model("Deluxe").
-                measurement(0.0).
                 measurements(measurementsEmptyList).
                 address(null).
                 build();

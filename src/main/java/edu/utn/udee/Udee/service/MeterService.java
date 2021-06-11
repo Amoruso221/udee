@@ -21,20 +21,15 @@ public class MeterService {
     private final MeterRepository meterRepository;
     private final MeasurementService measurementService;
     private final AddressService addressService;
-    private final BillService billService;
 
     @Autowired
-    public MeterService(MeterRepository meterRepository, MeasurementService measurementService, AddressService addressService, BillService billService) {
+    public MeterService(MeterRepository meterRepository, MeasurementService measurementService, AddressService addressService) {
         this.meterRepository = meterRepository;
         this.measurementService = measurementService;
         this.addressService = addressService;
-        this.billService = billService;
     }
 
-
-
     public Meter addMeter(Meter meter) {
-        meter.setMeasurement(0.0);
         return meterRepository.save(meter);
     }
 
@@ -43,7 +38,7 @@ public class MeterService {
     }
 
     public List<Meter> getAll(){
-        return meterRepository.getAll();
+        return (List<Meter>) meterRepository.findAll();
     }
 
     public Meter getBySerialNumber(Integer serialNumber)
@@ -76,7 +71,6 @@ public class MeterService {
         if (meterRepository.existsById(serialNumber)) {
             Meter meter = this.getBySerialNumber(serialNumber);
             Measurement measurement = measurementService.getById(idMeasurement);
-            meter.setMeasurement(meter.getMeasurement() + measurement.getKwh());
             measurement.setMeter(meter);
             meter.getMeasurements().add(measurement);
             meterRepository.save(meter);
@@ -93,6 +87,26 @@ public class MeterService {
             meterRepository.save(meter);
         }
         else throw new MeterNotExistsException();
+    }
+
+    public List<Measurement> getUnbilledMeasurements (Meter meter) {
+        List<Measurement> unbilledMeasurements = meter.getMeasurements().stream()
+                .filter(x -> x.getBilled() == false).collect(Collectors.toList());
+        return unbilledMeasurements;
+    }
+
+    public void setBilledMeasumerent(Meter meter) throws MeterNotExistsException{
+
+        Meter editMeter = getBySerialNumber(meter.getSerialNumber());
+
+        for (Measurement measurement: editMeter.getMeasurements()) {
+            if(measurement.getBilled() == false) {
+                measurement.setBilled(true);
+            }
+        }
+
+        meterRepository.save(editMeter);
+
     }
 
 

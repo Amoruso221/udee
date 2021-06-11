@@ -1,7 +1,11 @@
 package edu.utn.udee.Udee.service;
 
 import edu.utn.udee.Udee.domain.*;
+<<<<<<< HEAD
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
+=======
+import edu.utn.udee.Udee.dto.BillDto;
+>>>>>>> 18d787cff3e4afbb8dfd4a58f83fd27427922923
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.repository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +32,38 @@ public class BillService {
         this.meterService = meterService;
     }
 
+    public List<Bill> createAllBills(List<Meter> meterList) throws MeterNotExistsException {
 
+        List<Bill> newBillList = new ArrayList<>();
+
+        for (Meter meter: meterList) {
+
+            List<Measurement> measurementList = meterService.getUnbilledMeasurements(meter);
+
+            meterService.setBilledMeasumerent(meter);
+
+            Double totalMeasurement = measurementList.stream().mapToDouble(x->x.getKwh()).sum();
+
+            Bill newBill = Bill.builder().
+                    fullName(meter.getAddress().getClient().getName() + ' ' + meter.getAddress().getClient().getSurname()).
+                    address(meter.getAddress().getAddress()).
+                    city(meter.getAddress().getCity()).
+                    meterSerialNumber(meter.getSerialNumber()).
+                    firstMeasurement(measurementList.get(0).getKwh()).
+                    lastMeasurement(measurementList.get(measurementList.size() - 1).getKwh()).
+                    firstMeasurementDateTime(measurementList.get(0).getDateTime()).
+                    lastMeasurementDateTime(measurementList.get(measurementList.size() - 1).getDateTime()).
+                    totalMeasurementKwh(totalMeasurement).
+                    rate(meter.getAddress().getRate().getDescription()).
+                    totalAmount(totalMeasurement * meter.getAddress().getRate().getAmount()).
+                    build();
+
+            newBillList.add(newBill);
+            billRepository.save(newBill);
+        }
+
+        return newBillList;
+    }
 
     /*public Bill addBill(Bill bill)
             throws ClientNotExistsException, MeterNotExistsException {

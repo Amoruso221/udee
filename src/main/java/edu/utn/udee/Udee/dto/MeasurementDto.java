@@ -38,7 +38,6 @@ public class MeasurementDto {
                     serialNumber(meter.getSerialNumber()).
                     brand(meter.getBrand()).
                     model(meter.getModel()).
-                    measurement(meter.getMeasurement()).
                     build()).
 <<<<<<< HEAD
                  bill(measurement.getBill()).

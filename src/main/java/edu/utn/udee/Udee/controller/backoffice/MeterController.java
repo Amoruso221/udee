@@ -44,10 +44,7 @@ public class MeterController {
     }
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> e5525dd85fb81ad70e8fcc5c531044b66b782b25
     //***ADD NEW***//
     @PostMapping(consumes = "application/json")
     public ResponseEntity addMeter (@RequestBody MeterDto meterDto){
@@ -103,21 +100,6 @@ public class MeterController {
         meterService.addAddressToMeter(serialNumber, id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
-<<<<<<< HEAD
-    //***GET UNBILLED MEASUREMENTS***//
-    public ResponseEntity<Measurement> listUnbilledMeasurements (Integer idNewBill) {
-
-    }
-=======
-   /* public List<Measurement> listUnbilledMeasurements (Integer idNewBill) {
-        List<Measurement> unbilledMeasurements = this.measurements.stream()
-                .filter(x -> x.getIdBill() == 0).collect(Collectors.toList());
-        this.measurements.stream().map(x -> x.setIdBill(idNewBill));
-        return unbilledMeasurements;
-    }*/
-
->>>>>>> e5525dd85fb81ad70e8fcc5c531044b66b782b25
 
 //    //***ADD BILL***//
 //    @PutMapping(path = "/{serialNumber}/bills/{id}", produces = "application/json")

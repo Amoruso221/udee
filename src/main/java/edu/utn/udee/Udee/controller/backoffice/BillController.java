@@ -44,20 +44,17 @@ public class BillController {
                 .toUri();
     }
 
-   /* public  ResponseEntity<List<BillDto>> createAllBills(){
+   /*public  ResponseEntity<List<BillDto>> createAllBills(){
         List<Meter> listMeters = meterService.getAll();
 
 
-<<<<<<< HEAD
-    //***ADD NEW***//
+    //***ADD NEW***/
     /*@PostMapping(consumes = "application/json")
     public ResponseEntity addBill (@RequestBody BillDto billDto)
-<<<<<<< HEAD:src/main/java/edu/utn/udee/Udee/controller/BillController.java
             throws ClientNotExistsException, MeterNotExistsException{
         Bill newbill = billService.addBill(modelMapper.map(billDto,Bill.class));
         return ResponseEntity.created(getLocation(newbill)).build();
     }
-=======
             throws MeterNotExistsException {
         Bill newbill = billService.addBill(Bill.builder().
                 meter(meterService.getBySerialNumber(billDto.getMeter().getSerialNumber())).
@@ -68,8 +65,6 @@ public class BillController {
                 .buildAndExpand(newbill.getId())
                 .toUri();
         return ResponseEntity.created(location).build();
-=======
->>>>>>> e5525dd85fb81ad70e8fcc5c531044b66b782b25
     }*/
 
     //***GET ALL***//

@@ -1,9 +1,8 @@
 package edu.utn.udee.Udee.service;
 
 import edu.utn.udee.Udee.domain.*;
+import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
-import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
-import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.repository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,8 +39,6 @@ public class BillService {
         Measurement finalMeasurement = measurements.get(measurements.size()-1);
         Double totalMeasurement = measurements.stream().mapToDouble(x->x.getKwh()).sum();
         Rate rate = address.getRate();
-
-
         Bill newBill = Bill.builder().
                 id(bill.getId()).
                 dniClient(client.getDni()).
@@ -62,6 +59,25 @@ public class BillService {
                 build();
         return billRepository.save(newBill);
     }*/
+
+    public void createAddressBill(Integer idAddress)
+            throws AddressNotExistsException {
+        Address address = addressService.findAddressById(idAddress);
+        Meter meter = meterService.getByAddress(address);
+        List<Measurement> measurements= meterService.getUnbilledMeasurements(meter);
+        Rate rate = address.getRate();
+        Double totalAmount = measurements.stream().mapToDouble() * rate;
+        Bill newBill = Bill.builder().
+                client(address.getClient()).
+                address(address).
+                meter(meter).
+                measurements(measurements).
+                rate(rate).
+                totalAmount(totalAmount).
+//        Double totalAmount; // = totalMeasurement * amountRate
+//        Boolean paid;
+                build();
+    }
 
     public Page getAll(Pageable pageable) {
         return billRepository.findAll(pageable);

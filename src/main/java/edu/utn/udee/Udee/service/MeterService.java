@@ -12,13 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
-=======
-import edu.utn.udee.Udee.domain.Meter;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
->>>>>>> e5525dd85fb81ad70e8fcc5c531044b66b782b25
 @Service
 public class MeterService {
 
@@ -55,6 +51,18 @@ public class MeterService {
         return meterRepository.findById(serialNumber).
                 orElseThrow(MeterNotExistsException::new);
     }
+
+    public Meter getByAddress(Address address){
+        return meterRepository.findByAddress(address);
+    }
+
+    public List<Measurement> getUnbilledMeasurements (Meter meter) {
+        List<Measurement> unbilledMeasurements = meter.getMeasurements().stream()
+                .filter(x -> x.getBilled() == false).collect(Collectors.toList());
+//        this.measurements.stream().map(x -> x.setIdBill(idNewBill));
+        return unbilledMeasurements;
+    }
+
 
     public void deleteBySerialNumber(Integer serialNumber)
             throws MeterNotExistsException {

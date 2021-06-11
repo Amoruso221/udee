@@ -22,11 +22,8 @@ public class MeasurementDto {
     private Double kwh;
     private LocalDateTime dateTime;
     private MeterDto meter;
-<<<<<<< HEAD
-    private Bill bill;
-=======
+//    private Bill bill;
     private Boolean billed;
->>>>>>> e5525dd85fb81ad70e8fcc5c531044b66b782b25
 
     public static MeasurementDto from(Measurement measurement) {
         Meter meter = measurement.getMeter();
@@ -39,11 +36,7 @@ public class MeasurementDto {
                     brand(meter.getBrand()).
                     model(meter.getModel()).
                     build()).
-<<<<<<< HEAD
-                 bill(measurement.getBill()).
-=======
-                        billed(measurement.getBilled()).
->>>>>>> e5525dd85fb81ad70e8fcc5c531044b66b782b25
+                billed(measurement.getBilled()).
                 build();
     }
 }

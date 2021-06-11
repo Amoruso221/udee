@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -19,18 +20,6 @@ public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-<<<<<<< HEAD
-    @Column
-    Client client;
-    @Column
-    Address address;
-    @Column
-    Meter meter;
-    @Column
-    List<Measurement> measurements;
-    @Column
-    Rate rate;
-=======
 
     @Column
     String fullName;
@@ -62,9 +51,9 @@ public class Bill {
     @Column
     String rate; //rate type
 
->>>>>>> 18d787cff3e4afbb8dfd4a58f83fd27427922923
     @Column
     Double totalAmount;
+
     @Column(columnDefinition = "boolean default false")
     Boolean paid;
 }

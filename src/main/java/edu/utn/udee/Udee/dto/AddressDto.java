@@ -23,7 +23,7 @@ public class AddressDto {
     String country;
     ClientDto client;
     RateDto rate;
-    List<Bill> bills;
+//    List<Bill> bills;
 
 
     public static AddressDto from (Address address) {

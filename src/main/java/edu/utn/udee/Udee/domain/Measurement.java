@@ -33,16 +33,16 @@ public class Measurement {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "measurer_serial_number", nullable = false)
     private Meter meter;
+//
+//    @Column
+//    private Bill bill;
+//
+//    public Measurement setBill(Bill newBill){
+//        this.bill = newBill;
+//        return this;
+//    }
 
-    @Column
-    private Bill bill;
-
-    public Measurement setBill(Bill newBill){
-        this.bill = newBill;
-        return this;
-    }
-
-    @Column(columnDefinition = "boolean default false")
+    @Column//(columnDefinition = "boolean default false")
     private Boolean billed;
 
 }

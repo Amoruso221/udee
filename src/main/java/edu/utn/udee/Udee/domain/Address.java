@@ -43,6 +43,6 @@ public class Address {
     @JoinColumn(name="rate", nullable = false)
     Rate rate;
 
-    @Column
-    private List<Bill> bills;
+//    @Column
+//    private List<Bill> bills;
 }

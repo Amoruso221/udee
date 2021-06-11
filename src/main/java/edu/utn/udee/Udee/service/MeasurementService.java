@@ -22,6 +22,7 @@ public class MeasurementService {
     }
 
     public Measurement addMeasurement(Measurement measurement) {
+        measurement.setBilled(false);
         measurement.setDateTime(LocalDateTime.now());
         return measurementRepository.save(measurement);
     }

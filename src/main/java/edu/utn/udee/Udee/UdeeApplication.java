@@ -1,6 +1,5 @@
 package edu.utn.udee.Udee;
 
-import edu.utn.udee.Udee.domain.enums.Rol;
 import edu.utn.udee.Udee.filter.JWTAuthorizationFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

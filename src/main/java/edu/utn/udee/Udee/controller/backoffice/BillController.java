@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/backoffice/bill")
@@ -36,21 +37,16 @@ public class BillController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping(consumes = "application/json")
+    @GetMapping(value = "generate", produces = "application/json")
     public ResponseEntity<List<BillDto>> createAllBills() throws MeterNotExistsException {
         List<Meter> meterList = meterService.getAll();
-
-<<<<<<< HEAD
-   /*public  ResponseEntity<List<BillDto>> createAllBills(){
-        List<Meter> listMeters = meterService.getAll();
-=======
         List<Bill> billsList = billService.createAllBills(meterList);
->>>>>>> 18d787cff3e4afbb8dfd4a58f83fd27427922923
+        List<BillDto> billsDtoList = billsList.stream().map(x -> modelMapper.map(x, BillDto.class)).collect(Collectors.toList());
+        return ResponseEntity.status(billsDtoList.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).body(billsDtoList);
+        }
 
-        List<BillDto> billsDtoList = billsList.stream().map(x -> modelMapper.map(x, BillDto.class));
 
-<<<<<<< HEAD
-    //***ADD NEW***/
+        //***ADD NEW***//
     /*@PostMapping(consumes = "application/json")
     public ResponseEntity addBill (@RequestBody BillDto billDto)
             throws ClientNotExistsException, MeterNotExistsException{
@@ -68,10 +64,6 @@ public class BillController {
                 .toUri();
         return ResponseEntity.created(location).build();
     }*/
-=======
-        return ResponseEntity.ok()
-    }
->>>>>>> 18d787cff3e4afbb8dfd4a58f83fd27427922923
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<BillDto>> getAll(Pageable pageable){

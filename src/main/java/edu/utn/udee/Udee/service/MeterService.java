@@ -51,14 +51,6 @@ public class MeterService {
         return meterRepository.findByAddress(address);
     }
 
-    public List<Measurement> getUnbilledMeasurements (Meter meter) {
-        List<Measurement> unbilledMeasurements = meter.getMeasurements().stream()
-                .filter(x -> x.getBilled() == false).collect(Collectors.toList());
-//        this.measurements.stream().map(x -> x.setIdBill(idNewBill));
-        return unbilledMeasurements;
-    }
-
-
     public void deleteBySerialNumber(Integer serialNumber)
             throws MeterNotExistsException {
         if (meterRepository.existsById(serialNumber))

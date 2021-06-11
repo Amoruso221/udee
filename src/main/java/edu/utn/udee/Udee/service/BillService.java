@@ -1,12 +1,10 @@
 package edu.utn.udee.Udee.service;
 
-import edu.utn.udee.Udee.domain.*;
-<<<<<<< HEAD
-import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
-=======
-import edu.utn.udee.Udee.dto.BillDto;
->>>>>>> 18d787cff3e4afbb8dfd4a58f83fd27427922923
+import edu.utn.udee.Udee.domain.Bill;
+import edu.utn.udee.Udee.domain.Measurement;
+import edu.utn.udee.Udee.domain.Meter;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
+import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.repository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,7 +43,7 @@ public class BillService {
             Double totalMeasurement = measurementList.stream().mapToDouble(x->x.getKwh()).sum();
 
             Bill newBill = Bill.builder().
-                    fullName(meter.getAddress().getClient().getName() + ' ' + meter.getAddress().getClient().getSurname()).
+                    fullName(meter.getAddress().getClient().getName() + " " + meter.getAddress().getClient().getSurname()).
                     address(meter.getAddress().getAddress()).
                     city(meter.getAddress().getCity()).
                     meterSerialNumber(meter.getSerialNumber()).
@@ -96,24 +94,24 @@ public class BillService {
         return billRepository.save(newBill);
     }*/
 
-    public void createAddressBill(Integer idAddress)
-            throws AddressNotExistsException {
-        Address address = addressService.findAddressById(idAddress);
-        Meter meter = meterService.getByAddress(address);
-        List<Measurement> measurements= meterService.getUnbilledMeasurements(meter);
-        Rate rate = address.getRate();
-        Double totalAmount = measurements.stream().mapToDouble() * rate;
-        Bill newBill = Bill.builder().
-                client(address.getClient()).
-                address(address).
-                meter(meter).
-                measurements(measurements).
-                rate(rate).
-                totalAmount(totalAmount).
-//        Double totalAmount; // = totalMeasurement * amountRate
-//        Boolean paid;
-                build();
-    }
+//    public void createAddressBill(Integer idAddress)
+//            throws AddressNotExistsException {
+//        Address address = addressService.findAddressById(idAddress);
+//        Meter meter = meterService.getByAddress(address);
+//        List<Measurement> measurements= meterService.getUnbilledMeasurements(meter);
+//        Rate rate = address.getRate();
+//        Double totalAmount = measurements.stream().mapToDouble(...) * rate;
+//        Bill newBill = Bill.builder().
+//                client(address.getClient()).
+//                address(address).
+//                meter(meter).
+//                measurements(measurements).
+//                rate(rate).
+//                totalAmount(totalAmount).
+////        Double totalAmount; // = totalMeasurement * amountRate
+////        Boolean paid;
+//                build();
+//    }
 
     public Page getAll(Pageable pageable) {
         return billRepository.findAll(pageable);

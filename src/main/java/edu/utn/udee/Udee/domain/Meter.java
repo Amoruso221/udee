@@ -27,9 +27,6 @@ public class Meter {
     @Column
     private String model;
 
-    @Column
-    private Double measurement;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "meter")
     private List<Measurement> measurements;
 

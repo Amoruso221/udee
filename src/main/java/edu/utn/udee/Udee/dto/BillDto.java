@@ -22,21 +22,31 @@ import java.util.List;
 public class BillDto {
 
     Integer id;
-    Client client;
-    Address address;
-    Meter meter;
-    List<Measurement> measurements;
-    Rate rate;
-    Double totalAmount; // = totalMeasurement * amountRate
+    String fullName;
+    String address;
+    String city;
+    Integer meterSerialNumber;
+    Double firstMeasurement;
+    Double lastMeasurement;
+    LocalDateTime firstMeasurementDateTime;
+    LocalDateTime lastMeasurementDateTime;
+    Double totalMeasurementKwh;
+    String rate; //rate type
+    Double totalAmount;
     Boolean paid;
 
         public static BillDto from(Bill bill) {
             return BillDto.builder().
                     id(bill.getId()).
-                    client(bill.getClient()).
+                    fullName(bill.getFullName()).
                     address(bill.getAddress()).
-                    meter(bill.getMeter()).
-                    measurements(bill.getMeasurements()).
+                    city(bill.getCity()).
+                    meterSerialNumber(bill.getMeterSerialNumber()).
+                    firstMeasurement(bill.getFirstMeasurement()).
+                    lastMeasurement(bill.getLastMeasurement()).
+                    firstMeasurementDateTime(bill.getFirstMeasurementDateTime()).
+                    lastMeasurementDateTime(bill.getLastMeasurementDateTime()).
+                    totalMeasurementKwh(bill.getTotalMeasurementKwh()).
                     rate(bill.getRate()).
                     totalAmount(bill.getTotalAmount()).
                     paid(bill.getPaid()).

@@ -13,6 +13,5 @@ import java.util.List;
 public interface MeterRepository extends CrudRepository<Meter, Integer>{
 
     Page<Meter> findAll(Pageable pageable);
-    List<Meter> getAll();
 
 }

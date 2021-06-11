@@ -19,7 +19,6 @@ public class MeterDto {
     private Integer serialNumber;
     private String brand;
     private String model;
-    private Double measurement;
     private List<MeasurementDto> measurements;
     private AddressDto address;
 
@@ -30,8 +29,6 @@ public class MeterDto {
                 serialNumber(meter.getSerialNumber()).
                 brand(meter.getBrand()).
                 model(meter.getModel()).
-                measurement(meter.getMeasurement()).
-                //measurements(meter.getMeasurements()).
                 address(AddressDto.from(meter.getAddress())).
                 build();
     }

@@ -1,11 +1,9 @@
 package edu.utn.udee.Udee.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Columns;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,30 +21,39 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-
+    @Column
+    String fullName;
 
     @Column
-    Client client;
-
-
-    @Column
-    Rate rate;
-
-
+    String address;
 
     @Column
-    Meter meter;
+    String city;
 
     @Column
-    List<Measurement> measurements;
+    Integer meterSerialNumber;
 
+    @Column
+    Double firstMeasurement;
+
+    @Column
+    Double lastMeasurement;
+
+    @Column
+    LocalDateTime firstMeasurementDateTime;
+
+    @Column
+    LocalDateTime lastMeasurementDateTime;
+
+    @Column
+    Double totalMeasurementKwh;
+
+    @Column
+    String rate; //rate type
 
     @Column
     Double totalAmount;
 
     @Column(columnDefinition = "boolean default false")
     Boolean paid;
-
-    @Column
-    Address address;
 }

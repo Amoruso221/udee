@@ -36,21 +36,17 @@ public class BillController {
         this.modelMapper = modelMapper;
     }
 
-    private URI getLocation (Bill bill) {
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(bill.getId())
-                .toUri();
+    @GetMapping(consumes = "application/json")
+    public ResponseEntity<List<BillDto>> createAllBills() throws MeterNotExistsException {
+        List<Meter> meterList = meterService.getAll();
+
+        List<Bill> billsList = billService.createAllBills(meterList);
+
+        List<BillDto> billsDtoList = billsList.stream().map(x -> modelMapper.map(x, BillDto.class));
+
+        return ResponseEntity.ok()
     }
 
-   /* public  ResponseEntity<List<BillDto>> createAllBills(){
-        List<Meter> listMeters = meterService.getAll();
-
-
-    }*/
-
-    //***GET ALL***//
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<BillDto>> getAll(Pageable pageable){
         Page page = billService.getAll(pageable);
@@ -61,7 +57,6 @@ public class BillController {
                 body(page.getContent());
     }
 
-    //***GET BY ID***//
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<BillDto> getById (@PathVariable Integer id)
             throws BillNotExistsException {
@@ -69,7 +64,6 @@ public class BillController {
         return ResponseEntity.ok(BillDto.from(bill));
     }
 
-    //***DELETE BY ID***//
     @DeleteMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity deleteBill(@PathVariable Integer id)
             throws BillNotExistsException{
@@ -77,27 +71,12 @@ public class BillController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-
-    //***ADD NEW***//
-    /*@PostMapping(consumes = "application/json")
-    public ResponseEntity addBill (@RequestBody BillDto billDto)
-<<<<<<< HEAD:src/main/java/edu/utn/udee/Udee/controller/BillController.java
-            throws ClientNotExistsException, MeterNotExistsException{
-        Bill newbill = billService.addBill(modelMapper.map(billDto,Bill.class));
-        return ResponseEntity.created(getLocation(newbill)).build();
-    }
-=======
-            throws MeterNotExistsException {
-        Bill newbill = billService.addBill(Bill.builder().
-                meter(meterService.getBySerialNumber(billDto.getMeter().getSerialNumber())).
-                build());
-        URI location = ServletUriComponentsBuilder
+    private URI getLocation (Bill bill) {
+        return ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(newbill.getId())
+                .buildAndExpand(bill.getId())
                 .toUri();
-        return ResponseEntity.created(location).build();
-    }*/
-
+    }
 
 }

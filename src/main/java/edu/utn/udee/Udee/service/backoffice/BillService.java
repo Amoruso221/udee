@@ -1,4 +1,4 @@
-package edu.utn.udee.Udee.service;
+package edu.utn.udee.Udee.service.backoffice;
 
 import edu.utn.udee.Udee.domain.Bill;
 import edu.utn.udee.Udee.domain.Measurement;
@@ -6,11 +6,14 @@ import edu.utn.udee.Udee.domain.Meter;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.repository.BillRepository;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +66,23 @@ public class BillService {
         return newBillList;
     }
 
+    public Page getAll(Pageable pageable) {
+        return billRepository.findAll(pageable);
+    }
+
+    public Bill getById(Integer id)
+            throws BillNotExistsException {
+        return billRepository.findById(id).
+                orElseThrow(BillNotExistsException::new);
+    }
+
+    public void deleteById(Integer id)
+            throws BillNotExistsException {
+        if (billRepository.existsById(id))
+            billRepository.deleteById(id);
+        else throw new BillNotExistsException();
+    }
+
     /*public Bill addBill(Bill bill)
             throws ClientNotExistsException, MeterNotExistsException {
         Client client = clientService.findClientById(bill.getDniClient());
@@ -112,21 +132,4 @@ public class BillService {
 ////        Boolean paid;
 //                build();
 //    }
-
-    public Page getAll(Pageable pageable) {
-        return billRepository.findAll(pageable);
-    }
-
-    public Bill getById(Integer id)
-            throws BillNotExistsException {
-        return billRepository.findById(id).
-                orElseThrow(BillNotExistsException::new);
-    }
-
-    public void deleteById(Integer id)
-            throws BillNotExistsException {
-        if (billRepository.existsById(id))
-            billRepository.deleteById(id);
-        else throw new BillNotExistsException();
-    }
 }

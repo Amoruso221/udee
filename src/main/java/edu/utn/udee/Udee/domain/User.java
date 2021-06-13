@@ -28,4 +28,8 @@ public class User {
     @Column(name = "rol")
     @Enumerated(EnumType.STRING)
     Rol rol;
+
+    @OneToOne
+    @JoinColumn(name = "client", referencedColumnName = "id")
+    Client client;
 }

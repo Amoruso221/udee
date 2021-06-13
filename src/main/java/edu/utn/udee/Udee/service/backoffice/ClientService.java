@@ -1,4 +1,4 @@
-package edu.utn.udee.Udee.service;
+package edu.utn.udee.Udee.service.backoffice;
 
 import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.exceptions.ClientExistsException;

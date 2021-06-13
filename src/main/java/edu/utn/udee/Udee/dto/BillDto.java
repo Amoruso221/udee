@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,6 +23,8 @@ import java.util.List;
 public class BillDto {
 
     Integer id;
+    Integer dni;
+    LocalDate date;
     String fullName;
     String address;
     String city;
@@ -38,6 +41,8 @@ public class BillDto {
         public static BillDto from(Bill bill) {
             return BillDto.builder().
                     id(bill.getId()).
+                    dni(bill.getDni()).
+                    date(bill.getDate()).
                     fullName(bill.getFullName()).
                     address(bill.getAddress()).
                     city(bill.getCity()).

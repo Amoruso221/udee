@@ -4,11 +4,9 @@ import edu.utn.udee.Udee.domain.Bill;
 import edu.utn.udee.Udee.domain.Meter;
 import edu.utn.udee.Udee.dto.BillDto;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
-import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
-import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
-import edu.utn.udee.Udee.service.BillService;
-import edu.utn.udee.Udee.service.MeterService;
+import edu.utn.udee.Udee.service.backoffice.BillService;
+import edu.utn.udee.Udee.service.backoffice.MeterService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,7 +41,7 @@ public class BillController {
         List<Bill> billsList = billService.createAllBills(meterList);
         List<BillDto> billsDtoList = billsList.stream().map(x -> modelMapper.map(x, BillDto.class)).collect(Collectors.toList());
         return ResponseEntity.status(billsDtoList.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).body(billsDtoList);
-        }
+    }
 
 
         //***ADD NEW***//

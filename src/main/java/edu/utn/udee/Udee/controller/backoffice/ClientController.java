@@ -43,9 +43,9 @@ public class ClientController {
     }
 
 
-    @PutMapping(produces = "application/json")
-    public ResponseEntity editClient(@RequestBody ClientDto clientDto) throws ClientNotExistsException {
-        Client editedClient = clientService.editClient(modelMapper.map(clientDto, Client.class));
+    @PutMapping(path = "/{dni}", produces = "application/json")
+    public ResponseEntity editClient(@RequestBody ClientDto clientDto, @PathVariable Integer dni) throws ClientNotExistsException {
+        Client editedClient = clientService.editClient(modelMapper.map(clientDto, Client.class), dni);
         URI location = returnClientLocation(editedClient);
 
         return ResponseEntity.created(location).build();

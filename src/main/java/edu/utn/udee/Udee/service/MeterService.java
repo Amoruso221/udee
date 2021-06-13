@@ -58,6 +58,17 @@ public class MeterService {
         else throw new MeterNotExistsException();
     }
 
+    public Meter editMeter(Meter meter, Integer serialNumber)
+            throws MeterNotExistsException {
+        Meter editedMeter = this.getBySerialNumber(serialNumber);
+        editedMeter.setBrand(meter.getBrand());
+        editedMeter.setModel(meter.getModel());
+        editedMeter.setMeasurements(meter.getMeasurements());
+        editedMeter.setAddress(meter.getAddress());
+        meterRepository.save(editedMeter);
+        return editedMeter;
+    }
+
     public void addMeasurementToMeter(Integer serialNumber, Integer idMeasurement)
             throws MeterNotExistsException, MeasurementNotExistsException {
         if (meterRepository.existsById(serialNumber)) {
@@ -100,6 +111,4 @@ public class MeterService {
         meterRepository.save(editMeter);
 
     }
-
-
 }

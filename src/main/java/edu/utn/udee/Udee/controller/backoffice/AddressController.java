@@ -41,9 +41,9 @@ public class AddressController {
         return ResponseEntity.created(location).build();
     }
 
-    @PutMapping(consumes = "application/json")
-    public ResponseEntity editAddress(@RequestBody AddressDto addressDto) throws AddressNotExistsException {
-        Address editedAddress = addressService.editAddress(modelMapper.map(addressDto, Address.class));
+    @PutMapping(path = "/{id}", consumes = "application/json")
+    public ResponseEntity editAddress(@RequestBody AddressDto addressDto, @PathVariable Integer id) throws AddressNotExistsException {
+        Address editedAddress = addressService.editAddress(modelMapper.map(addressDto, Address.class), id);
         URI location = returnAddressLocation(editedAddress);
 
         return ResponseEntity.created(location).build();

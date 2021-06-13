@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/backoffice/measurement")
+@RequestMapping("/api/backoffice/measurements")
 public class MeasurementController {
 
     private final MeasurementService measurementService;

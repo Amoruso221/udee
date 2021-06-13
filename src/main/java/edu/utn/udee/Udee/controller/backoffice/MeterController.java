@@ -1,10 +1,8 @@
 package edu.utn.udee.Udee.controller.backoffice;
 
-import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.domain.Meter;
 import edu.utn.udee.Udee.dto.MeterDto;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
-import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.service.MeterService;
@@ -14,16 +12,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/backoffice/meter")
+@RequestMapping("/api/backoffice/meters")
 public class MeterController {
 
     private final MeterService meterService;
@@ -83,6 +79,15 @@ public class MeterController {
             throws MeterNotExistsException {
         meterService.deleteBySerialNumber(serialNumber);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    //***EDIT***//
+    @PutMapping(path = "/{serialNumber}", consumes = "application/json")
+    public ResponseEntity editMeter(@RequestBody MeterDto meterDto, @PathVariable Integer serialNumber)
+            throws MeterNotExistsException {
+        Meter meter = meterService.editMeter(modelMapper.map(meterDto, Meter.class), serialNumber);
+        URI location = getLocation(meter);
+        return ResponseEntity.created(location).build();
     }
 
     //***ADD MEASUREMENT***//

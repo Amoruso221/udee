@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/backoffice/rate")
+@RequestMapping("/api/backoffice/rates")
 public class RateController {
 
     private final RateService rateService;
@@ -74,6 +74,15 @@ public class RateController {
             throws RateNotExistsException {
         rateService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    //***EDIT***//
+    @PutMapping(path = "/{id}", consumes = "application/json")
+    public ResponseEntity editRate(@RequestBody RateDto rateDto, @PathVariable Integer id)
+            throws RateNotExistsException {
+        Rate rate = rateService.editRate(modelMapper.map(rateDto, Rate.class), id);
+        URI location = getLocation(rate);
+        return ResponseEntity.created(location).build();
     }
 
     //***ADD ADDRESS***//

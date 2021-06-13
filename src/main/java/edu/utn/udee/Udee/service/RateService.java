@@ -47,6 +47,15 @@ public class RateService {
         else throw new RateNotExistsException();
     }
 
+    public Rate editRate(Rate rate, Integer id)
+            throws  RateNotExistsException {
+        Rate editedRate = this.getById(id);
+        editedRate.setDescription(rate.getDescription());
+        editedRate.setAmount(rate.getAmount());
+        rateRepository.save(editedRate);
+        return editedRate;
+    }
+
     public void addAddressToRate(Integer idRate, Integer idAddress)
             throws RateNotExistsException, AddressNotExistsException {
         if (rateRepository.existsById(idRate)) {

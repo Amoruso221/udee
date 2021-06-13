@@ -4,8 +4,6 @@ import edu.utn.udee.Udee.domain.Bill;
 import edu.utn.udee.Udee.domain.Meter;
 import edu.utn.udee.Udee.dto.BillDto;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
-import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
-import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.service.BillService;
 import edu.utn.udee.Udee.service.MeterService;
@@ -23,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/backoffice/bill")
+@RequestMapping("/api/backoffice/bills")
 public class BillController {
 
     private final BillService billService;

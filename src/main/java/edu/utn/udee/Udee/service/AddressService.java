@@ -35,8 +35,8 @@ public class AddressService {
         addressRepository.deleteById(id);
     }
 
-    public Address editAddress(Address address) throws AddressNotExistsException {
-            Address editedAddress = addressRepository.findById(address.getId()).orElseThrow(AddressNotExistsException::new);
+    public Address editAddress(Address address, Integer id) throws AddressNotExistsException {
+            Address editedAddress = addressRepository.findById(id).orElseThrow(AddressNotExistsException::new);
 
             editedAddress.setCity(address.getCity());
             editedAddress.setClient(address.getClient());

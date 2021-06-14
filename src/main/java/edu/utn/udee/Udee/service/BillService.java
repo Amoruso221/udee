@@ -1,8 +1,6 @@
 package edu.utn.udee.Udee.service;
 
-import edu.utn.udee.Udee.domain.Bill;
-import edu.utn.udee.Udee.domain.Measurement;
-import edu.utn.udee.Udee.domain.Meter;
+import edu.utn.udee.Udee.domain.*;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.repository.BillRepository;
@@ -18,15 +16,11 @@ import java.util.List;
 public class BillService {
 
     private final BillRepository billRepository;
-    private final ClientService clientService;
-    private final AddressService addressService;
     private final MeterService meterService;
 
     @Autowired
-    public BillService(BillRepository billRepository, ClientService clientService, AddressService addressService, MeterService meterService) {
+    public BillService(BillRepository billRepository, MeterService meterService) {
         this.billRepository = billRepository;
-        this.clientService = clientService;
-        this.addressService = addressService;
         this.meterService = meterService;
     }
 
@@ -121,6 +115,26 @@ public class BillService {
             throws BillNotExistsException {
         return billRepository.findById(id).
                 orElseThrow(BillNotExistsException::new);
+    }
+
+    public List<Bill> addressDebt(Address address) {
+        List<Bill> unpaidBills = billRepository.findUnpaidByAddress(address.getAddress());
+//        List<Bill> bills = billRepository.findByAddress(address.getAddress());
+//        List<Bill> unpaidBills = bills.stream().
+//                filter(x -> x.getPaid() == false).collect(Collectors.toList());
+        return unpaidBills;
+    }
+
+    public List<Bill> clientBedt(Client client) {
+        List<Address> addresses = client.getAddress();
+        List<Bill> unpaidBills = new ArrayList<>();
+        for (Address address : addresses){
+            List<Bill> unpaidAddressBills = addressDebt(address);
+            for (Bill bill : unpaidAddressBills){
+                unpaidAddressBills.add(bill);
+            }
+        }
+        return unpaidBills;
     }
 
     public void deleteById(Integer id)

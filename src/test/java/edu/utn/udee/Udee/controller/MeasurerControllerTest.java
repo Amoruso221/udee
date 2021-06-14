@@ -2,7 +2,7 @@ package edu.utn.udee.Udee.controller;
 
 import edu.utn.udee.Udee.controller.backoffice.MeterController;
 import edu.utn.udee.Udee.dto.MeterDto;
-import edu.utn.udee.Udee.service.MeterService;
+import edu.utn.udee.Udee.service.backoffice.MeterService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

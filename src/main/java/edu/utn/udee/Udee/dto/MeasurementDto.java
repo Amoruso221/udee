@@ -1,7 +1,6 @@
 package edu.utn.udee.Udee.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import edu.utn.udee.Udee.domain.Bill;
 import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.domain.Meter;
 import lombok.AllArgsConstructor;

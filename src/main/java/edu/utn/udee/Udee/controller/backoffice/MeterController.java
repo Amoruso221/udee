@@ -5,7 +5,7 @@ import edu.utn.udee.Udee.dto.MeterDto;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
-import edu.utn.udee.Udee.service.MeterService;
+import edu.utn.udee.Udee.service.backoffice.MeterService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

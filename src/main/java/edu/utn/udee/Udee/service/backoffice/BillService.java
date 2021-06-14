@@ -1,4 +1,4 @@
-package edu.utn.udee.Udee.service;
+package edu.utn.udee.Udee.service.backoffice;
 
 import edu.utn.udee.Udee.domain.*;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
@@ -106,6 +106,7 @@ public class BillService {
 ////        Boolean paid;
 //                build();
 //    }
+
 
     public Page getAll(Pageable pageable) {
         return billRepository.findAll(pageable);

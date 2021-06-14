@@ -9,10 +9,10 @@ import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
-import edu.utn.udee.Udee.service.AddressService;
-import edu.utn.udee.Udee.service.BillService;
-import edu.utn.udee.Udee.service.ClientService;
-import edu.utn.udee.Udee.service.MeterService;
+import edu.utn.udee.Udee.service.backoffice.AddressService;
+import edu.utn.udee.Udee.service.backoffice.BillService;
+import edu.utn.udee.Udee.service.backoffice.ClientService;
+import edu.utn.udee.Udee.service.backoffice.MeterService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,7 +54,7 @@ public class BillController {
         return ResponseEntity.
                 status(billsDtoList.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
                 body(billsDtoList);
-        }
+    }
 
 
         //***ADD NEW***//

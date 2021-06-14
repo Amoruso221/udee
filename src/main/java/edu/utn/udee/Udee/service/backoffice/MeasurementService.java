@@ -1,4 +1,4 @@
-package edu.utn.udee.Udee.service;
+package edu.utn.udee.Udee.service.backoffice;
 
 import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;

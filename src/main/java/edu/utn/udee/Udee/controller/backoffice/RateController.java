@@ -5,7 +5,7 @@ import edu.utn.udee.Udee.dto.RateDto;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
 import edu.utn.udee.Udee.exceptions.RateExistsException;
 import edu.utn.udee.Udee.exceptions.RateNotExistsException;
-import edu.utn.udee.Udee.service.RateService;
+import edu.utn.udee.Udee.service.backoffice.RateService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

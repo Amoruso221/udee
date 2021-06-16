@@ -24,17 +24,12 @@ public class ClientDto {
     UserDto userDto;
 
     public static ClientDto from (Client client) {
-        User user = client.getUser();
         return ClientDto.builder().
                 id(client.getId()).
                 name(client.getName()).
                 surname(client.getSurname()).
                 dni(client.getDni()).
-                userDto(UserDto.builder().
-                        id(user.getId()).
-                        username(user.getUsername()).
-                        rol(user.getRol()).
-                        build()).
+                userDto(UserDto.from(client.getUser())).
                 build();
     }
 }

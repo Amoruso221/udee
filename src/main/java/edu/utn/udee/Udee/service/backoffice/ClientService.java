@@ -1,6 +1,7 @@
 package edu.utn.udee.Udee.service.backoffice;
 
 import edu.utn.udee.Udee.domain.Client;
+import edu.utn.udee.Udee.domain.User;
 import edu.utn.udee.Udee.exceptions.ClientExistsException;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.repository.ClientRepository;
@@ -55,4 +56,7 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 
+    public Client findClientByUser(User user) {
+        return clientRepository.findByUser(user);
+    }
 }

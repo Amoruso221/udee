@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface ClientBillRepository extends CrudRepository<Bill,Integer> {
 
-    @Query(value = "SELECT * FROM bills WHERE date >= :startDate AND date <= :endDate and :dni = dni", nativeQuery = true)
+    @Query(value = "SELECT * FROM bills WHERE date >= :startDate AND date <= :endDate and :id = id", nativeQuery = true)
     List<Bill> getAllBetweenDates(
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate,
-            @Param("dni") Integer dni);
+            @Param("id") Integer dni);
 }

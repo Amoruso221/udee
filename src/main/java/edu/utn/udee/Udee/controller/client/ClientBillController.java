@@ -1,9 +1,12 @@
 package edu.utn.udee.Udee.controller.client;
 
 import edu.utn.udee.Udee.domain.Bill;
+import edu.utn.udee.Udee.domain.Client;
+import edu.utn.udee.Udee.domain.User;
 import edu.utn.udee.Udee.dto.BillDto;
 import edu.utn.udee.Udee.service.UserService;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
+import edu.utn.udee.Udee.service.backoffice.ClientService;
 import edu.utn.udee.Udee.service.client.ClientBillService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +27,15 @@ import java.util.stream.Collectors;
 public class ClientBillController {
 
     private final ClientBillService clientBillService;
+    private final ClientService clientService;
     private final UserService userService;
     private final AddressService addressService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ClientBillController(ClientBillService clientBillService, UserService userService, AddressService addressService, ModelMapper modelMapper) {
+    public ClientBillController(ClientBillService clientBillService, ClientService clientService, UserService userService, AddressService addressService, ModelMapper modelMapper) {
         this.clientBillService = clientBillService;
+        this.clientService = clientService;
         this.userService = userService;
         this.addressService = addressService;
         this.modelMapper = modelMapper;
@@ -38,8 +43,9 @@ public class ClientBillController {
 
     @GetMapping(value = "/dates/{start}/{end}")
     public ResponseEntity<List<BillDto>> getBillsBetweenDates(@PathVariable(value = "start") @DateTimeFormat(pattern = "dd-MM-yyyy")  LocalDate startDate, @PathVariable(value = "end") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate, Authentication auth){
-        Integer dni = userService.getClientDni(auth);
-        List<Bill> billList = clientBillService.getBillsBetweenDates(startDate, endDate, dni);
+        User user = (User) auth.getPrincipal();
+        Client client = clientService.findClientByUser(user);
+        List<Bill> billList = clientBillService.getBillsBetweenDates(startDate, endDate, client.getId());
         List<BillDto> billDtoList = billList.stream().map(x -> modelMapper.map(x, BillDto.class)).collect(Collectors.toList());
 
         return ResponseEntity.ok(billDtoList);

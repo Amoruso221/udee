@@ -32,7 +32,8 @@ public class Client {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
     List<Address> address;
 
-    @OneToOne(mappedBy = "client")
+    @OneToOne
+    @JoinColumn(name = "user", referencedColumnName = "id")
     User user;
 
 }

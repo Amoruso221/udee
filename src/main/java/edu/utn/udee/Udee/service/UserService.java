@@ -1,6 +1,8 @@
 package edu.utn.udee.Udee.service;
 
+import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.domain.User;
+import edu.utn.udee.Udee.domain.enums.Rol;
 import edu.utn.udee.Udee.dto.UserDto;
 import edu.utn.udee.Udee.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,8 @@ public class UserService {
         return userRepository.findByUsernameAndPassword(username, password);
     }
 
-    public Integer getClientDni(Authentication auth) {
-        UserDto user = (UserDto) auth.getPrincipal();
-
-        return user.getClientDto().getDni();
+    public User addUser(Client client) {
+        User user = new User(client.getSurname(), client.getDni().toString(), Rol.ROLE_CLIENT);
+        return userRepository.save(user);
     }
 }

@@ -18,7 +18,7 @@ public class ClientBillService {
         this.clientBillRepository = clientBillRepository;
     }
 
-    public List<Bill> getBillsBetweenDates(LocalDate startDate, LocalDate endDate, Integer dni) {
-        return clientBillRepository.getAllBetweenDates(startDate, endDate, dni);
+    public List<Bill> getBillsBetweenDates(LocalDate startDate, LocalDate endDate, Integer id) {
+        return clientBillRepository.getAllBetweenDates(startDate, endDate, id);
     }
 }

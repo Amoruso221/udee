@@ -2,9 +2,11 @@ package edu.utn.udee.Udee.controller.backoffice;
 
 
 import edu.utn.udee.Udee.domain.Client;
+import edu.utn.udee.Udee.domain.User;
 import edu.utn.udee.Udee.dto.ClientDto;
 import edu.utn.udee.Udee.exceptions.ClientExistsException;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
+import edu.utn.udee.Udee.service.UserService;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
 import edu.utn.udee.Udee.service.backoffice.ClientService;
 import org.apache.coyote.Response;
@@ -27,20 +29,23 @@ public class ClientController {
 
     private final AddressService addressService;
     private final ClientService clientService;
+    private final UserService userService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ClientController (AddressService addressService, ClientService clientService, ModelMapper modelMapper){
+    public ClientController (AddressService addressService, ClientService clientService, UserService userService, ModelMapper modelMapper){
         this.addressService = addressService;
         this.clientService = clientService;
+        this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity addClient(@RequestBody ClientDto clientDto) throws ClientExistsException {
         Client newClient = clientService.addClient(modelMapper.map(clientDto, Client.class));
+        User user = userService.addUser(newClient);
+        newClient.setUser(user);
         URI location = returnClientLocation(newClient);
-
         return ResponseEntity.created(location).build();
     }
 

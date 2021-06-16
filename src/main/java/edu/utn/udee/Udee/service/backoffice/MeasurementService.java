@@ -1,6 +1,7 @@
 package edu.utn.udee.Udee.service.backoffice;
 
 import edu.utn.udee.Udee.domain.Measurement;
+import edu.utn.udee.Udee.domain.Meter;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.repository.MeasurementRepository;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class MeasurementService {
@@ -35,6 +37,10 @@ public class MeasurementService {
             throws MeasurementNotExistsException {
         return measurementRepository.findById(id).
                 orElseThrow(MeasurementNotExistsException::new);
+    }
+
+    public List<Measurement> getByMeterAndDateTimeRange(Integer meterSerialNumber, LocalDateTime beginDateTime, LocalDateTime endDateTime) {
+        return measurementRepository.findByMeterAndDateTimeRange(meterSerialNumber, beginDateTime, endDateTime);
     }
 
     public void deleteById(Integer id)

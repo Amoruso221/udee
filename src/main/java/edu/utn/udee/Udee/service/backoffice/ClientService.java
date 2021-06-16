@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClientService {
 
@@ -45,6 +47,10 @@ public class ClientService {
 
     public Page<Client> allClients(Pageable pageable){
         return clientRepository.findAll(pageable);
+    }
+
+    public List<Client> allClients(){
+        return (List<Client>) clientRepository.findAll();
     }
 
     public Client findClientById(Integer id) throws ClientNotExistsException {

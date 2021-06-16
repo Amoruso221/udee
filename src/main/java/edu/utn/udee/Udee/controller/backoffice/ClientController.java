@@ -7,6 +7,7 @@ import edu.utn.udee.Udee.exceptions.ClientExistsException;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
 import edu.utn.udee.Udee.service.backoffice.ClientService;
+import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -58,10 +60,15 @@ public class ClientController {
         return response(page);
     }
 
+    //***GET TEN CLIENTS MORE CONSUMERS BY DATETIME RANGE***//
+    @GetMapping(path = "/clients/{beginDateTime}/{endDateTime}", produces = "application/json")
+    public ResponseEntity<List<Client>> getTenMoreConsumersByDateTimeRange (@PathVariable LocalDateTime beginDateTime, @PathVariable LocalDateTime endDateTime){
+
+    }
+
     @DeleteMapping(value = "{id}", produces = "application/json")
     public ResponseEntity deleteClientById(@PathVariable(value = "id") Integer id) throws ClientNotExistsException {
         clientService.deleteClientById(id);
-
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

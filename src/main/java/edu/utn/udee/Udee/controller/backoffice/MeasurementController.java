@@ -1,9 +1,14 @@
 package edu.utn.udee.Udee.controller.backoffice;
 
+import edu.utn.udee.Udee.domain.Address;
 import edu.utn.udee.Udee.domain.Measurement;
+import edu.utn.udee.Udee.domain.Meter;
+import edu.utn.udee.Udee.dto.BillDto;
 import edu.utn.udee.Udee.dto.MeasurementDto;
+import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
+import edu.utn.udee.Udee.service.backoffice.AddressService;
 import edu.utn.udee.Udee.service.backoffice.MeasurementService;
 import edu.utn.udee.Udee.service.backoffice.MeterService;
 import org.modelmapper.ModelMapper;
@@ -16,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/backoffice/measurements")
@@ -24,12 +31,14 @@ public class MeasurementController {
 
     private final MeasurementService measurementService;
     private final MeterService meterService;
+    private final AddressService addressService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public MeasurementController(MeasurementService measurementService, MeterService meterService, ModelMapper modelMapper) {
+    public MeasurementController(MeasurementService measurementService, MeterService meterService, AddressService addressService, ModelMapper modelMapper) {
         this.measurementService = measurementService;
         this.meterService = meterService;
+        this.addressService = addressService;
         this.modelMapper = modelMapper;
     }
 
@@ -111,12 +120,33 @@ public class MeasurementController {
         return ResponseEntity.ok(MeasurementDto.from(measurement));
     }
 
+    //***GET BY ADDRESS AND DATETIME RANGE***//
+    @GetMapping(path = "/addresses/{idAddress}/{beginDateTime}/{endDateTime}", produces = "application/json")
+    public  ResponseEntity<List<MeasurementDto>> getByAddressAndDateTimeRange(@PathVariable Integer idAddress, @PathVariable LocalDateTime beginDateTime, @PathVariable LocalDateTime endDateTime)
+            throws AddressNotExistsException {
+        Address address = addressService.findAddressById(idAddress);
+        Meter meter = meterService.getByAddress(address);
+        List<Measurement> filteredMeasurements = measurementService.getByMeterAndDateTimeRange(meter.getSerialNumber(), beginDateTime, endDateTime);
+        List<MeasurementDto> filteredMeasurementsDto = listMeasurementsToDto(filteredMeasurements);
+        return ResponseEntity.
+                status(filteredMeasurementsDto.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
+                body(filteredMeasurementsDto);
+    }
+
     //***DELETE BY ID***//
     @DeleteMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity deleteMeasurement(@PathVariable Integer id)
             throws MeterNotExistsException {
         measurementService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+
+
+    private List<MeasurementDto> listMeasurementsToDto (List<Measurement> list){
+        return list.stream().
+                map(x -> modelMapper.map(x, MeasurementDto.class)).
+                collect(Collectors.toList());
     }
 
 }

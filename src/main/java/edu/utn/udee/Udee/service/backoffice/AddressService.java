@@ -60,7 +60,7 @@ public class AddressService {
         return addressRepository.findAddressByAddress(address);
     }
 
-    public List<Address> getAddressByClientId(Integer id){
+    public List<Address> findAddressByClientId(Integer id){
         return addressRepository.findAddressByClientId(id);
     }
 

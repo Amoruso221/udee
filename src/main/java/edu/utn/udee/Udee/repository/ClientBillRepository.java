@@ -17,4 +17,7 @@ public interface ClientBillRepository extends CrudRepository<Bill,Integer> {
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate,
             @Param("id") Integer dni);
+
+    @Query(value = "SELECT * FROM BILLS WHERE DNI = :dni and PAID = FALSE", nativeQuery = true)
+    List<Bill> findUnpaidBillsByDni(@Param("dni") Integer dni);
 }

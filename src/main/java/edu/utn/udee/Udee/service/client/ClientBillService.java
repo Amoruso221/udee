@@ -21,4 +21,8 @@ public class ClientBillService {
     public List<Bill> getBillsBetweenDates(LocalDate startDate, LocalDate endDate, Integer id) {
         return clientBillRepository.getAllBetweenDates(startDate, endDate, id);
     }
+
+    public List<Bill> getUnpaidBills(Integer dni) {
+        return clientBillRepository.findUnpaidBillsByDni(dni);
+    }
 }

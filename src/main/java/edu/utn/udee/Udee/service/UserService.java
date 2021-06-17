@@ -22,8 +22,8 @@ public class UserService {
         return userRepository.findByUsernameAndPassword(username, password);
     }
 
-    public User addUser(Client client) {
-        User user = new User(client.getSurname(), client.getDni().toString(), Rol.ROLE_CLIENT);
-        return userRepository.save(user);
+    public void addUser(Client client) {
+        User user = new User(client.getSurname(), client.getDni().toString(), Rol.ROLE_CLIENT, client.getId());
+        userRepository.save(user);
     }
 }

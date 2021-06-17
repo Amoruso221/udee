@@ -1,5 +1,6 @@
 package edu.utn.udee.Udee.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,9 +47,11 @@ public class Bill {
     Double lastMeasurement;
 
     @Column
+    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
     LocalDateTime firstMeasurementDateTime;
 
     @Column
+    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
     LocalDateTime lastMeasurementDateTime;
 
     @Column

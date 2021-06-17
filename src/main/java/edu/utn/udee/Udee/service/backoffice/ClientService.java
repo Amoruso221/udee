@@ -55,8 +55,4 @@ public class ClientService {
     public void deleteClientById(Integer id) throws ClientNotExistsException {
         clientRepository.deleteById(id);
     }
-
-    public Client findClientByUser(User user) {
-        return clientRepository.findByUser(user);
-    }
 }

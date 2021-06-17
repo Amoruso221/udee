@@ -12,5 +12,4 @@ public interface ClientRepository extends CrudRepository<Client, Integer> {
     Boolean existsByDni(Integer dni);
     Client getByDni(Integer dni);
     Page<Client> findAll(Pageable pageable);
-    Client findByUser(User user);
 }

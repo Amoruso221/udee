@@ -41,8 +41,7 @@ public class ClientController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity addClient(@RequestBody ClientDto clientDto) throws ClientExistsException {
         Client newClient = clientService.addClient(modelMapper.map(clientDto, Client.class));
-        User user = userService.addUser(newClient);
-        newClient.setUser(user);
+        userService.addUser(newClient);
         URI location = returnClientLocation(newClient);
         return ResponseEntity.created(location).build();
     }

@@ -29,14 +29,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     Rol rol;
 
-    /*@OneToOne
-    @JoinColumn(name = "client", referencedColumnName = "id")
-    Client client;*/
+    @Column
+    Integer client_id;
 
-    public User(String surname, String dni, Rol roleClient) {
+    public User(String surname, String dni, Rol roleClient, Integer client_id) {
         this.username = surname;
         this.password = dni;
         this.rol = roleClient;
-        //this.client = client;
+        this.client_id = client_id;
     }
 }

@@ -17,14 +17,14 @@ public class UserDto {
     Integer id;
     String username;
     Rol rol;
-    //ClientDto clientDto;
+    Integer client_id;
 
     public static  UserDto from (User user) {
         return UserDto.builder().
                 id(user.getId()).
                 username(user.getUsername()).
                 rol(user.getRol()).
-                //clientDto(ClientDto.from(user.getClient())).
+                client_id(user.getClient_id()).
                 build();
     }
 }

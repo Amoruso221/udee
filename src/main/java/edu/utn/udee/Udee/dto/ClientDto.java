@@ -21,7 +21,6 @@ public class ClientDto {
     String surname;
     Integer dni;
     List<AddressDto> address;
-    UserDto userDto;
 
     public static ClientDto from (Client client) {
         return ClientDto.builder().
@@ -29,7 +28,6 @@ public class ClientDto {
                 name(client.getName()).
                 surname(client.getSurname()).
                 dni(client.getDni()).
-                userDto(UserDto.from(client.getUser())).
                 build();
     }
 }

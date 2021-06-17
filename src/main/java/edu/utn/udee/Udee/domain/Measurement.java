@@ -1,6 +1,7 @@
 package edu.utn.udee.Udee.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,21 +27,13 @@ public class Measurement {
     private Double kwh;
 
     @Column
-    //@DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")   //(iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
     private LocalDateTime dateTime;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "measurer_serial_number", nullable = false)
     private Meter meter;
-//
-//    @Column
-//    private Bill bill;
-//
-//    public Measurement setBill(Bill newBill){
-//        this.bill = newBill;
-//        return this;
-//    }
 
     @Column//(columnDefinition = "boolean default false")
     private Boolean billed;

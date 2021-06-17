@@ -4,6 +4,7 @@ import edu.utn.udee.Udee.domain.Bill;
 import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.domain.User;
 import edu.utn.udee.Udee.dto.BillDto;
+import edu.utn.udee.Udee.dto.UserDto;
 import edu.utn.udee.Udee.service.UserService;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
 import edu.utn.udee.Udee.service.backoffice.ClientService;
@@ -43,17 +44,10 @@ public class ClientBillController {
 
     @GetMapping(value = "/dates/{start}/{end}")
     public ResponseEntity<List<BillDto>> getBillsBetweenDates(@PathVariable(value = "start") @DateTimeFormat(pattern = "dd-MM-yyyy")  LocalDate startDate, @PathVariable(value = "end") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate, Authentication auth){
-        User user = (User) auth.getPrincipal();
-        Client client = clientService.findClientByUser(user);
-        List<Bill> billList = clientBillService.getBillsBetweenDates(startDate, endDate, client.getId());
+        UserDto userDto = (UserDto) auth.getPrincipal();
+        List<Bill> billList = clientBillService.getBillsBetweenDates(startDate, endDate, userDto.getClient_id());
         List<BillDto> billDtoList = billList.stream().map(x -> modelMapper.map(x, BillDto.class)).collect(Collectors.toList());
 
         return ResponseEntity.ok(billDtoList);
-
-        /*List<Address> addressList = addressService.getAddressByClientId(id);
-        List<AddressDto> addressDtoList = addressList.stream().map(x -> modelMapper.map(x, AddressDto.class)).collect(Collectors.toList());*/
-
-
-
     }
 }

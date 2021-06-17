@@ -28,9 +28,12 @@ public class UdeeApplication {
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
 						.antMatchers(HttpMethod.POST, "/login").permitAll()
+						.antMatchers("/h2-console/**").permitAll()
 						.antMatchers("/api/backoffice/**").hasRole("BACKOFFICE")
 						.anyRequest().authenticated()
 						.and().httpBasic();
+
+			http.headers().frameOptions().disable();
 		}
 	}
 }

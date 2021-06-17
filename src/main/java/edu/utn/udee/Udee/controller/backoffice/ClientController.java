@@ -68,7 +68,7 @@ public class ClientController {
     //***GET TEN CLIENTS MORE CONSUMERS BY DATETIME RANGE***//
     @GetMapping(path = "/clients/{beginDateTime}/{endDateTime}", produces = "application/json")
     public ResponseEntity<List<Client>> getTenMoreConsumersByDateTimeRange (@PathVariable LocalDateTime beginDateTime, @PathVariable LocalDateTime endDateTime){
-
+        return null;
     }
 
     @DeleteMapping(value = "{id}", produces = "application/json")

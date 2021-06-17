@@ -15,11 +15,9 @@ public interface ClientRepository extends CrudRepository<Client, Integer> {
     Boolean existsByDni(Integer dni);
     Client getByDni(Integer dni);
     Page<Client> findAll(Pageable pageable);
-<<<<<<< HEAD
+    Client findByUser(User user);
 
     @Query(value = "select * from users s", nativeQuery = true)
     List<Client> findTenMoreConsumersByDateTimeRange();
-=======
-    Client findByUser(User user);
->>>>>>> b98df79daf9be1b67943a40c21e1d1a517123ef2
+
 }

@@ -12,9 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class MeterService {
@@ -94,23 +92,19 @@ public class MeterService {
         else throw new MeterNotExistsException();
     }
 
-    public List<Measurement> getUnbilledMeasurements (Meter meter) {
-        List<Measurement> unbilledMeasurements = meter.getMeasurements().stream()
-                .filter(x -> x.getBilled() == false).collect(Collectors.toList());
-        return unbilledMeasurements;
-    }
-
     public void setBilledMeasumerent(Meter meter) throws MeterNotExistsException{
 
-        Meter editMeter = getBySerialNumber(meter.getSerialNumber());
-
-        for (Measurement measurement: editMeter.getMeasurements()) {
-            if(measurement.getBilled() == false) {
-                measurement.setBilled(true);
+//        Meter editMeter = getBySerialNumber(meter.getSerialNumber());
+        if (meterRepository.existsById(meter.getSerialNumber())){
+            for (Measurement measurement: meter.getMeasurements()) {
+                if(measurement.getBilled() == false) {
+                    measurement.setBilled(true);
+                }
             }
         }
+        else throw new MeterNotExistsException();
 
-        meterRepository.save(editMeter);
+        meterRepository.save(meter);
 
     }
 }

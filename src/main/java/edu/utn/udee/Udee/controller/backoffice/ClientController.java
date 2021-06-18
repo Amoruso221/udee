@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/backoffice/clients")
@@ -66,8 +67,12 @@ public class ClientController {
 
     //***GET TEN CLIENTS MORE CONSUMERS BY DATETIME RANGE***//
     @GetMapping(path = "/clients/{beginDateTime}/{endDateTime}", produces = "application/json")
-    public ResponseEntity<List<Client>> getTenMoreConsumersByDateTimeRange (@PathVariable LocalDateTime beginDateTime, @PathVariable LocalDateTime endDateTime){
-        return null;
+    public ResponseEntity<List<ClientDto>> getTenMoreConsumersByDateTimeRange (@PathVariable LocalDateTime beginDateTime, @PathVariable LocalDateTime endDateTime){
+        List<Client> tenClientsMoreConsumers = clientService.getTenMoreConsumersByDateTimeRange(beginDateTime, endDateTime);
+        List<ClientDto> tenClientsMoreConsumersDto = listClientsToDto(tenClientsMoreConsumers);
+        return ResponseEntity.
+                status(tenClientsMoreConsumersDto.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
+                body(tenClientsMoreConsumersDto);
     }
 
     @DeleteMapping(value = "{id}", produces = "application/json")
@@ -115,5 +120,13 @@ public class ClientController {
     /*private ResponseEntity response(List list) {
         return ResponseEntity.status(list.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK).body(list);
     }*/
+
+
+
+    private List<ClientDto> listClientsToDto (List<Client> list){
+        return list.stream().
+                map(x -> modelMapper.map(x, ClientDto.class)).
+                collect(Collectors.toList());
+    }
 
 }

@@ -18,6 +18,6 @@ public class ClientControllerAdvice {
 
     @ExceptionHandler(value = {ClientNotExistsException.class})
     public ResponseEntity<ErrorMessage> clientNotExists(){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorMessage.builder().code("CNE").message("Client does no exist!").build());
     }
 }

@@ -4,6 +4,8 @@ import edu.utn.udee.Udee.domain.Address;
 import edu.utn.udee.Udee.dto.AddressDto;
 import edu.utn.udee.Udee.exceptions.AddressExistsException;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
+import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
+import edu.utn.udee.Udee.exceptions.RateNotExistsException;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
 import edu.utn.udee.Udee.service.backoffice.ClientService;
 import org.modelmapper.ModelMapper;
@@ -23,18 +25,17 @@ import java.util.List;
 public class AddressController {
 
     private final AddressService addressService;
-    private final ClientService clientService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public AddressController(AddressService addressService, ClientService clientService, ModelMapper modelMapper){
+    public AddressController(AddressService addressService, ModelMapper modelMapper){
         this.addressService = addressService;
-        this.clientService = clientService;
         this.modelMapper = modelMapper;
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity addAddress(@RequestBody AddressDto addressDto) throws AddressExistsException {
+    public ResponseEntity addAddress(@RequestBody AddressDto addressDto)
+            throws AddressExistsException, ClientNotExistsException, RateNotExistsException {
         Address newAddress = addressService.addAddress(modelMapper.map(addressDto, Address.class));
         URI location = returnAddressLocation(newAddress);
 

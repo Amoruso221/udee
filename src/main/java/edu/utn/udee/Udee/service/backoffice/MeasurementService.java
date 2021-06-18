@@ -1,7 +1,6 @@
 package edu.utn.udee.Udee.service.backoffice;
 
 import edu.utn.udee.Udee.domain.Measurement;
-import edu.utn.udee.Udee.domain.Meter;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.repository.MeasurementRepository;
@@ -41,6 +40,13 @@ public class MeasurementService {
 
     public List<Measurement> getByMeterAndDateTimeRange(Integer meterSerialNumber, LocalDateTime beginDateTime, LocalDateTime endDateTime) {
         return measurementRepository.findByMeterAndDateTimeRange(meterSerialNumber, beginDateTime, endDateTime);
+    }
+
+    public List<Measurement> getUnbilledMeasurements (Integer meterSerialNumber) {
+        List<Measurement> unbilledMeasurements = measurementRepository.getUnbilledMeasurements(meterSerialNumber);
+//        List<Measurement> unbilledMeasurements = meter.getMeasurements().stream()
+//                .filter(x -> x.getBilled() == false).collect(Collectors.toList());
+        return unbilledMeasurements;
     }
 
     public void deleteById(Integer id)

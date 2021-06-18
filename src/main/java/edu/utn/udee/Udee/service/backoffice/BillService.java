@@ -16,11 +16,13 @@ import java.util.List;
 public class BillService {
 
     private final BillRepository billRepository;
+    private final MeasurementService measurementService;
     private final MeterService meterService;
 
     @Autowired
-    public BillService(BillRepository billRepository, MeterService meterService) {
+    public BillService(BillRepository billRepository, MeasurementService measurementService, MeterService meterService) {
         this.billRepository = billRepository;
+        this.measurementService = measurementService;
         this.meterService = meterService;
     }
 
@@ -31,7 +33,7 @@ public class BillService {
         //verificar que el medidor tenga mediciones
         for (Meter meter: meterList) {
 
-            List<Measurement> measurementList = meterService.getUnbilledMeasurements(meter);
+            List<Measurement> measurementList = measurementService.getUnbilledMeasurements(meter.getSerialNumber());
 
                 meterService.setBilledMeasumerent(meter);
 

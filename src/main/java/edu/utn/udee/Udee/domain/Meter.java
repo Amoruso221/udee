@@ -30,6 +30,6 @@ public class Meter {
     private List<Measurement> measurements;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id_address")
     private Address address;
 }

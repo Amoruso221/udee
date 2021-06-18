@@ -1,7 +1,6 @@
 package edu.utn.udee.Udee.service.backoffice;
 
 import edu.utn.udee.Udee.domain.Client;
-import edu.utn.udee.Udee.domain.User;
 import edu.utn.udee.Udee.exceptions.ClientExistsException;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.repository.ClientRepository;
@@ -10,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -52,6 +52,10 @@ public class ClientService {
 
     public List<Client> allClients(){
         return (List<Client>) clientRepository.findAll();
+    }
+
+    public List<Client> getTenMoreConsumersByDateTimeRange (LocalDateTime beginDateTime, LocalDateTime endDateTime){
+        return clientRepository.findTenMoreConsumersByDateTimeRange(beginDateTime, endDateTime);
     }
 
     public Client findClientById(Integer id) throws ClientNotExistsException {

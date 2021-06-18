@@ -34,7 +34,7 @@ public class Address {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="client", nullable = false)
+    @JoinColumn(name="client_id", nullable = false)
     Client client;
 
     @JsonIgnore

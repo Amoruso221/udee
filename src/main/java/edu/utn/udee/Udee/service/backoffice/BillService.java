@@ -1,5 +1,6 @@
 package edu.utn.udee.Udee.service.backoffice;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import edu.utn.udee.Udee.domain.*;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
@@ -9,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Column;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +44,8 @@ public class BillService {
                 Double totalMeasurement = measurementList.stream().mapToDouble(x->x.getKwh()).sum();
 
                 Bill newBill = Bill.builder().
+                        dni(meter.getAddress().getClient().getDni()).
+                        date(LocalDate.now()).
                         fullName(meter.getAddress().getClient().getName() + " " + meter.getAddress().getClient().getSurname()).
                         address(meter.getAddress().getAddress()).
                         city(meter.getAddress().getCity()).
@@ -51,6 +57,7 @@ public class BillService {
                         totalMeasurementKwh(totalMeasurement).
                         rate(meter.getAddress().getRate().getDescription()).
                         totalAmount(totalMeasurement * meter.getAddress().getRate().getAmount()).
+                        paid(false).
                         build();
 
                 newBillList.add(newBill);

@@ -5,6 +5,7 @@ import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.domain.User;
 import edu.utn.udee.Udee.dto.BillDto;
 import edu.utn.udee.Udee.dto.UserDto;
+import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.service.UserService;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
 import edu.utn.udee.Udee.service.backoffice.ClientService;
@@ -46,6 +47,16 @@ public class ClientBillController {
     public ResponseEntity<List<BillDto>> getBillsBetweenDates(@PathVariable(value = "start") @DateTimeFormat(pattern = "dd-MM-yyyy")  LocalDate startDate, @PathVariable(value = "end") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate, Authentication auth){
         UserDto userDto = (UserDto) auth.getPrincipal();
         List<Bill> billList = clientBillService.getBillsBetweenDates(startDate, endDate, userDto.getClient_id());
+        List<BillDto> billDtoList = billList.stream().map(x -> modelMapper.map(x, BillDto.class)).collect(Collectors.toList());
+
+        return ResponseEntity.ok(billDtoList);
+    }
+
+    @GetMapping(value="unpaid")
+    public ResponseEntity<List<BillDto>> getUnpaidBills(Authentication auth) throws ClientNotExistsException {
+        UserDto userDto = (UserDto) auth.getPrincipal();
+        Client client = clientService.findClientById(userDto.getClient_id());
+        List<Bill> billList = clientBillService.getUnpaidBills(client.getDni());
         List<BillDto> billDtoList = billList.stream().map(x -> modelMapper.map(x, BillDto.class)).collect(Collectors.toList());
 
         return ResponseEntity.ok(billDtoList);

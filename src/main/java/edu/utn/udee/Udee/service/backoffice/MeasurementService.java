@@ -43,7 +43,7 @@ public class MeasurementService {
     }
 
     public List<Measurement> getUnbilledMeasurements (Integer meterSerialNumber) {
-        List<Measurement> unbilledMeasurements = measurementRepository.getUnbilledMeasurements(meterSerialNumber);
+        List<Measurement> unbilledMeasurements = measurementRepository.findUnbilledMeasurements(meterSerialNumber);
 //        List<Measurement> unbilledMeasurements = meter.getMeasurements().stream()
 //                .filter(x -> x.getBilled() == false).collect(Collectors.toList());
         return unbilledMeasurements;

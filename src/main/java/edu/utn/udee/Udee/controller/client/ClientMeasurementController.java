@@ -1,12 +1,17 @@
 package edu.utn.udee.Udee.controller.client;
 
 import edu.utn.udee.Udee.domain.Address;
+import edu.utn.udee.Udee.domain.Measurement;
+import edu.utn.udee.Udee.dto.MeasurementDto;
+import edu.utn.udee.Udee.dto.MeterDto;
 import edu.utn.udee.Udee.dto.UserDto;
+import edu.utn.udee.Udee.projections.KwhAndAmount;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
 import edu.utn.udee.Udee.service.client.ClientMeasurementService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/client/measurements")
@@ -32,12 +39,39 @@ public class ClientMeasurementController {
         this.addressService = addressService;
     }
 
-    @GetMapping
-    public ResponseEntity totalKwhAndMoneyBetweenDates(@PathVariable(value = "start") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate startDate, @PathVariable(value = "end") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate, Authentication auth){
+    @GetMapping(value = "consumption/{start}/{end}", produces = "application/json")
+    public ResponseEntity<KwhAndAmount> totalKwhAndAmountBetweenDates(@PathVariable(value = "start") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate startDate,
+                                                                      @PathVariable(value = "end") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate,
+                                                                      Authentication auth){
         UserDto userDto = (UserDto) auth.getPrincipal();
-        List<Address> addressList = addressService.getAddressByClientId(userDto.getClient_id());
-        //falta terminar
+//        List<Address> addressList = addressService.getAddressByClientId(userDto.getClient_id());
+        KwhAndAmount kwhAndAmount = clientMeasurementService.getTotalKwhAndAmountBetweenDates(userDto.getClient_id(), startDate, endDate);
+        return ResponseEntity.ok(kwhAndAmount);
+    }
+
+    @GetMapping(value = "{start}/{end}", produces = "application/json")
+    public ResponseEntity<List<MeasurementDto>> getBetweenDates (@PathVariable(value = "start") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate startDate,
+                                                                 @PathVariable(value = "end") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate,
+                                                                 Authentication auth){
+        UserDto userDto = (UserDto) auth.getPrincipal();
+        List<Measurement> measurements = clientMeasurementService.getBetweenDates(userDto.getClient_id(), startDate, endDate);
+        List<MeasurementDto> measurementsDto = listMeasurementsToDtoIgnoreMeter(measurements);
+        return ResponseEntity.
+                status(measurementsDto.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
+                body(measurementsDto);
     }
 
 
+
+    private List<MeasurementDto> listMeasurementsToDtoIgnoreMeter (List<Measurement> list){
+        return list.stream().
+                map(x -> MeasurementDto.builder().
+                        idMeasurement(x.getIdMeasurement()).
+                        kwh(x.getKwh()).
+                        dateTime(x.getDateTime()).
+                        billed(x.getBilled()).
+                        build()).
+//                map(x -> modelMapper.map(x, MeasurementDto.class)).
+                collect(Collectors.toList());
+    }
 }

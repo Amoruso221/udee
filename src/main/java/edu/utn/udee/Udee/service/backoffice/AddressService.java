@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AddressService {
 
@@ -67,6 +69,7 @@ public class AddressService {
     public Address findAddressById(Integer id) throws AddressNotExistsException {
         return addressRepository.findById(id).orElseThrow(AddressNotExistsException::new);
     }
+
 
 //    public Address findAddressByAddress(String address){
 //        return addressRepository.findAddressByAddress(address);

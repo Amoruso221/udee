@@ -43,7 +43,7 @@ public class ClientBillController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping(value = "/dates/{start}/{end}")
+    @GetMapping(value = "/dates/{start}/{end}", produces = "application/json")
     public ResponseEntity<List<BillDto>> getBillsBetweenDates(@PathVariable(value = "start") @DateTimeFormat(pattern = "dd-MM-yyyy")  LocalDate startDate, @PathVariable(value = "end") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate, Authentication auth){
         UserDto userDto = (UserDto) auth.getPrincipal();
         List<Bill> billList = clientBillService.getBillsBetweenDates(startDate, endDate, userDto.getClient_id());
@@ -52,7 +52,7 @@ public class ClientBillController {
         return ResponseEntity.ok(billDtoList);
     }
 
-    @GetMapping(value="unpaid")
+    @GetMapping(value="unpaid", produces = "application/json")
     public ResponseEntity<List<BillDto>> getUnpaidBills(Authentication auth) throws ClientNotExistsException {
         UserDto userDto = (UserDto) auth.getPrincipal();
         Client client = clientService.findClientById(userDto.getClient_id());

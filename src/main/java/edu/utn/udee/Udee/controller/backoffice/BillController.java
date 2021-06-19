@@ -108,7 +108,7 @@ public class BillController {
     }
 
     //***CLIENT DEBT***//
-    @GetMapping(path = "/client/debt/{idClient}", produces = "application/json")
+    @GetMapping(path = "/clients/debt/{idClient}", produces = "application/json")
     public ResponseEntity<List<BillDto>> clientDebt (@PathVariable Integer idClient)
             throws ClientNotExistsException {
         Client client = clientService.findClientById(idClient);

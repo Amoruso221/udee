@@ -15,14 +15,14 @@ public interface MeasurementRepository extends CrudRepository<Measurement, Integ
 
     Page<Measurement> findAll(Pageable pageable);
 
-    @Query(value = "select * from measurements m " +
-            "where ms.meter_serial_number = ?1" +
-            "and m.dateTime between ?2 and ?3;",
+    @Query(value = "select * from measurements " +
+            "where meter_serial_number = ?1" +
+            "and date_time between ?2 and ?3;",
             nativeQuery = true)
     List<Measurement> findByMeterAndDateTimeRange(Integer meterSerialNumber, LocalDateTime beginDateTime, LocalDateTime endDateTime);
 
     @Query(value = "select * from measurements " +
             "where billed = false and meter_serial_number = ?1",
             nativeQuery = true)
-    List<Measurement> getUnbilledMeasurements(Integer meterSerialNumber);
+    List<Measurement> findUnbilledMeasurements(Integer meterSerialNumber);
 }

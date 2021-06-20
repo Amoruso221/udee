@@ -28,14 +28,12 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/api/backoffice/clients")
 public class ClientController {
 
-    private final AddressService addressService;
     private final ClientService clientService;
     private final UserService userService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ClientController (AddressService addressService, ClientService clientService, UserService userService, ModelMapper modelMapper){
-        this.addressService = addressService;
+    public ClientController (ClientService clientService, UserService userService, ModelMapper modelMapper){
         this.clientService = clientService;
         this.userService = userService;
         this.modelMapper = modelMapper;
@@ -81,7 +79,7 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    private URI returnClientLocation(Client client){
+    public URI returnClientLocation(Client client){
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

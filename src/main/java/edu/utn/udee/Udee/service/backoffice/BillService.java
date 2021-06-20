@@ -34,35 +34,37 @@ public class BillService {
 
         List<Bill> newBillList = new ArrayList<>();
 
-        //verificar que el medidor tenga mediciones
-        for (Meter meter: meterList) {
+            for (Meter meter : meterList) {
 
-            List<Measurement> measurementList = measurementService.getUnbilledMeasurements(meter.getSerialNumber());
+                List<Measurement> measurementList = measurementService.getUnbilledMeasurements(meter.getSerialNumber());
 
-                meterService.setBilledMeasumerent(meter);
+                if(measurementList.size() > 0) {
 
-                Double totalMeasurement = measurementList.stream().mapToDouble(x->x.getKwh()).sum();
+                    meterService.setBilledMeasumerent(meter);
 
-                Bill newBill = Bill.builder().
-                        dni(meter.getAddress().getClient().getDni()).
-                        date(LocalDate.now()).
-                        fullName(meter.getAddress().getClient().getName() + " " + meter.getAddress().getClient().getSurname()).
-                        address(meter.getAddress().getAddress()).
-                        city(meter.getAddress().getCity()).
-                        meterSerialNumber(meter.getSerialNumber()).
-                        firstMeasurement(measurementList.get(0).getKwh()).
-                        lastMeasurement(measurementList.get(measurementList.size() - 1).getKwh()).
-                        firstMeasurementDateTime(measurementList.get(0).getDateTime()).
-                        lastMeasurementDateTime(measurementList.get(measurementList.size() - 1).getDateTime()).
-                        totalMeasurementKwh(totalMeasurement).
-                        rate(meter.getAddress().getRate().getDescription()).
-                        totalAmount(totalMeasurement * meter.getAddress().getRate().getAmount()).
-                        paid(false).
-                        build();
+                    Double totalMeasurement = measurementList.stream().mapToDouble(x -> x.getKwh()).sum();
 
-                newBillList.add(newBill);
-                billRepository.save(newBill);
-        }
+                    Bill newBill = Bill.builder().
+                            dni(meter.getAddress().getClient().getDni()).
+                            date(LocalDate.now()).
+                            fullName(meter.getAddress().getClient().getName() + " " + meter.getAddress().getClient().getSurname()).
+                            address(meter.getAddress().getAddress()).
+                            city(meter.getAddress().getCity()).
+                            meterSerialNumber(meter.getSerialNumber()).
+                            firstMeasurement(measurementList.get(0).getKwh()).
+                            lastMeasurement(measurementList.get(measurementList.size() - 1).getKwh()).
+                            firstMeasurementDateTime(measurementList.get(0).getDateTime()).
+                            lastMeasurementDateTime(measurementList.get(measurementList.size() - 1).getDateTime()).
+                            totalMeasurementKwh(totalMeasurement).
+                            rate(meter.getAddress().getRate().getDescription()).
+                            totalAmount(totalMeasurement * meter.getAddress().getRate().getAmount()).
+                            paid(false).
+                            build();
+
+                    newBillList.add(newBill);
+                    billRepository.save(newBill);
+                }
+            }
 
         return newBillList;
     }

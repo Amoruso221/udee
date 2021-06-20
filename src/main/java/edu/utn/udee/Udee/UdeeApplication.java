@@ -30,6 +30,7 @@ public class UdeeApplication {
 						.antMatchers(HttpMethod.POST, "/login").permitAll()
 						.antMatchers("/h2-console/**").permitAll()
 						.antMatchers("/api/backoffice/**").hasRole("BACKOFFICE")
+						.antMatchers("/api/client/**").hasRole("CLIENT")
 						.anyRequest().authenticated()
 						.and().httpBasic();
 

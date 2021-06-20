@@ -3,10 +3,8 @@ package edu.utn.udee.Udee.service;
 import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.domain.User;
 import edu.utn.udee.Udee.domain.enums.Rol;
-import edu.utn.udee.Udee.dto.UserDto;
 import edu.utn.udee.Udee.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service

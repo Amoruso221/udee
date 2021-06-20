@@ -1,10 +1,10 @@
 package edu.utn.udee.Udee.controller.client;
 
-import edu.utn.udee.Udee.domain.Address;
 import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.dto.MeasurementDto;
-import edu.utn.udee.Udee.dto.MeterDto;
 import edu.utn.udee.Udee.dto.UserDto;
+import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
+import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.projections.KwhAndAmount;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
 import edu.utn.udee.Udee.service.client.ClientMeasurementService;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +41,8 @@ public class ClientMeasurementController {
     @GetMapping(value = "consumption/{start}/{end}", produces = "application/json")
     public ResponseEntity<KwhAndAmount> totalKwhAndAmountBetweenDates(@PathVariable(value = "start") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate startDate,
                                                                       @PathVariable(value = "end") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate,
-                                                                      Authentication auth){
+                                                                      Authentication auth)
+            throws AddressNotExistsException, MeterNotExistsException {
         UserDto userDto = (UserDto) auth.getPrincipal();
 //        List<Address> addressList = addressService.getAddressByClientId(userDto.getClient_id());
         KwhAndAmount kwhAndAmount = clientMeasurementService.getTotalKwhAndAmountBetweenDates(userDto.getClient_id(), startDate, endDate);

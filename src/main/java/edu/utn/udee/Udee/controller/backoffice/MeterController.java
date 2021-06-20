@@ -3,7 +3,7 @@ package edu.utn.udee.Udee.controller.backoffice;
 import edu.utn.udee.Udee.domain.Meter;
 import edu.utn.udee.Udee.dto.MeterDto;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
-import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
+import edu.utn.udee.Udee.exceptions.AddressWithMeterException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.service.backoffice.MeterService;
 import org.modelmapper.ModelMapper;
@@ -43,7 +43,8 @@ public class MeterController {
 
     //***ADD NEW***//
     @PostMapping(consumes = "application/json")
-    public ResponseEntity addMeter (@RequestBody MeterDto meterDto){
+    public ResponseEntity addMeter (@RequestBody MeterDto meterDto)
+            throws AddressNotExistsException, AddressWithMeterException {
 //        meterService.addMeter(Meter.builder().
 //                        serialNumber(meterDto.getSerialNumber()).
 //                        brand(meterDto.getBrand()).
@@ -59,7 +60,7 @@ public class MeterController {
     public ResponseEntity<List<MeterDto>> getAll(Pageable pageable){
             Page page = meterService.getAll(pageable);
             return ResponseEntity.
-                    status(HttpStatus.OK).
+                    status(page.getTotalElements() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
                     header("X-Total-Count", Long.toString(page.getTotalElements())).
                     header("X-Total-Pages", Long.toString(page.getTotalPages())).
                     body(page.getContent());
@@ -90,13 +91,13 @@ public class MeterController {
         return ResponseEntity.created(location).build();
     }
 
-    //***ADD MEASUREMENT***//
-    @PutMapping(path = "/{serialNumber}/measurements/{idMeasurement}", produces = "application/json")
-    public ResponseEntity addMeasurementToMeter (@PathVariable Integer serialNumber, @PathVariable Integer idMeasurement)
-            throws MeterNotExistsException, MeasurementNotExistsException {
-        meterService.addMeasurementToMeter(serialNumber, idMeasurement);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
+//    //***ADD MEASUREMENT***//
+//    @PutMapping(path = "/{serialNumber}/measurements/{idMeasurement}", produces = "application/json")
+//    public ResponseEntity addMeasurementToMeter (@PathVariable Integer serialNumber, @PathVariable Integer idMeasurement)
+//            throws MeterNotExistsException, MeasurementNotExistsException {
+//        meterService.addMeasurementToMeter(serialNumber, idMeasurement);
+//        return ResponseEntity.status(HttpStatus.OK).build();
+//    }
 
     //***ADD ADDRESS***//
     @PutMapping(path = "/{serialNumber}/addresses/{id}", produces = "application/json")

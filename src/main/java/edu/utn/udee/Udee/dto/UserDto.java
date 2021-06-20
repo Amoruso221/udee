@@ -1,7 +1,5 @@
 package edu.utn.udee.Udee.dto;
 
-import edu.utn.udee.Udee.domain.Address;
-import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.domain.User;
 import edu.utn.udee.Udee.domain.enums.Rol;
 import lombok.AllArgsConstructor;

@@ -4,6 +4,7 @@ import edu.utn.udee.Udee.domain.Address;
 import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.domain.Meter;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
+import edu.utn.udee.Udee.exceptions.AddressWithMeterException;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.repository.MeterRepository;
@@ -29,7 +30,14 @@ public class MeterService {
     }
 
 
-    public Meter addMeter(Meter meter) {
+    public Meter addMeter(Meter meter)
+            throws AddressNotExistsException, AddressWithMeterException{
+        if (meter.getAddress() != null) {
+            Address address = addressService.findAddressById(meter.getAddress().getId());
+            if (meterRepository.findByAddress(address) != null) {
+                throw new AddressWithMeterException();
+            }
+        }
         return meterRepository.save(meter);
     }
 

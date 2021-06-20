@@ -81,7 +81,7 @@ public class BillController {
     public ResponseEntity<List<BillDto>> getAll(Pageable pageable){
         Page page = billService.getAll(pageable);
         return ResponseEntity.
-                status(HttpStatus.OK).
+                status(page.getTotalElements() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
                 header("X-Total-Count", Long.toString(page.getTotalElements())).
                 header("X-Total-Pages", Long.toString(page.getTotalPages())).
                 body(page.getContent());

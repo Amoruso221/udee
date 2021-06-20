@@ -1,7 +1,6 @@
 package edu.utn.udee.Udee.repository;
 
 import edu.utn.udee.Udee.domain.Client;
-import edu.utn.udee.Udee.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;

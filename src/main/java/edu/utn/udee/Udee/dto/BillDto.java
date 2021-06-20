@@ -1,19 +1,14 @@
 package edu.utn.udee.Udee.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import edu.utn.udee.Udee.domain.*;
+import edu.utn.udee.Udee.domain.Bill;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor

@@ -2,7 +2,6 @@ package edu.utn.udee.Udee.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.utn.udee.Udee.domain.Client;
-import edu.utn.udee.Udee.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

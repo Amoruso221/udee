@@ -1,6 +1,5 @@
 package edu.utn.udee.Udee.service.backoffice;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import edu.utn.udee.Udee.domain.*;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
@@ -10,9 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Column;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,18 +28,12 @@ public class BillService {
     }
 
     public List<Bill> createAllBills(List<Meter> meterList) throws MeterNotExistsException {
-
         List<Bill> newBillList = new ArrayList<>();
-
-        //verificar que el medidor tenga mediciones
         for (Meter meter: meterList) {
-
             List<Measurement> measurementList = measurementService.getUnbilledMeasurements(meter.getSerialNumber());
-
+                if (measurementList.size() != 0){
                 meterService.setBilledMeasumerent(meter);
-
-                Double totalMeasurement = measurementList.stream().mapToDouble(x->x.getKwh()).sum();
-
+                Double totalMeasurement = measurementList.stream().mapToDouble(x -> x.getKwh()).sum();
                 Bill newBill = Bill.builder().
                         dni(meter.getAddress().getClient().getDni()).
                         date(LocalDate.now()).
@@ -59,11 +50,10 @@ public class BillService {
                         totalAmount(totalMeasurement * meter.getAddress().getRate().getAmount()).
                         paid(false).
                         build();
-
                 newBillList.add(newBill);
                 billRepository.save(newBill);
+            }
         }
-
         return newBillList;
     }
 

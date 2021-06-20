@@ -2,7 +2,6 @@ package edu.utn.udee.Udee.controller.client;
 
 import edu.utn.udee.Udee.domain.Bill;
 import edu.utn.udee.Udee.domain.Client;
-import edu.utn.udee.Udee.domain.User;
 import edu.utn.udee.Udee.dto.BillDto;
 import edu.utn.udee.Udee.dto.UserDto;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
@@ -13,6 +12,7 @@ import edu.utn.udee.Udee.service.client.ClientBillService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,7 +49,9 @@ public class ClientBillController {
         List<Bill> billList = clientBillService.getBillsBetweenDates(startDate, endDate, userDto.getClient_id());
         List<BillDto> billDtoList = billList.stream().map(x -> modelMapper.map(x, BillDto.class)).collect(Collectors.toList());
 
-        return ResponseEntity.ok(billDtoList);
+        return ResponseEntity.
+                status(billDtoList.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
+                body(billDtoList);
     }
 
     @GetMapping(value="unpaid", produces = "application/json")
@@ -59,6 +61,8 @@ public class ClientBillController {
         List<Bill> billList = clientBillService.getUnpaidBills(client.getDni());
         List<BillDto> billDtoList = billList.stream().map(x -> modelMapper.map(x, BillDto.class)).collect(Collectors.toList());
 
-        return ResponseEntity.ok(billDtoList);
+        return ResponseEntity.
+                status(billDtoList.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
+                body(billDtoList);
     }
 }

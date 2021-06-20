@@ -70,14 +70,15 @@ public class AddressService {
         return addressRepository.findById(id).orElseThrow(AddressNotExistsException::new);
     }
 
+    public List<Address> findAddressByClientId(Integer id){
+        return addressRepository.findAddressByClientId(id);
+    }
 
 //    public Address findAddressByAddress(String address){
 //        return addressRepository.findAddressByAddress(address);
 //    }
 //
-//    public List<Address> findAddressByClientId(Integer id){
-//        return addressRepository.findAddressByClientId(id);
-//    }
+
 
     /*public Address editAddress(Address address) throws AddressNotExistsException {
         if(addressRepository.)

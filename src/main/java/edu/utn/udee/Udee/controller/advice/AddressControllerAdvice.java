@@ -16,6 +16,11 @@ public class AddressControllerAdvice {
 
     @ExceptionHandler(value = {AddressNotExistsException.class})
     public ResponseEntity<ErrorMessage> addressNotExists(){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorMessage.builder().code("ANE").message("Address no exist!").build());
+    }
+
+    @ExceptionHandler(value = {AddressWithMeterException.class})
+    public ResponseEntity<ErrorMessage> addressWithMeter(){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorMessage.builder().code("AWM").message("The address already has a meter!").build());
     }
 }

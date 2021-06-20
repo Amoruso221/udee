@@ -7,7 +7,6 @@ import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.exceptions.RateNotExistsException;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
-import edu.utn.udee.Udee.service.backoffice.ClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

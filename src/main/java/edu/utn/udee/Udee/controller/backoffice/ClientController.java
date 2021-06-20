@@ -2,14 +2,12 @@ package edu.utn.udee.Udee.controller.backoffice;
 
 
 import edu.utn.udee.Udee.domain.Client;
-import edu.utn.udee.Udee.domain.User;
 import edu.utn.udee.Udee.dto.ClientDto;
 import edu.utn.udee.Udee.exceptions.ClientExistsException;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.service.UserService;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
 import edu.utn.udee.Udee.service.backoffice.ClientService;
-import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

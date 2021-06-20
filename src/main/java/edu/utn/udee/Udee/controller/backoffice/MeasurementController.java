@@ -3,10 +3,10 @@ package edu.utn.udee.Udee.controller.backoffice;
 import edu.utn.udee.Udee.domain.Address;
 import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.domain.Meter;
-import edu.utn.udee.Udee.dto.BillDto;
 import edu.utn.udee.Udee.dto.MeasurementDto;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
+import edu.utn.udee.Udee.exceptions.MeterIsRequiredException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
 import edu.utn.udee.Udee.service.backoffice.MeasurementService;
@@ -55,7 +55,9 @@ public class MeasurementController {
     //***ADD NEW***//
     @PostMapping(consumes = "application/json")
     public ResponseEntity addMeasurement (@RequestBody MeasurementDto measurementDto)
-            throws MeterNotExistsException {
+            throws MeterNotExistsException, MeterIsRequiredException {
+        if (measurementDto.getMeter() == null)
+            throw new MeterIsRequiredException();
         Measurement newMeasurement = measurementService.addMeasurement(Measurement.builder().
                     idMeasurement(measurementDto.getIdMeasurement()).
                     kwh(measurementDto.getKwh()).
@@ -106,7 +108,7 @@ public class MeasurementController {
     public ResponseEntity<List<MeasurementDto>> getAll(Pageable pageable){
         Page page = measurementService.getAll(pageable);
         return ResponseEntity.
-                status(HttpStatus.OK).
+                status(page.getTotalElements() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
                 header("X-Total-Count", Long.toString(page.getTotalElements())).
                 header("X-Total-Pages", Long.toString(page.getTotalPages())).
                 body(page.getContent());

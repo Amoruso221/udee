@@ -1,6 +1,5 @@
 package edu.utn.udee.Udee.service.backoffice;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import edu.utn.udee.Udee.domain.*;
 import edu.utn.udee.Udee.exceptions.BillNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
@@ -10,9 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Column;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,40 +28,33 @@ public class BillService {
     }
 
     public List<Bill> createAllBills(List<Meter> meterList) throws MeterNotExistsException {
-
         List<Bill> newBillList = new ArrayList<>();
 
-            for (Meter meter : meterList) {
-
-                List<Measurement> measurementList = measurementService.getUnbilledMeasurements(meter.getSerialNumber());
-
-                if(measurementList.size() > 0) {
-
-                    meterService.setBilledMeasumerent(meter);
-
-                    Double totalMeasurement = measurementList.stream().mapToDouble(x -> x.getKwh()).sum();
-
-                    Bill newBill = Bill.builder().
-                            dni(meter.getAddress().getClient().getDni()).
-                            date(LocalDate.now()).
-                            fullName(meter.getAddress().getClient().getName() + " " + meter.getAddress().getClient().getSurname()).
-                            address(meter.getAddress().getAddress()).
-                            city(meter.getAddress().getCity()).
-                            meterSerialNumber(meter.getSerialNumber()).
-                            firstMeasurement(measurementList.get(0).getKwh()).
-                            lastMeasurement(measurementList.get(measurementList.size() - 1).getKwh()).
-                            firstMeasurementDateTime(measurementList.get(0).getDateTime()).
-                            lastMeasurementDateTime(measurementList.get(measurementList.size() - 1).getDateTime()).
-                            totalMeasurementKwh(totalMeasurement).
-                            rate(meter.getAddress().getRate().getDescription()).
-                            totalAmount(totalMeasurement * meter.getAddress().getRate().getAmount()).
-                            paid(false).
-                            build();
-
-                    newBillList.add(newBill);
-                    billRepository.save(newBill);
-                }
+        for (Meter meter: meterList) {
+            List<Measurement> measurementList = measurementService.getUnbilledMeasurements(meter.getSerialNumber());
+                if (measurementList.size() != 0){
+                meterService.setBilledMeasumerent(meter);
+                Double totalMeasurement = measurementList.stream().mapToDouble(x -> x.getKwh()).sum();
+                Bill newBill = Bill.builder().
+                        dni(meter.getAddress().getClient().getDni()).
+                        date(LocalDate.now()).
+                        fullName(meter.getAddress().getClient().getName() + " " + meter.getAddress().getClient().getSurname()).
+                        address(meter.getAddress().getAddress()).
+                        city(meter.getAddress().getCity()).
+                        meterSerialNumber(meter.getSerialNumber()).
+                        firstMeasurement(measurementList.get(0).getKwh()).
+                        lastMeasurement(measurementList.get(measurementList.size() - 1).getKwh()).
+                        firstMeasurementDateTime(measurementList.get(0).getDateTime()).
+                        lastMeasurementDateTime(measurementList.get(measurementList.size() - 1).getDateTime()).
+                        totalMeasurementKwh(totalMeasurement).
+                        rate(meter.getAddress().getRate().getDescription()).
+                        totalAmount(totalMeasurement * meter.getAddress().getRate().getAmount()).
+                        paid(false).
+                        build();
+                newBillList.add(newBill);
+                billRepository.save(newBill);
             }
+        }
 
         return newBillList;
     }

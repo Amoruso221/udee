@@ -1,5 +1,6 @@
 package edu.utn.udee.Udee.controller.backoffice;
 
+import edu.utn.udee.Udee.config.Conf;
 import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.dto.ClientDto;
 import edu.utn.udee.Udee.exceptions.ClientExistsException;
@@ -7,15 +8,23 @@ import edu.utn.udee.Udee.service.UserService;
 import edu.utn.udee.Udee.service.backoffice.ClientService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Conf.class)
 public class ClientControllerTest {
 
     private ClientController clientController;
@@ -57,14 +66,19 @@ public class ClientControllerTest {
                 .address(null)
                 .build();
 
+        PowerMockito.mockStatic(Conf.class);
         when(this.clientService.addClient(clientWithoutId)).thenReturn(clientWithId);
         doNothing().when(this.userService).addUser(clientWithId);
-        when(this.clientController.returnClientLocation(clientWithId)).thenReturn(URI.create("http://localhost:8080/api/backoffice/clients/1"));
+        when(Conf.getLocation(clientWithId)).thenReturn(URI.create("http://localhost:8080/api/backoffice/clients/1"));
 
         ResponseEntity responseEntity = this.clientController.addClient(clientDto);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        verify(this.userService, times(1)).addUser(clientWithId);
-
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        verify(userService, times(1)).addUser(any());
     }
+
+    /*@Test(expected = ClientExistsException.class)
+    public void testAddClientException() throws ClientExistsException{
+
+    }*/
 }

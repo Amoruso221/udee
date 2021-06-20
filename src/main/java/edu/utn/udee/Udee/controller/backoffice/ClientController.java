@@ -1,12 +1,12 @@
 package edu.utn.udee.Udee.controller.backoffice;
 
 
+import edu.utn.udee.Udee.config.Conf;
 import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.dto.ClientDto;
 import edu.utn.udee.Udee.exceptions.ClientExistsException;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.service.UserService;
-import edu.utn.udee.Udee.service.backoffice.AddressService;
 import edu.utn.udee.Udee.service.backoffice.ClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -41,17 +40,15 @@ public class ClientController {
     public ResponseEntity addClient(@RequestBody ClientDto clientDto) throws ClientExistsException {
         Client newClient = clientService.addClient(modelMapper.map(clientDto, Client.class));
         userService.addUser(newClient);
-        URI location = returnClientLocation(newClient);
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(Conf.getLocation(newClient)).build();
     }
 
 
     @PutMapping(path = "/{dni}", produces = "application/json")
     public ResponseEntity editClient(@RequestBody ClientDto clientDto, @PathVariable Integer dni) throws ClientNotExistsException {
         Client editedClient = clientService.editClient(modelMapper.map(clientDto, Client.class), dni);
-        URI location = returnClientLocation(editedClient);
 
-        return ResponseEntity.created(location).build();
+        return  ResponseEntity.ok().build();
     }
 
 
@@ -77,7 +74,7 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    public URI returnClientLocation(Client client){
+    /*public URI returnClientLocation(Client client){
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -85,7 +82,7 @@ public class ClientController {
                 .toUri();
 
         return location;
-    }
+    }*/
 
     private ResponseEntity response(Page page) {
         HttpStatus httpStatus = page.getContent().isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;

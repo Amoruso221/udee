@@ -112,7 +112,7 @@ public class BillController {
     public ResponseEntity<List<BillDto>> clientDebt (@PathVariable Integer idClient)
             throws ClientNotExistsException {
         Client client = clientService.findClientById(idClient);
-        List<Bill> unbilledBills = billService.clientBedt(client);
+        List<Bill> unbilledBills = billService.clientDebt(client);
         List<BillDto> unbilledBillsDto = listBillToDto(unbilledBills);
         return ResponseEntity.
                 status(unbilledBillsDto.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).

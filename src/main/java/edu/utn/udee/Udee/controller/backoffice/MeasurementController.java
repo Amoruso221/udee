@@ -15,13 +15,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -123,12 +124,14 @@ public class MeasurementController {
     }
 
     //***GET BY ADDRESS AND DATETIME RANGE***//
-    @GetMapping(path = "/addresses/{idAddress}/{beginDateTime}/{endDateTime}", produces = "application/json")
-    public  ResponseEntity<List<MeasurementDto>> getByAddressAndDateTimeRange(@PathVariable Integer idAddress, @PathVariable LocalDateTime beginDateTime, @PathVariable LocalDateTime endDateTime)
-            throws AddressNotExistsException {
+    @GetMapping(value = "/addresses/{idAddress}/{start}/{end}", produces = "application/json")
+    public  ResponseEntity<List<MeasurementDto>> getByAddressAndDateTimeRange(@PathVariable Integer idAddress,
+                                                                              @PathVariable(value = "start") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate startDate,
+                                                                              @PathVariable(value = "end") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate)
+            throws AddressNotExistsException, MeterNotExistsException {
         Address address = addressService.findAddressById(idAddress);
         Meter meter = meterService.getByAddress(address);
-        List<Measurement> filteredMeasurements = measurementService.getByMeterAndDateTimeRange(meter.getSerialNumber(), beginDateTime, endDateTime);
+        List<Measurement> filteredMeasurements = measurementService.getByMeterAndDateTimeRange(meter.getSerialNumber(), startDate, endDate);
         List<MeasurementDto> filteredMeasurementsDto = listMeasurementsToDto(filteredMeasurements);
         return ResponseEntity.
                 status(filteredMeasurementsDto.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
@@ -147,7 +150,7 @@ public class MeasurementController {
 
     private List<MeasurementDto> listMeasurementsToDto (List<Measurement> list){
         return list.stream().
-                map(x -> modelMapper.map(x, MeasurementDto.class)).
+                map(x -> MeasurementDto.from(x)).
                 collect(Collectors.toList());
     }
 

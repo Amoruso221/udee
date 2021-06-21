@@ -1,11 +1,14 @@
 package edu.utn.udee.Udee.controller.backoffice;
 
+import edu.utn.udee.Udee.TestUtils.ClientTestUtils;
 import edu.utn.udee.Udee.config.Conf;
 import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.dto.ClientDto;
 import edu.utn.udee.Udee.exceptions.ClientExistsException;
+import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.service.UserService;
 import edu.utn.udee.Udee.service.backoffice.ClientService;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,11 +18,10 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
-
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -44,41 +46,54 @@ public class ClientControllerTest {
     @Test
     public void testAddClientOk() throws ClientExistsException {
 
-       ClientDto clientDto = ClientDto.builder()
-                .name("Matias")
-                .surname("Amoruso")
-                .dni(1234)
-                .address(null)
-                .build();
-
-        Client clientWithoutId = Client.builder()
-                .name("Matias")
-                .surname("Amoruso")
-                .dni(1234)
-                .address(null)
-                .build();
-
-        Client clientWithId = Client.builder()
-                .id(1)
-                .name("Matias")
-                .surname("Amoruso")
-                .dni(1234)
-                .address(null)
-                .build();
+        ClientDto clientDto = ClientTestUtils.getClientDto();
+        Client clientWithoutId = ClientTestUtils.getClientWithoutId();
+        Client clientWithId =ClientTestUtils.getClientWithId();
 
         PowerMockito.mockStatic(Conf.class);
-        when(this.clientService.addClient(clientWithoutId)).thenReturn(clientWithId);
-        doNothing().when(this.userService).addUser(clientWithId);
-        when(Conf.getLocation(clientWithId)).thenReturn(URI.create("http://localhost:8080/api/backoffice/clients/1"));
+        when(clientService.addClient(clientWithoutId)).thenReturn(clientWithId);
+        doNothing().when(userService).addUser(clientWithId);
 
-        ResponseEntity responseEntity = this.clientController.addClient(clientDto);
-
-        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        verify(userService, times(1)).addUser(any());
+        try {
+            ResponseEntity responseEntity = clientController.addClient(clientDto);
+            assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+            verify(userService, times(1)).addUser(any());
+        } catch (ClientExistsException e) {
+            Assert.fail("This test shouldn't throw an exception");
+        }
     }
 
-    /*@Test(expected = ClientExistsException.class)
-    public void testAddClientException() throws ClientExistsException{
+    @Test
+    public void testAddClientException() throws ClientExistsException {
+        when(clientService.addClient(any())).thenThrow(new ClientExistsException());
 
-    }*/
+        try {
+            ResponseEntity responseEntity = clientController.addClient(ClientTestUtils.getClientDto());
+            Assert.fail("It should throw ClientExistException");
+        } catch (ClientExistsException e) {
+            assertThat(e, instanceOf(ClientExistsException.class));
+        }
+    }
+
+    @Test
+    public void testEditClientOk() throws ClientNotExistsException {
+        when(clientService.editClient(ClientTestUtils.getClientWithoutId(), 1234)).thenReturn(ClientTestUtils.getClientWithoutId());
+
+        ResponseEntity responseEntity = clientController.editClient(ClientTestUtils.getClientDto(), 1234);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
+
+    @Test
+    public void testEditClientException() throws ClientNotExistsException {
+        when(clientService.editClient(any(),any())).thenThrow(new ClientNotExistsException());
+
+        try {
+            ResponseEntity responseEntity = clientController.editClient(ClientTestUtils.getClientDto(), 9999);
+            Assert.fail("It should throw ClientNotExistException");
+        } catch (ClientNotExistsException e) {
+            assertThat(e, instanceOf(ClientNotExistsException.class));
+        }
+    }
+
 }

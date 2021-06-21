@@ -34,7 +34,7 @@ public class ClientService {
         if(clientRepository.existsByDni(dni)){
             Client editedClient = clientRepository.getByDni(dni);
 
-//            editedClient.setDni(client.getDni());
+            editedClient.setDni(client.getDni());
             editedClient.setName(client.getName());
             editedClient.setSurname(client.getSurname());
 

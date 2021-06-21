@@ -1,5 +1,6 @@
 package edu.utn.udee.Udee.domain;
 
+import Intarfaces.URIinterface;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "meters")
-public class Meter {
+public class Meter implements URIinterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,4 +33,9 @@ public class Meter {
     @OneToOne
     @JoinColumn(name = "id_address", unique = true)
     private Address address;
+
+    @Override
+    public Integer getId() {
+        return serialNumber;
+    }
 }

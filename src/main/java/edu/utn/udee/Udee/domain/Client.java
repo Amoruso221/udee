@@ -1,5 +1,7 @@
 package edu.utn.udee.Udee.domain;
 
+import Intarfaces.URIinterface;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "clients")
-public class Client {
+public class Client implements URIinterface {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -31,4 +33,9 @@ public class Client {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
     List<Address> address;
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
 }

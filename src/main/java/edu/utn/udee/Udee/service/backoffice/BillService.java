@@ -29,6 +29,7 @@ public class BillService {
 
     public List<Bill> createAllBills(List<Meter> meterList) throws MeterNotExistsException {
         List<Bill> newBillList = new ArrayList<>();
+
         for (Meter meter: meterList) {
             List<Measurement> measurementList = measurementService.getUnbilledMeasurements(meter.getSerialNumber());
                 if (measurementList.size() != 0){
@@ -54,6 +55,7 @@ public class BillService {
                 billRepository.save(newBill);
             }
         }
+
         return newBillList;
     }
 

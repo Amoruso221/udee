@@ -1,12 +1,12 @@
 package edu.utn.udee.Udee.controller.backoffice;
 
 
+import edu.utn.udee.Udee.config.Conf;
 import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.dto.ClientDto;
 import edu.utn.udee.Udee.exceptions.ClientExistsException;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.service.UserService;
-import edu.utn.udee.Udee.service.backoffice.AddressService;
 import edu.utn.udee.Udee.service.backoffice.ClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -27,14 +26,12 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/api/backoffice/clients")
 public class ClientController {
 
-    private final AddressService addressService;
     private final ClientService clientService;
     private final UserService userService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ClientController (AddressService addressService, ClientService clientService, UserService userService, ModelMapper modelMapper){
-        this.addressService = addressService;
+    public ClientController (ClientService clientService, UserService userService, ModelMapper modelMapper){
         this.clientService = clientService;
         this.userService = userService;
         this.modelMapper = modelMapper;
@@ -44,17 +41,15 @@ public class ClientController {
     public ResponseEntity addClient(@RequestBody ClientDto clientDto) throws ClientExistsException {
         Client newClient = clientService.addClient(modelMapper.map(clientDto, Client.class));
         userService.addUser(newClient);
-        URI location = returnClientLocation(newClient);
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(Conf.getLocation(newClient)).build();
     }
 
 
     @PutMapping(path = "/{dni}", produces = "application/json")
     public ResponseEntity editClient(@RequestBody ClientDto clientDto, @PathVariable Integer dni) throws ClientNotExistsException {
         Client editedClient = clientService.editClient(modelMapper.map(clientDto, Client.class), dni);
-        URI location = returnClientLocation(editedClient);
 
-        return ResponseEntity.created(location).build();
+        return  ResponseEntity.ok().build();
     }
 
 
@@ -81,7 +76,7 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    private URI returnClientLocation(Client client){
+    /*public URI returnClientLocation(Client client){
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -89,7 +84,7 @@ public class ClientController {
                 .toUri();
 
         return location;
-    }
+    }*/
 
     private ResponseEntity response(Page page) {
         HttpStatus httpStatus = page.getContent().isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;

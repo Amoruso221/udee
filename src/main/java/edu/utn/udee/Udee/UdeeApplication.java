@@ -33,7 +33,11 @@ public class UdeeApplication {
 						.antMatchers(HttpMethod.POST, "/login").permitAll()
 						.antMatchers("/h2-console/**").permitAll()
 						.antMatchers("/api/backoffice/**").hasRole("BACKOFFICE")
+<<<<<<< HEAD
 						.antMatchers("/api/receiver").hasRole("RECEIVER")
+=======
+						.antMatchers("/api/client/**").hasRole("CLIENT")
+>>>>>>> d7416f719c45d155feb5b98a6750829e5f6ab75a
 						.anyRequest().authenticated()
 						.and().httpBasic();
 

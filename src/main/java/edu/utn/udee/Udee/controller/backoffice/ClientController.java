@@ -52,12 +52,11 @@ public class ClientController {
 
 
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<ClientDto>> allClients(Pageable pageable){
+    public ResponseEntity<List<Client>> allClients(Pageable pageable){
         Page page = clientService.allClients(pageable);
         return response(page);
     }
 
-    //***GET TEN CLIENTS MORE CONSUMERS BY DATETIME RANGE***//
     @GetMapping(path = "/clients/{beginDateTime}/{endDateTime}", produces = "application/json")
     public ResponseEntity<List<ClientDto>> getTenMoreConsumersByDateTimeRange (@PathVariable LocalDateTime beginDateTime, @PathVariable LocalDateTime endDateTime){
         List<Client> tenClientsMoreConsumers = clientService.getTenMoreConsumersByDateTimeRange(beginDateTime, endDateTime);
@@ -73,7 +72,7 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    private ResponseEntity response(Page page) {
+    public ResponseEntity response(Page page) {
         HttpStatus httpStatus = page.getContent().isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return ResponseEntity.
                 status(httpStatus).
@@ -82,7 +81,7 @@ public class ClientController {
                 body(page.getContent());
     }
 
-    private List<ClientDto> listClientsToDto (List<Client> list){
+    public List<ClientDto> listClientsToDto (List<Client> list){
         return list.stream().
                 map(x -> modelMapper.map(x, ClientDto.class)).
                 collect(Collectors.toList());

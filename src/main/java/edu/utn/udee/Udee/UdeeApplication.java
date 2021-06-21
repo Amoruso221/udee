@@ -10,9 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 
 @SpringBootApplication
 public class UdeeApplication {
@@ -33,11 +30,8 @@ public class UdeeApplication {
 						.antMatchers(HttpMethod.POST, "/login").permitAll()
 						.antMatchers("/h2-console/**").permitAll()
 						.antMatchers("/api/backoffice/**").hasRole("BACKOFFICE")
-<<<<<<< HEAD
-						.antMatchers("/api/receiver").hasRole("RECEIVER")
-=======
 						.antMatchers("/api/client/**").hasRole("CLIENT")
->>>>>>> d7416f719c45d155feb5b98a6750829e5f6ab75a
+						.antMatchers("/api/receiver").hasRole("RECEIVER")
 						.anyRequest().authenticated()
 						.and().httpBasic();
 

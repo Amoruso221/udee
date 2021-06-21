@@ -44,7 +44,6 @@ public class ClientMeasurementController {
                                                                       Authentication auth)
             throws AddressNotExistsException, MeterNotExistsException {
         UserDto userDto = (UserDto) auth.getPrincipal();
-//        List<Address> addressList = addressService.getAddressByClientId(userDto.getClient_id());
         KwhAndAmount kwhAndAmount = clientMeasurementService.getTotalKwhAndAmountBetweenDates(userDto.getClient_id(), startDate, endDate);
         return ResponseEntity.ok(kwhAndAmount);
     }
@@ -71,7 +70,6 @@ public class ClientMeasurementController {
                         dateTime(x.getDateTime()).
                         billed(x.getBilled()).
                         build()).
-//                map(x -> modelMapper.map(x, MeasurementDto.class)).
                 collect(Collectors.toList());
     }
 }

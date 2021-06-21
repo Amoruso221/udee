@@ -95,4 +95,5 @@ public class ClientControllerTest {
             assertThat(e, instanceOf(ClientNotExistsException.class));
         }
     }
+
 }

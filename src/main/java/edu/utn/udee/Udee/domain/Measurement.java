@@ -1,6 +1,7 @@
 package edu.utn.udee.Udee.domain;
 
 
+import Intarfaces.URIinterface;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "measurements")
-public class Measurement {
+public class Measurement implements URIinterface {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -38,4 +39,8 @@ public class Measurement {
     @Column//(columnDefinition = "boolean default false")
     private Boolean billed;
 
+    @Override
+    public Integer getId() {
+        return idMeasurement;
+    }
 }

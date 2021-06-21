@@ -1,5 +1,6 @@
 package edu.utn.udee.Udee.controller.backoffice;
 
+import edu.utn.udee.Udee.config.Conf;
 import edu.utn.udee.Udee.domain.Rate;
 import edu.utn.udee.Udee.dto.RateDto;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
@@ -13,9 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -31,25 +30,13 @@ public class RateController {
         this.modelMapper = modelMapper;
     }
 
-    private URI getLocation (Rate rate) {
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(rate.getId())
-                .toUri();
-    }
-
-
-
-    //***ADD NEW***//
     @PostMapping(consumes = "application/json")
     public ResponseEntity addRate (@RequestBody RateDto rateDto)
             throws RateExistsException {
         Rate newRate = rateService.addRate(modelMapper.map(rateDto, Rate.class));
-        return ResponseEntity.created(getLocation(newRate)).build();
+        return ResponseEntity.created(Conf.getLocation(newRate)).build();
     }
 
-    //***GET ALL***//
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<RateDto>> getAll(Pageable pageable){
         Page page = rateService.getAll(pageable);
@@ -60,7 +47,6 @@ public class RateController {
                 body(page.getContent());
     }
 
-    //***GET BY ID***//
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<RateDto> getById (@PathVariable Integer id)
             throws RateNotExistsException {
@@ -68,7 +54,6 @@ public class RateController {
         return ResponseEntity.ok(RateDto.from(rate));
     }
 
-    //***DELETE BY ID***//
     @DeleteMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity deleteRate(@PathVariable Integer id)
             throws RateNotExistsException {
@@ -76,16 +61,13 @@ public class RateController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    //***EDIT***//
     @PutMapping(path = "/{id}", consumes = "application/json")
     public ResponseEntity editRate(@RequestBody RateDto rateDto, @PathVariable Integer id)
             throws RateNotExistsException {
         Rate rate = rateService.editRate(modelMapper.map(rateDto, Rate.class), id);
-        URI location = getLocation(rate);
-        return ResponseEntity.created(location).build();
+        return  ResponseEntity.ok().build();
     }
 
-    //***ADD ADDRESS***//
     @PutMapping(path = "/{idRate}/addresses/{idAddress}", produces = "application/json")
     public ResponseEntity addAddressToRate (@PathVariable Integer idRate, @PathVariable Integer idAddress)
             throws RateNotExistsException, AddressNotExistsException {

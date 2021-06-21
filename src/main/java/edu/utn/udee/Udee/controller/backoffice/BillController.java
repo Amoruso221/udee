@@ -20,9 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,7 +43,6 @@ public class BillController {
         this.clientService = clientService;
     }
 
-    //***CREATE ALL***//
     @GetMapping(value = "generate", produces = "application/json")
     public ResponseEntity<List<BillDto>> createAllBills() throws MeterNotExistsException {
         List<Meter> meterList = meterService.getAll();
@@ -56,27 +53,6 @@ public class BillController {
                 body(billsDtoList);
     }
 
-
-        //***ADD NEW***//
-    /*@PostMapping(consumes = "application/json")
-    public ResponseEntity addBill (@RequestBody BillDto billDto)
-            throws ClientNotExistsException, MeterNotExistsException{
-        Bill newbill = billService.addBill(modelMapper.map(billDto,Bill.class));
-        return ResponseEntity.created(getLocation(newbill)).build();
-    }
-            throws MeterNotExistsException {
-        Bill newbill = billService.addBill(Bill.builder().
-                meter(meterService.getBySerialNumber(billDto.getMeter().getSerialNumber())).
-                build());
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newbill.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
-    }*/
-
-    //***GET ALL***//
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<BillDto>> getAll(Pageable pageable){
         Page page = billService.getAll(pageable);
@@ -87,7 +63,7 @@ public class BillController {
                 body(page.getContent());
     }
 
-    //***GET BY ID***//
+
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<BillDto> getById (@PathVariable Integer id)
             throws BillNotExistsException {
@@ -95,7 +71,6 @@ public class BillController {
         return ResponseEntity.ok(BillDto.from(bill));
     }
 
-    //***ADDRESS DEBT***//
     @GetMapping(path = "/addresses/debt/{idAddress}", produces = "application/json")
     public ResponseEntity<List<BillDto>> addressDebt (@PathVariable Integer idAddress)
             throws AddressNotExistsException {
@@ -107,7 +82,6 @@ public class BillController {
                 body(unbilledBillsDto);
     }
 
-    //***CLIENT DEBT***//
     @GetMapping(path = "/clients/debt/{idClient}", produces = "application/json")
     public ResponseEntity<List<BillDto>> clientDebt (@PathVariable Integer idClient)
             throws ClientNotExistsException {
@@ -124,16 +98,6 @@ public class BillController {
             throws BillNotExistsException{
         billService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-
-
-    private URI getLocation (Bill bill) {
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(bill.getId())
-                .toUri();
     }
 
     private List<BillDto> listBillToDto (List<Bill> list){

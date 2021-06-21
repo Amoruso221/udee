@@ -1,5 +1,6 @@
 package edu.utn.udee.Udee.domain;
 
+import Intarfaces.URIinterface;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "rates")
-public class Rate {
+public class Rate implements URIinterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +29,9 @@ public class Rate {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rate")
     private List<Address> addresses;
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
 }

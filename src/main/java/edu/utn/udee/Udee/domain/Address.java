@@ -1,5 +1,6 @@
 package edu.utn.udee.Udee.domain;
 
+import Intarfaces.URIinterface;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "addresses")
-public class Address {
+public class Address implements URIinterface {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -42,6 +43,9 @@ public class Address {
     @JoinColumn(name="rate", nullable = false)
     Rate rate;
 
-//    @Column
-//    private List<Bill> bills;
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
 }

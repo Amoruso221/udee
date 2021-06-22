@@ -1,0 +1,60 @@
+package edu.utn.udee.Udee.TestUtils;
+
+import edu.utn.udee.Udee.domain.Address;
+import edu.utn.udee.Udee.domain.Rate;
+import edu.utn.udee.Udee.dto.AddressDto;
+import edu.utn.udee.Udee.dto.RateDto;
+
+import java.util.Collections;
+
+public class AddressTestUtils {
+
+    public static AddressDto getAddressDtoReceived (){
+        return AddressDto.builder().
+                address("TestStreet 1234").
+                city("TestCity").
+                state("TestState").
+                country("TestCountry").
+                client(ClientTestUtils.getClientDtoWithId()).
+                rate(RateDto.builder().
+                        id(1).
+                        description("TestRateDescription").
+                        amount(1.0).
+                        addresses(Collections.emptyList()).
+                        build()).
+                build();
+    }
+
+    public static Address getAddressReceived (){
+        return Address.builder().
+                address("TestStreet 1234").
+                city("TestCity").
+                state("TestState").
+                country("TestCountry").
+                client(ClientTestUtils.getClientWithId()).
+                rate(Rate.builder().
+                        id(1).
+                        description("TestRateDescription").
+                        amount(1.0).
+                        addresses(Collections.emptyList()).
+                        build()).
+                build();
+    }
+
+    public static Address getAddressAdded (){
+        return Address.builder().
+                id(1).
+                address("TestStreet 1234").
+                city("TestCity").
+                state("TestState").
+                country("TestCountry").
+                client(ClientTestUtils.getClientWithId()).
+                rate(Rate.builder().
+                        id(1).
+                        description("TestRateDescription").
+                        amount(1.0).
+                        addresses(Collections.emptyList()).
+                        build()).
+                build();
+    }
+}

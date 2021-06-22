@@ -32,4 +32,14 @@ public class ClientTestUtils {
                 .address(null)
                 .build();
     }
+
+    public static ClientDto getClientDtoWithId(){
+        return ClientDto.builder()
+                .id(1)
+                .name("Matias")
+                .surname("Amoruso")
+                .dni(1234)
+                .address(null)
+                .build();
+    }
 }

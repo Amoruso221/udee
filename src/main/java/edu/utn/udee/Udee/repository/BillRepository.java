@@ -14,8 +14,6 @@ public interface BillRepository extends CrudRepository<Bill,Integer> {
 
     Page<Bill> findAll (Pageable pageable);
 
-//    List<Bill> findByAddress(String address);
-
     @Query(value = "select * from bills where address = ?1 and paid = false", nativeQuery = true)
     List<Bill> findUnpaidByAddress(String address);
 }

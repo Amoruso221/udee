@@ -17,12 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-<<<<<<< HEAD
-import java.net.URI;
 import java.time.LocalDate;
-=======
-import java.time.LocalDateTime;
->>>>>>> b59cf295aa136d5f2211cf9645bd5160d0c6c3d3
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,38 +87,7 @@ public class ClientController {
 
     private List<ClientDto> listClientsToDto (List<Client> list){
         return list.stream().
-<<<<<<< HEAD
                 map(x -> ClientDto.from(x)).
                 collect(Collectors.toList());
-//        return list.stream().
-//                map(x -> modelMapper.map(x, ClientDto.class)).
-//                collect(Collectors.toList());
     }
-
-    /*@GetMapping(value = "{id}", produces = "application/json")
-    public ResponseEntity<ClientDto> findClientById(@PathVariable(value = "id") Integer id) throws ClientNotExistsException {
-        Client client = clientService.findClientById(id);
-        return ResponseEntity.ok(ClientDto.from(client));
-    }*/
-
-    // privados
-
-    /*private ResponseEntity response(List list, Page page) {
-        HttpStatus status = !list.isEmpty() ? HttpStatus.OK : HttpStatus.NO_CONTENT;
-        return ResponseEntity.status(status).
-                header("X-Total-Count", Long.toString(page.getTotalElements())).
-                header("X-Total-Pages", Long.toString(page.getTotalPages())).
-                body(page.getContent());
-    }*/
-
-
-    /*private ResponseEntity response(List list) {
-        return ResponseEntity.status(list.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK).body(list);
-    }*/
-=======
-                map(x -> modelMapper.map(x, ClientDto.class)).
-                collect(Collectors.toList());
-    }
-
->>>>>>> b59cf295aa136d5f2211cf9645bd5160d0c6c3d3
 }

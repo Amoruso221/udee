@@ -21,12 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-<<<<<<< HEAD
-import java.net.URI;
 import java.time.LocalDate;
-=======
-import java.time.LocalDateTime;
->>>>>>> b59cf295aa136d5f2211cf9645bd5160d0c6c3d3
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,18 +74,13 @@ public class MeasurementController {
         return ResponseEntity.ok(MeasurementDto.from(measurement));
     }
 
-<<<<<<< HEAD
+
     //***GET BY ADDRESS AND DATETIME RANGE***//
     @GetMapping(value = "/addresses/{idAddress}/{start}/{end}", produces = "application/json")
     public  ResponseEntity<List<MeasurementDto>> getByAddressAndDateTimeRange(@PathVariable Integer idAddress,
                                                                               @PathVariable(value = "start") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate startDate,
                                                                               @PathVariable(value = "end") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate)
             throws AddressNotExistsException, MeterNotExistsException {
-=======
-    @GetMapping(path = "/addresses/{idAddress}/{beginDateTime}/{endDateTime}", produces = "application/json")
-    public  ResponseEntity<List<MeasurementDto>> getByAddressAndDateTimeRange(@PathVariable Integer idAddress, @PathVariable LocalDateTime beginDateTime, @PathVariable LocalDateTime endDateTime)
-            throws AddressNotExistsException {
->>>>>>> b59cf295aa136d5f2211cf9645bd5160d0c6c3d3
         Address address = addressService.findAddressById(idAddress);
         Meter meter = meterService.getByAddress(address);
         List<Measurement> filteredMeasurements = measurementService.getByMeterAndDateTimeRange(meter.getSerialNumber(), startDate, endDate);

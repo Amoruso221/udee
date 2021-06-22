@@ -36,7 +36,7 @@ public class ClientTestUtils {
                 .build();
     }
 
-<<<<<<< HEAD
+
     public static ClientDto getClientDtoWithId(){
         return ClientDto.builder()
                 .id(1)
@@ -46,7 +46,7 @@ public class ClientTestUtils {
                 .address(null)
                 .build();
     }
-=======
+
     public static List<Client> getClientsList(){
         List<Client> clientList = List.of(Client.builder().name("Matias").surname("Amoruso").dni(1234).address(null).build(),
                 Client.builder().name("Federico").surname("Mendez").dni(1234).address(null).build()
@@ -66,6 +66,4 @@ public class ClientTestUtils {
 
         return clientDtoList;
     }
-
->>>>>>> 04ec530bd2da5e8d5b50e9d9604cac6f89dcd908
 }

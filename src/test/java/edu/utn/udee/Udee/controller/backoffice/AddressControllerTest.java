@@ -4,27 +4,37 @@ import edu.utn.udee.Udee.config.Conf;
 import edu.utn.udee.Udee.domain.Address;
 import edu.utn.udee.Udee.dto.AddressDto;
 import edu.utn.udee.Udee.exceptions.AddressExistsException;
+import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
 import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.exceptions.RateNotExistsException;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.Collections;
+import java.util.List;
 
 import static edu.utn.udee.Udee.TestUtils.AddressTestUtils.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
 @PrepareForTest(Conf.class)
 public class AddressControllerTest {
 
@@ -34,32 +44,121 @@ public class AddressControllerTest {
     private ModelMapper modelMapper;
 
     @InjectMocks
-    private AddressController addressController = new AddressController(addressService, modelMapper);
+    private AddressController addressController;
 
-    /*@Before
-    public  void setUp{
+    @Before
+    public  void setUp(){
 
-    }*/
+    }
 
     @Test
     public void testAddAddressOk()
             throws AddressExistsException, ClientNotExistsException, RateNotExistsException {
-        //BEHAVIORS
-        AddressDto addressDtoReceived = getAddressDtoReceived();
-        Address addressReceived = getAddressReceived();
-        Address addressAdded = getAddressAdded();
-        when(modelMapper.map(addressDtoReceived, Address.class)).thenReturn(addressReceived);
-//        PowerMockito.mockStatic(Conf.class);
-        when(addressService.addAddress(addressReceived)).thenReturn(addressAdded);
+        //BEHAVIORS//
+        // when(modelMapper.map(addressDtoReceived, Address.class)).thenReturn(addressReceived);
+        PowerMockito.mockStatic(Conf.class);
+        when(addressService.addAddress(getAddressReceived())).thenReturn(getAddressAdded());
         try {
-            //EXECUTION
+            //EXECUTION//
             ResponseEntity responseEntity = addressController.addAddress(getAddressDtoReceived());
-            //ASSERTS
+            //ASSERTS//
             assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-            assertEquals("http://localhost:8080/api/backoffice/addresses/1", responseEntity.getHeaders().getLocation());
-        } catch (Exception e) {
-            fail("Unexpected Exception.");
+        } catch (Exception ex) {
+            fail("Unexpected Exception!");
         }
     }
 
+    @Test(expected = AddressExistsException.class)
+    public void testAddAddressExistsException()
+            throws AddressExistsException, ClientNotExistsException, RateNotExistsException{
+        when(addressService.addAddress(any())).thenThrow(new AddressExistsException());
+        ResponseEntity responseEntity = addressController.addAddress(getAddressDtoReceived());
+    }
+
+    @Test(expected = ClientNotExistsException.class)
+    public void testAddClientNotExistsException()
+            throws AddressExistsException, ClientNotExistsException, RateNotExistsException{
+        when(addressService.addAddress(any())).thenThrow(new ClientNotExistsException());
+        ResponseEntity responseEntity = addressController.addAddress(getAddressDtoReceived());
+    }
+
+    @Test(expected = RateNotExistsException.class)
+    public void testAddRateNotExistsException()
+            throws AddressExistsException, ClientNotExistsException, RateNotExistsException{
+        when(addressService.addAddress(any())).thenThrow(new RateNotExistsException());
+        ResponseEntity responseEntity = addressController.addAddress(getAddressDtoReceived());
+    }
+
+
+    @Test
+    public void testEditAddressOk ()
+            throws AddressNotExistsException {
+        when(addressService.editAddress(getAddressReceived(), 1)).thenReturn(getAddressAdded());
+        try{
+            ResponseEntity responseEntity = addressController.editAddress(getAddressDtoReceived(),1);
+            assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        }
+        catch (Exception ex){
+            fail("Unexpected Exception!");
+        }
+    }
+
+    @Test(expected = AddressNotExistsException.class)
+    public void testEditAddressNotExistsException()
+            throws AddressNotExistsException{
+        when(addressService.editAddress(any(),anyInt())).thenThrow(new AddressNotExistsException());
+        ResponseEntity responseEntity = addressController.editAddress(getAddressDtoReceived(),0);
+    }
+
+    @Test
+    public void testAllAddressOk(){
+        //BEHAVIORS//
+        Pageable pageable = PageRequest.of(1, 10);
+        Page<Address> mockedPage = mock(Page.class);
+        when(mockedPage.getTotalElements()).thenReturn(100L);
+        when(mockedPage.getTotalPages()).thenReturn(10);
+        when(mockedPage.getContent()).thenReturn(getAddressList());
+        when(addressService.allAddress(pageable)).thenReturn(mockedPage);
+        //EXECUTION//
+        ResponseEntity<List<AddressDto>> responseEntity = addressController.allAddress(pageable);
+        //ASSERTS//
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(100L, Long.parseLong(responseEntity.getHeaders().get("X-Total-Count").get(0)) );
+        assertEquals(10, Integer.parseInt(responseEntity.getHeaders().get("X-Total-Pages").get(0)) );
+        assertEquals(getAddressList(), responseEntity.getBody());
+    }
+
+    @Test
+    public void testAllAddressNoContent() {
+        //BEHAVIORS//
+        Pageable pageable = PageRequest.of(50, 10);
+        Page<Address> mockedPage = mock(Page.class);
+        when(mockedPage.getContent()).thenReturn(Collections.emptyList());
+        when(addressService.allAddress(pageable)).thenReturn(mockedPage);
+        //EXECUTION//
+        ResponseEntity<List<AddressDto>> responseEntity = addressController.allAddress(pageable);
+        //ASSERTS//
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+        Assertions.assertEquals(0, responseEntity.getBody().size());
+    }
+
+    @Test
+    public void testDeleteAddressByIdOk()
+            throws AddressNotExistsException{
+        doNothing().when(addressService).deleteAddressById(1);
+        try {
+            ResponseEntity responseEntity = addressController.deleteAddressById(1);
+            assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+            verify(addressService, times(1)).deleteAddressById(any());
+        } catch (AddressNotExistsException e) {
+            Assert.fail("Unexpected Exception!");
+        }
+    }
+
+    @Test(expected = AddressNotExistsException.class)
+    public void testDeleteAddressNotExistsException()
+            throws AddressNotExistsException{
+        doThrow(new AddressNotExistsException()).when(addressService).deleteAddressById(anyInt());
+        ResponseEntity responseEntity = addressController.deleteAddressById(0);
+    }
 }

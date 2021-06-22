@@ -12,11 +12,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,9 +59,11 @@ public class ClientController {
         return response(page);
     }
 
-    @GetMapping(path = "/clients/{beginDateTime}/{endDateTime}", produces = "application/json")
-    public ResponseEntity<List<ClientDto>> getTenMoreConsumersByDateTimeRange (@PathVariable LocalDateTime beginDateTime, @PathVariable LocalDateTime endDateTime){
-        List<Client> tenClientsMoreConsumers = clientService.getTenMoreConsumersByDateTimeRange(beginDateTime, endDateTime);
+    //***GET TEN CLIENTS MORE CONSUMERS BY DATETIME RANGE***//
+    @GetMapping(value = "topten/{start}/{end}", produces = "application/json")
+    public ResponseEntity<List<ClientDto>> getTenMoreConsumersByDateTimeRange (@PathVariable(value = "start") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate startDate,
+                                                                               @PathVariable(value = "end") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate){
+        List<Client> tenClientsMoreConsumers = clientService.getTenMoreConsumersByDateTimeRange(startDate, endDate);
         List<ClientDto> tenClientsMoreConsumersDto = listClientsToDto(tenClientsMoreConsumers);
         return ResponseEntity.
                 status(tenClientsMoreConsumersDto.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
@@ -83,8 +87,7 @@ public class ClientController {
 
     public List<ClientDto> listClientsToDto (List<Client> list){
         return list.stream().
-                map(x -> modelMapper.map(x, ClientDto.class)).
+                map(x -> ClientDto.from(x)).
                 collect(Collectors.toList());
     }
-
 }

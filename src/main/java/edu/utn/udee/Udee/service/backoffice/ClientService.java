@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -54,8 +54,8 @@ public class ClientService {
         return (List<Client>) clientRepository.findAll();
     }*/
 
-    public List<Client> getTenMoreConsumersByDateTimeRange (LocalDateTime beginDateTime, LocalDateTime endDateTime){
-        return clientRepository.findTenMoreConsumersByDateTimeRange(beginDateTime, endDateTime);
+    public List<Client> getTenMoreConsumersByDateTimeRange (LocalDate beginDate, LocalDate endDate){
+        return clientRepository.findTenMoreConsumersByDateTimeRange(beginDate, endDate);
     }
 
     public Client findClientById(Integer id) throws ClientNotExistsException {

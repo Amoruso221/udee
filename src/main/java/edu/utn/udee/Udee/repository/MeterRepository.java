@@ -13,14 +13,5 @@ public interface MeterRepository extends CrudRepository<Meter, Integer>{
 
     Page<Meter> findAll(Pageable pageable);
 
-
-//    @Query(
-//            value = "SELECT * FROM USERS u WHERE u.status = 1",
-//            nativeQuery = true)
-
-//SELECT column_name(s)
-//    FROM table1
-//    INNER JOIN table2
-//    ON table1.column_name = table2.column_name
     Meter findByAddress(Address address);
 }

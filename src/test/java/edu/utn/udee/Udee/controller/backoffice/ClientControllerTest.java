@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -136,9 +137,9 @@ public class ClientControllerTest {
         LocalDateTime beginDateTime = LocalDateTime.now();
         LocalDateTime endDateTime = LocalDateTime.now().plusMonths(1);
 
-        when(clientService.getTenMoreConsumersByDateTimeRange(beginDateTime, endDateTime)).thenReturn(ClientTestUtils.getClientsList());
+        when(clientService.getTenMoreConsumersByDateTimeRange(beginDateTime.toLocalDate(), endDateTime.toLocalDate())).thenReturn(ClientTestUtils.getClientsList());
 
-        ResponseEntity<List<ClientDto>> listResponseEntity = clientController.getTenMoreConsumersByDateTimeRange(beginDateTime, endDateTime);
+        ResponseEntity<List<ClientDto>> listResponseEntity = clientController.getTenMoreConsumersByDateTimeRange(beginDateTime.toLocalDate(), endDateTime.toLocalDate());
 
         assertEquals(HttpStatus.OK, listResponseEntity.getStatusCode());
     }
@@ -148,9 +149,9 @@ public class ClientControllerTest {
         LocalDateTime beginDateTime = LocalDateTime.now();
         LocalDateTime endDateTime = LocalDateTime.now().plusMonths(1);
 
-        when(clientService.getTenMoreConsumersByDateTimeRange(beginDateTime, endDateTime)).thenReturn(ClientTestUtils.getEmtyClientList());
+        when(clientService.getTenMoreConsumersByDateTimeRange(beginDateTime.toLocalDate(), endDateTime.toLocalDate())).thenReturn(ClientTestUtils.getEmtyClientList());
 
-        ResponseEntity<List<ClientDto>> listResponseEntity = clientController.getTenMoreConsumersByDateTimeRange(beginDateTime, endDateTime);
+        ResponseEntity<List<ClientDto>> listResponseEntity = clientController.getTenMoreConsumersByDateTimeRange(beginDateTime.toLocalDate(), endDateTime.toLocalDate());
 
         assertEquals(HttpStatus.NO_CONTENT, listResponseEntity.getStatusCode());
     }

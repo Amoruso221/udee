@@ -74,13 +74,13 @@ public class BillService {
         return unpaidBills;
     }
 
-    public List<Bill> clientBedt(Client client) {
+    public List<Bill> clientDebt(Client client) {
         List<Address> addresses = client.getAddress();
         List<Bill> unpaidBills = new ArrayList<>();
         for (Address address : addresses){
             List<Bill> unpaidAddressBills = addressDebt(address);
             for (Bill bill : unpaidAddressBills){
-                unpaidAddressBills.add(bill);
+                unpaidBills.add(bill);
             }
         }
         return unpaidBills;

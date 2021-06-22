@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +25,9 @@ public class MeasurementService {
 
     public Measurement addMeasurement(Measurement measurement) {
         measurement.setBilled(false);
-        measurement.setDateTime(LocalDateTime.now());
+        if (measurement.getDateTime() == null) {
+            measurement.setDateTime(LocalDateTime.now());
+        }
         return measurementRepository.save(measurement);
     }
 
@@ -38,8 +41,8 @@ public class MeasurementService {
                 orElseThrow(MeasurementNotExistsException::new);
     }
 
-    public List<Measurement> getByMeterAndDateTimeRange(Integer meterSerialNumber, LocalDateTime beginDateTime, LocalDateTime endDateTime) {
-        return measurementRepository.findByMeterAndDateTimeRange(meterSerialNumber, beginDateTime, endDateTime);
+    public List<Measurement> getByMeterAndDateTimeRange(Integer meterSerialNumber, LocalDate beginDate, LocalDate endDate) {
+        return measurementRepository.findByMeterAndDateTimeRange(meterSerialNumber, beginDate, endDate);
     }
 
     public List<Measurement> getUnbilledMeasurements (Integer meterSerialNumber) {

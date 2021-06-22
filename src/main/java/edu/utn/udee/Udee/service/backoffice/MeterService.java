@@ -3,10 +3,7 @@ package edu.utn.udee.Udee.service.backoffice;
 import edu.utn.udee.Udee.domain.Address;
 import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.domain.Meter;
-import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
-import edu.utn.udee.Udee.exceptions.AddressWithMeterException;
-import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
-import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
+import edu.utn.udee.Udee.exceptions.*;
 import edu.utn.udee.Udee.repository.MeterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -55,8 +52,12 @@ public class MeterService {
                 orElseThrow(MeterNotExistsException::new);
     }
 
-    public Meter getByAddress(Address address){
-        return meterRepository.findByAddress(address);
+    public Meter getByAddress(Address address) throws MeterNotExistsException {
+        Meter meter = meterRepository.findByAddress(address);
+        if (meter != null){
+            return meter;
+        }
+        else throw new MeterNotExistsException();
     }
 
     public void deleteBySerialNumber(Integer serialNumber)

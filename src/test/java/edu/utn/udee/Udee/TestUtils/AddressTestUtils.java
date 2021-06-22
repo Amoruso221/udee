@@ -88,4 +88,34 @@ public class AddressTestUtils {
                                 build()).
                         build());
     }
+
+    /*public static List<AddressDto> getAddressDtoList() {
+        return List.of(
+                AddressDto.builder().id(1).
+                        address("TestStreet 1234").
+                        city("TestCity").
+                        state("TestState").
+                        country("TestCountry").
+                        client(ClientTestUtils.getClientDto()).
+                        rate(RateDto.builder().
+                                id(1).
+                                description("TestRateDescription").
+                                amount(1.0).
+                                addresses(Collections.emptyList()).
+                                build()).
+                        build(),
+                AddressDto.builder().id(2).
+                        address("TestStreetTwo 1234").
+                        city("TestCityTwo").
+                        state("TestStateTwo").
+                        country("TestCountryTwo").
+                        client(ClientTestUtils.getClientDto()).
+                        rate(RateDto.builder().
+                                id(1).
+                                description("TestRateDescription").
+                                amount(1.0).
+                                addresses(Collections.emptyList()).
+                                build()).
+                        build());
+    }*/
 }

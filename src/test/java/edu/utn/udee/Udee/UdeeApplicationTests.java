@@ -1,12 +1,9 @@
 package edu.utn.udee.Udee;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
+//@SpringBootTest
 class UdeeApplicationTests {
 
-    @Test
+/*    @Test
     void contextLoads() {
-    }
+    }*/
 }

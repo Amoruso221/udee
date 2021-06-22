@@ -54,16 +54,22 @@ public class ClientController {
 
 
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<ClientDto>> allClients(Pageable pageable){
+    public ResponseEntity<List<Client>> allClients(Pageable pageable){
         Page page = clientService.allClients(pageable);
         return response(page);
     }
 
+<<<<<<< HEAD
     //***GET TEN CLIENTS MORE CONSUMERS BY DATETIME RANGE***//
     @GetMapping(value = "topten/{start}/{end}", produces = "application/json")
     public ResponseEntity<List<ClientDto>> getTenMoreConsumersByDateTimeRange (@PathVariable(value = "start") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate startDate,
                                                                                @PathVariable(value = "end") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate){
         List<Client> tenClientsMoreConsumers = clientService.getTenMoreConsumersByDateTimeRange(startDate, endDate);
+=======
+    @GetMapping(path = "/clients/{beginDateTime}/{endDateTime}", produces = "application/json")
+    public ResponseEntity<List<ClientDto>> getTenMoreConsumersByDateTimeRange (@PathVariable LocalDateTime beginDateTime, @PathVariable LocalDateTime endDateTime){
+        List<Client> tenClientsMoreConsumers = clientService.getTenMoreConsumersByDateTimeRange(beginDateTime, endDateTime);
+>>>>>>> 04ec530bd2da5e8d5b50e9d9604cac6f89dcd908
         List<ClientDto> tenClientsMoreConsumersDto = listClientsToDto(tenClientsMoreConsumers);
         return ResponseEntity.
                 status(tenClientsMoreConsumersDto.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
@@ -76,7 +82,7 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    private ResponseEntity response(Page page) {
+    public ResponseEntity response(Page page) {
         HttpStatus httpStatus = page.getContent().isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return ResponseEntity.
                 status(httpStatus).
@@ -85,7 +91,7 @@ public class ClientController {
                 body(page.getContent());
     }
 
-    private List<ClientDto> listClientsToDto (List<Client> list){
+    public List<ClientDto> listClientsToDto (List<Client> list){
         return list.stream().
                 map(x -> ClientDto.from(x)).
                 collect(Collectors.toList());

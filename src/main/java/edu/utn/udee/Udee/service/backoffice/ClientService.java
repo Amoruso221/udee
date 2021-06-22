@@ -50,9 +50,9 @@ public class ClientService {
         return clientRepository.findAll(pageable);
     }
 
-    public List<Client> allClients(){
+   /* public List<Client> allClients(){
         return (List<Client>) clientRepository.findAll();
-    }
+    }*/
 
     public List<Client> getTenMoreConsumersByDateTimeRange (LocalDate beginDate, LocalDate endDate){
         return clientRepository.findTenMoreConsumersByDateTimeRange(beginDate, endDate);
@@ -63,6 +63,7 @@ public class ClientService {
     }
 
     public void deleteClientById(Integer id) throws ClientNotExistsException {
-        clientRepository.deleteById(id);
+        Client client = clientRepository.findById(id).orElseThrow(ClientNotExistsException::new);
+        clientRepository.delete(client);
     }
 }

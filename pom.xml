@@ -114,11 +114,19 @@
 		</dependency>
 		<!-- fin prueba -->
 
+<<<<<<< HEAD
+=======
+		<!-- comentar para que funcione jacoco -->
+>>>>>>> 04ec530bd2da5e8d5b50e9d9604cac6f89dcd908
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+<<<<<<< HEAD
+=======
+		<!-- comentar para que funcione jacoco -->
+>>>>>>> 04ec530bd2da5e8d5b50e9d9604cac6f89dcd908
 
 		<dependency>
 			<groupId>junit</groupId>

@@ -9,7 +9,6 @@ import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.exceptions.RateNotExistsException;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -31,7 +30,8 @@ import java.util.List;
 import static edu.utn.udee.Udee.TestUtils.AddressTestUtils.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
@@ -45,11 +45,6 @@ public class AddressControllerTest {
 
     @InjectMocks
     private AddressController addressController;
-
-    @Before
-    public  void setUp(){
-
-    }
 
     @Test
     public void testAddAddressOk()
@@ -119,13 +114,18 @@ public class AddressControllerTest {
         when(mockedPage.getTotalPages()).thenReturn(10);
         when(mockedPage.getContent()).thenReturn(getAddressList());
         when(addressService.allAddress(pageable)).thenReturn(mockedPage);
-        //EXECUTION//
-        ResponseEntity<List<AddressDto>> responseEntity = addressController.allAddress(pageable);
-        //ASSERTS//
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(100L, Long.parseLong(responseEntity.getHeaders().get("X-Total-Count").get(0)) );
-        assertEquals(10, Integer.parseInt(responseEntity.getHeaders().get("X-Total-Pages").get(0)) );
-        assertEquals(getAddressList(), responseEntity.getBody());
+        try {
+            //EXECUTION//
+            ResponseEntity<List<AddressDto>> responseEntity = addressController.allAddress(pageable);
+            //ASSERTS//
+            assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+            assertEquals(100L, Long.parseLong(responseEntity.getHeaders().get("X-Total-Count").get(0)));
+            assertEquals(10, Integer.parseInt(responseEntity.getHeaders().get("X-Total-Pages").get(0)));
+            assertEquals(getAddressList(), responseEntity.getBody());
+        }
+        catch (Exception ex){
+            fail("Unexpected Exception!");
+        }
     }
 
     @Test
@@ -135,11 +135,16 @@ public class AddressControllerTest {
         Page<Address> mockedPage = mock(Page.class);
         when(mockedPage.getContent()).thenReturn(Collections.emptyList());
         when(addressService.allAddress(pageable)).thenReturn(mockedPage);
-        //EXECUTION//
-        ResponseEntity<List<AddressDto>> responseEntity = addressController.allAddress(pageable);
-        //ASSERTS//
-        Assertions.assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
-        Assertions.assertEquals(0, responseEntity.getBody().size());
+        try {
+            //EXECUTION//
+            ResponseEntity<List<AddressDto>> responseEntity = addressController.allAddress(pageable);
+            //ASSERTS//
+            Assertions.assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+            Assertions.assertEquals(0, responseEntity.getBody().size());
+        }
+        catch (Exception ex){
+            fail("Unexpected Exception!");
+        }
     }
 
     @Test

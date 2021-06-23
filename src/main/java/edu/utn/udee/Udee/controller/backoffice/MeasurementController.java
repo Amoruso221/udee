@@ -53,7 +53,6 @@ public class MeasurementController {
                     dateTime(measurementDto.getDateTime()).
                 meter(meterService.getBySerialNumber(measurementDto.getMeter().getSerialNumber())).
                     build());
-
         return ResponseEntity.created(Conf.getLocation(newMeasurement)).build();
     }
 

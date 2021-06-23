@@ -1,6 +1,6 @@
 package edu.utn.udee.Udee.config;
 
-import Intarfaces.URIinterface;
+import edu.utn.udee.Udee.Intarfaces.URIinterface;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

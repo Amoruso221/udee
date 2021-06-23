@@ -120,11 +120,11 @@ public class ClientControllerTest {
     }
 
     @Test
-    public void testGetTenMoreConsumersByDateTimeRangeOk(){
+    public void testGetTenMoreConsumersByDateRangeOk(){
         LocalDateTime beginDateTime = LocalDateTime.now();
         LocalDateTime endDateTime = LocalDateTime.now().plusMonths(1);
 
-        when(clientService.getTenMoreConsumersByDateTimeRange(beginDateTime.toLocalDate(), endDateTime.toLocalDate())).thenReturn(ClientTestUtils.getClientsList());
+        when(clientService.getTenMoreConsumersByDateRange(beginDateTime.toLocalDate(), endDateTime.toLocalDate())).thenReturn(ClientTestUtils.getClientsList());
 
         ResponseEntity<List<ClientDto>> listResponseEntity = clientController.getTenMoreConsumersByDateTimeRange(beginDateTime.toLocalDate(), endDateTime.toLocalDate());
 
@@ -132,11 +132,11 @@ public class ClientControllerTest {
     }
 
     @Test
-    public void testGetTenMoreConsumersByDateTimeRangeNonContent(){
+    public void testGetTenMoreConsumersByDateRangeNonContent(){
         LocalDateTime beginDateTime = LocalDateTime.now();
         LocalDateTime endDateTime = LocalDateTime.now().plusMonths(1);
 
-        when(clientService.getTenMoreConsumersByDateTimeRange(beginDateTime.toLocalDate(), endDateTime.toLocalDate())).thenReturn(ClientTestUtils.getEmptyClientList());
+        when(clientService.getTenMoreConsumersByDateRange(beginDateTime.toLocalDate(), endDateTime.toLocalDate())).thenReturn(ClientTestUtils.getEmptyClientList());
 
         ResponseEntity<List<ClientDto>> listResponseEntity = clientController.getTenMoreConsumersByDateTimeRange(beginDateTime.toLocalDate(), endDateTime.toLocalDate());
 

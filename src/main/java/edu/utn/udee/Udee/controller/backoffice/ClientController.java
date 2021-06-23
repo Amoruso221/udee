@@ -63,7 +63,7 @@ public class ClientController {
     @GetMapping(value = "topten/{start}/{end}", produces = "application/json")
     public ResponseEntity<List<ClientDto>> getTenMoreConsumersByDateTimeRange (@PathVariable(value = "start") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate startDate,
                                                                                @PathVariable(value = "end") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate){
-        List<Client> tenClientsMoreConsumers = clientService.getTenMoreConsumersByDateTimeRange(startDate, endDate);
+        List<Client> tenClientsMoreConsumers = clientService.getTenMoreConsumersByDateRange(startDate, endDate);
         List<ClientDto> tenClientsMoreConsumersDto = listClientsToDto(tenClientsMoreConsumers);
         return ResponseEntity.
                 status(tenClientsMoreConsumersDto.size() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).

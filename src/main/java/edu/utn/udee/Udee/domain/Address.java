@@ -1,6 +1,6 @@
 package edu.utn.udee.Udee.domain;
 
-import Intarfaces.URIinterface;
+import edu.utn.udee.Udee.Intarfaces.URIinterface;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -41,10 +41,11 @@ public class RateController {
     public ResponseEntity<List<RateDto>> getAll(Pageable pageable){
         Page page = rateService.getAll(pageable);
         return ResponseEntity.
-                status(page.getTotalElements() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
-                header("X-Total-Count", Long.toString(page.getTotalElements())).
-                header("X-Total-Pages", Long.toString(page.getTotalPages())).
-                body(page.getContent());
+                //status(page.getTotalElements() != 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT).
+                        status(page.getContent().isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK).
+                        header("X-Total-Count", Long.toString(page.getTotalElements())).
+                        header("X-Total-Pages", Long.toString(page.getTotalPages())).
+                        body(page.getContent());
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
@@ -68,10 +69,10 @@ public class RateController {
         return  ResponseEntity.ok().build();
     }
 
-    @PutMapping(path = "/{idRate}/addresses/{idAddress}", produces = "application/json")
+    /*@PutMapping(path = "/{idRate}/addresses/{idAddress}", produces = "application/json")
     public ResponseEntity addAddressToRate (@PathVariable Integer idRate, @PathVariable Integer idAddress)
             throws RateNotExistsException, AddressNotExistsException {
         rateService.addAddressToRate(idRate, idAddress);
         return ResponseEntity.status(HttpStatus.OK).build();
-    }
+    }*/
 }

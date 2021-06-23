@@ -24,9 +24,7 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -68,16 +66,10 @@ public class ClientControllerTest {
         }
     }
 
-    @Test
+    @Test(expected = ClientExistsException.class)
     public void testAddClientException() throws ClientExistsException {
         when(clientService.addClient(any())).thenThrow(new ClientExistsException());
-
-        try {
-            ResponseEntity responseEntity = clientController.addClient(ClientTestUtils.getClientDto());
-            Assert.fail("It should throw ClientExistException");
-        } catch (ClientExistsException e) {
-            assertThat(e, instanceOf(ClientExistsException.class));
-        }
+        ResponseEntity responseEntity = clientController.addClient(ClientTestUtils.getClientDto());
     }
 
     @Test
@@ -92,16 +84,10 @@ public class ClientControllerTest {
         }
     }
 
-    @Test
+    @Test(expected = ClientNotExistsException.class)
     public void testEditClientException() throws ClientNotExistsException {
         when(clientService.editClient(any(),any())).thenThrow(new ClientNotExistsException());
-
-        try {
-            ResponseEntity responseEntity = clientController.editClient(ClientTestUtils.getClientDto(), 9999);
-            Assert.fail("It should throw ClientNotExistException");
-        } catch (ClientNotExistsException e) {
-            assertThat(e, instanceOf(ClientNotExistsException.class));
-        }
+        ResponseEntity responseEntity = clientController.editClient(ClientTestUtils.getClientDto(), 9999);
     }
 
     @Test
@@ -119,10 +105,12 @@ public class ClientControllerTest {
     }
 
     @Test
-    public void testAllCientsHttpStatusNonContent(){
+    public void testAllClientsHttpStatusNonContent(){
         PageRequest pageable = PageRequest.of(50, 10);
         Page<Client> mockedPage = mock(Page.class);
-        when(mockedPage.getContent()).thenReturn(ClientTestUtils.getEmtyClientList());
+        when(mockedPage.getTotalElements()).thenReturn(100L);
+        when(mockedPage.getTotalPages()).thenReturn(10);
+        when(mockedPage.getContent()).thenReturn(ClientTestUtils.getEmptyClientList());
         when(clientService.allClients(pageable)).thenReturn(mockedPage);
 
         ResponseEntity<List<ClientDto>> responseEntity = clientController.allClients(pageable);
@@ -148,7 +136,7 @@ public class ClientControllerTest {
         LocalDateTime beginDateTime = LocalDateTime.now();
         LocalDateTime endDateTime = LocalDateTime.now().plusMonths(1);
 
-        when(clientService.getTenMoreConsumersByDateTimeRange(beginDateTime.toLocalDate(), endDateTime.toLocalDate())).thenReturn(ClientTestUtils.getEmtyClientList());
+        when(clientService.getTenMoreConsumersByDateTimeRange(beginDateTime.toLocalDate(), endDateTime.toLocalDate())).thenReturn(ClientTestUtils.getEmptyClientList());
 
         ResponseEntity<List<ClientDto>> listResponseEntity = clientController.getTenMoreConsumersByDateTimeRange(beginDateTime.toLocalDate(), endDateTime.toLocalDate());
 
@@ -168,16 +156,10 @@ public class ClientControllerTest {
         }
     }
 
-    @Test
+    @Test(expected = ClientNotExistsException.class)
     public void testDeleteClientByIdException() throws ClientNotExistsException {
         doThrow(new ClientNotExistsException()).when(clientService).deleteClientById(any());
-
-        try {
-            ResponseEntity responseEntity = clientController.deleteClientById(any());
-            Assert.fail("It should throw ClientNotExistException");
-        } catch (ClientNotExistsException e) {
-            assertThat(e, instanceOf(ClientNotExistsException.class));
-        }
+        ResponseEntity responseEntity = clientController.deleteClientById(any());
     }
 
 

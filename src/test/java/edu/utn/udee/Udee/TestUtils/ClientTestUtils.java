@@ -55,7 +55,7 @@ public class ClientTestUtils {
         return clientList;
     }
 
-    public static List<Client> getEmtyClientList(){
+    public static List<Client> getEmptyClientList(){
         return Collections.emptyList();
     }
 

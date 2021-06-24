@@ -50,11 +50,7 @@ public class ClientService {
         return clientRepository.findAll(pageable);
     }
 
-   /* public List<Client> allClients(){
-        return (List<Client>) clientRepository.findAll();
-    }*/
-
-    public List<Client> getTenMoreConsumersByDateTimeRange (LocalDate beginDate, LocalDate endDate){
+    public List<Client> getTenMoreConsumersByDateRange (LocalDate beginDate, LocalDate endDate){
         return clientRepository.findTenMoreConsumersByDateTimeRange(beginDate, endDate);
     }
 

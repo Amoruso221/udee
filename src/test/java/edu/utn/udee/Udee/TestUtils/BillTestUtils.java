@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import static edu.utn.udee.Udee.TestUtils.AddressTestUtils.*;
 import static edu.utn.udee.Udee.TestUtils.ClientTestUtils.*;
 import static edu.utn.udee.Udee.TestUtils.MeterTestUtils.*;
+import static java.util.Collections.emptyList;
 
 public class BillTestUtils {
 
@@ -131,5 +132,9 @@ public class BillTestUtils {
         return getBillListByAddressOrClient().stream().
                 map(x -> BillDto.from(x)).
                 collect(Collectors.toList());
+    }
+
+    public static List<Bill> getEmptyBillList(){
+        return emptyList();
     }
 }

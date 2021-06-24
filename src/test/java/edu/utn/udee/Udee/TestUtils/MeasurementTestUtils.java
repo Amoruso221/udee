@@ -10,6 +10,7 @@ import java.util.List;
 
 import static edu.utn.udee.Udee.TestUtils.MeterTestUtils.getMeterAdded;
 import static edu.utn.udee.Udee.TestUtils.MeterTestUtils.getMeterDtoAdded;
+import static java.util.Collections.emptyList;
 
 public class MeasurementTestUtils {
 
@@ -153,6 +154,10 @@ public class MeasurementTestUtils {
         }
         return measurementList;
 
+    }
+
+    public static List<Measurement> getEmptyMeasurementList(){
+        return emptyList();
     }
 
 }

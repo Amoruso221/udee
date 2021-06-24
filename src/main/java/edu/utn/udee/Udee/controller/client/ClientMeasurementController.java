@@ -61,8 +61,6 @@ public class ClientMeasurementController {
                 body(measurementsDto);
     }
 
-
-
     private List<MeasurementDto> listMeasurementsToDtoIgnoreMeter (List<Measurement> list){
         return list.stream().
                 map(x -> MeasurementDto.builder().

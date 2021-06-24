@@ -8,6 +8,11 @@ import edu.utn.udee.Udee.dto.RateDto;
 import java.util.Collections;
 import java.util.List;
 
+import static edu.utn.udee.Udee.TestUtils.ClientTestUtils.getClientDtoWithId;
+import static edu.utn.udee.Udee.TestUtils.ClientTestUtils.getClientWithId;
+import static edu.utn.udee.Udee.TestUtils.RateTestUtils.getRateWithId;
+import static java.util.Collections.emptyList;
+
 public class AddressTestUtils {
 
     public static AddressDto getAddressDtoReceived (){
@@ -16,13 +21,40 @@ public class AddressTestUtils {
                 city("TestCity").
                 state("TestState").
                 country("TestCountry").
-                client(ClientTestUtils.getClientDtoWithId()).
+                client(getClientDtoWithId()).
                 rate(RateDto.builder().
                         id(1).
                         description("TestRateDescription").
                         amount(1.0).
-                        addresses(Collections.emptyList()).
+                        addresses(emptyList()).
                         build()).
+                build();
+    }
+
+    public static AddressDto getAddressDtoReceivedWithoutClient (){
+        return AddressDto.builder().
+                address("TestStreet 1234").
+                city("TestCity").
+                state("TestState").
+                country("TestCountry").
+                client(null).
+                rate(RateDto.builder().
+                        id(1).
+                        description("TestRateDescription").
+                        amount(1.0).
+                        addresses(emptyList()).
+                        build()).
+                build();
+    }
+
+    public static AddressDto getAddressDtoReceivedWithoutRate (){
+        return AddressDto.builder().
+                address("TestStreet 1234").
+                city("TestCity").
+                state("TestState").
+                country("TestCountry").
+                client(getClientDtoWithId()).
+                rate(null).
                 build();
     }
 
@@ -32,7 +64,7 @@ public class AddressTestUtils {
                 city("TestCity").
                 state("TestState").
                 country("TestCountry").
-                client(ClientTestUtils.getClientWithId()).
+                client(getClientWithId()).
                 rate(Rate.builder().
                         id(1).
                         description("TestRateDescription").
@@ -49,8 +81,25 @@ public class AddressTestUtils {
                 city("TestCity").
                 state("TestState").
                 country("TestCountry").
-                client(ClientTestUtils.getClientWithId()).
+                client(getClientWithId()).
                 rate(Rate.builder().
+                        id(1).
+                        description("TestRateDescription").
+                        amount(1.0).
+                        addresses(Collections.emptyList()).
+                        build()).
+                build();
+    }
+
+    public static AddressDto getAddressDtoAdded (){
+        return AddressDto.builder().
+                id(1).
+                address("TestStreet 1234").
+                city("TestCity").
+                state("TestState").
+                country("TestCountry").
+                client(getClientDtoWithId()).
+                rate(RateDto.builder().
                         id(1).
                         description("TestRateDescription").
                         amount(1.0).
@@ -66,7 +115,7 @@ public class AddressTestUtils {
                         city("TestCity").
                         state("TestState").
                         country("TestCountry").
-                        client(ClientTestUtils.getClientWithId()).
+                        client(getClientWithId()).
                         rate(Rate.builder().
                                 id(1).
                                 description("TestRateDescription").
@@ -79,7 +128,7 @@ public class AddressTestUtils {
                         city("TestCityTwo").
                         state("TestStateTwo").
                         country("TestCountryTwo").
-                        client(ClientTestUtils.getClientWithId()).
+                        client(getClientWithId()).
                         rate(Rate.builder().
                                 id(1).
                                 description("TestRateDescription").

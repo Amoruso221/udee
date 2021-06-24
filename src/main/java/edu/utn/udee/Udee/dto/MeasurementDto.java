@@ -30,11 +30,12 @@ public class MeasurementDto {
                 idMeasurement(measurement.getIdMeasurement()).
                 kwh(measurement.getKwh()).
                 dateTime(measurement.getDateTime()).
-                meter(MeterDto.builder().
+                meter(MeterDto.from(measurement.getMeter())).
+                /*meter(MeterDto.builder().
                     serialNumber(meter.getSerialNumber()).
                     brand(meter.getBrand()).
                     model(meter.getModel()).
-                    build()).
+                    build()).*/
                 billed(measurement.getBilled()).
                 build();
     }

@@ -51,9 +51,9 @@ public class MeasurementService {
     }
 
     public void deleteById(Integer id)
-            throws MeterNotExistsException {
+            throws MeasurementNotExistsException {
         if (measurementRepository.existsById(id))
             measurementRepository.deleteById(id);
-        else throw new MeterNotExistsException();
+        else throw new MeasurementNotExistsException();
     }
 }

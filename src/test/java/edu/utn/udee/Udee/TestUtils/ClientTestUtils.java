@@ -6,6 +6,8 @@ import edu.utn.udee.Udee.dto.ClientDto;
 import java.util.Collections;
 import java.util.List;
 
+import static java.util.Collections.*;
+
 public class ClientTestUtils {
 
     public static ClientDto getClientDto() {
@@ -49,19 +51,19 @@ public class ClientTestUtils {
 
     public static List<Client> getClientsList(){
         List<Client> clientList = List.of(Client.builder().name("Matias").surname("Amoruso").dni(1234).address(null).build(),
-                Client.builder().name("Federico").surname("Mendez").dni(1234).address(null).build()
+                Client.builder().name("Federico").surname("Mendez").dni(2345).address(null).build()
         );
 
         return clientList;
     }
 
     public static List<Client> getEmptyClientList(){
-        return Collections.emptyList();
+        return emptyList();
     }
 
     public static List<ClientDto> getClientsDtoList(){
         List<ClientDto> clientDtoList = List.of(ClientDto.builder().name("Matias").surname("Amoruso").dni(1234).address(null).build(),
-                ClientDto.builder().name("Federico").surname("Mendez").dni(1234).address(null).build()
+                ClientDto.builder().name("Federico").surname("Mendez").dni(2345).address(null).build()
         );
 
         return clientDtoList;

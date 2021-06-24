@@ -99,7 +99,7 @@ public class ClientControllerTest {
         when(mockedPage.getContent()).thenReturn(ClientTestUtils.getClientsList());
         when(clientService.allClients(pageable)).thenReturn(mockedPage);
 
-        ResponseEntity<List<Client>> responseEntity = clientController.allClients(pageable);
+        ResponseEntity<List<ClientDto>> responseEntity = clientController.allClients(pageable);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
@@ -113,7 +113,7 @@ public class ClientControllerTest {
         when(mockedPage.getContent()).thenReturn(ClientTestUtils.getEmptyClientList());
         when(clientService.allClients(pageable)).thenReturn(mockedPage);
 
-        ResponseEntity<List<Client>> responseEntity = clientController.allClients(pageable);
+        ResponseEntity<List<ClientDto>> responseEntity = clientController.allClients(pageable);
 
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
         assertEquals(0, responseEntity.getBody().size());

@@ -48,12 +48,11 @@ public class MeasurementController {
         if (measurementDto.getMeter() == null)
             throw new MeterIsRequiredException();
         Measurement newMeasurement = measurementService.addMeasurement(Measurement.builder().
-                    idMeasurement(measurementDto.getIdMeasurement()).
-                    kwh(measurementDto.getKwh()).
-                    dateTime(measurementDto.getDateTime()).
+                idMeasurement(measurementDto.getIdMeasurement()).
+                kwh(measurementDto.getKwh()).
+                dateTime(measurementDto.getDateTime()).
                 meter(meterService.getBySerialNumber(measurementDto.getMeter().getSerialNumber())).
-                    build());
-
+                build());
         return ResponseEntity.created(Conf.getLocation(newMeasurement)).build();
     }
 
@@ -92,7 +91,7 @@ public class MeasurementController {
 
     @DeleteMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity deleteMeasurement(@PathVariable Integer id)
-            throws MeterNotExistsException {
+            throws MeasurementNotExistsException {
         measurementService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

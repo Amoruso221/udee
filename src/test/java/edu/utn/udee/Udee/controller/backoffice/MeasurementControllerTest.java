@@ -4,7 +4,6 @@ import edu.utn.udee.Udee.TestUtils.MeasurementTestUtils;
 import edu.utn.udee.Udee.config.Conf;
 import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.dto.MeasurementDto;
-import edu.utn.udee.Udee.dto.MeterDto;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeasurementNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterIsRequiredException;
@@ -14,7 +13,6 @@ import edu.utn.udee.Udee.service.backoffice.MeasurementService;
 import edu.utn.udee.Udee.service.backoffice.MeterService;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -29,19 +27,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 import static edu.utn.udee.Udee.TestUtils.AddressTestUtils.getAddressAdded;
 import static edu.utn.udee.Udee.TestUtils.MeasurementTestUtils.*;
 import static edu.utn.udee.Udee.TestUtils.MeterTestUtils.getMeterAdded;
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.doThrow;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Conf.class)

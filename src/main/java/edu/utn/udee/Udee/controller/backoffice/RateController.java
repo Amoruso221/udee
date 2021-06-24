@@ -3,7 +3,6 @@ package edu.utn.udee.Udee.controller.backoffice;
 import edu.utn.udee.Udee.config.Conf;
 import edu.utn.udee.Udee.domain.Rate;
 import edu.utn.udee.Udee.dto.RateDto;
-import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
 import edu.utn.udee.Udee.exceptions.RateExistsException;
 import edu.utn.udee.Udee.exceptions.RateNotExistsException;
 import edu.utn.udee.Udee.service.backoffice.RateService;

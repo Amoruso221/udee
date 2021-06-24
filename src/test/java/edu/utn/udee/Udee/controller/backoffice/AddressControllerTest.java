@@ -3,10 +3,7 @@ package edu.utn.udee.Udee.controller.backoffice;
 import edu.utn.udee.Udee.config.Conf;
 import edu.utn.udee.Udee.domain.Address;
 import edu.utn.udee.Udee.dto.AddressDto;
-import edu.utn.udee.Udee.exceptions.AddressExistsException;
-import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
-import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
-import edu.utn.udee.Udee.exceptions.RateNotExistsException;
+import edu.utn.udee.Udee.exceptions.*;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -48,7 +45,7 @@ public class AddressControllerTest {
 
     @Test
     public void testAddAddressOk()
-            throws AddressExistsException, ClientNotExistsException, RateNotExistsException {
+            throws AddressExistsException, ClientNotExistsException, RateNotExistsException, ClientIsRequiredException, RateIsRequiredException {
         //BEHAVIORS//
         // when(modelMapper.map(addressDtoReceived, Address.class)).thenReturn(addressReceived);
         PowerMockito.mockStatic(Conf.class);
@@ -65,25 +62,36 @@ public class AddressControllerTest {
 
     @Test(expected = AddressExistsException.class)
     public void testAddAddressExistsException()
-            throws AddressExistsException, ClientNotExistsException, RateNotExistsException{
+            throws AddressExistsException, ClientNotExistsException, RateNotExistsException, ClientIsRequiredException, RateIsRequiredException  {
         when(addressService.addAddress(any())).thenThrow(new AddressExistsException());
         ResponseEntity responseEntity = addressController.addAddress(getAddressDtoReceived());
     }
 
     @Test(expected = ClientNotExistsException.class)
     public void testAddClientNotExistsException()
-            throws AddressExistsException, ClientNotExistsException, RateNotExistsException{
+            throws AddressExistsException, ClientNotExistsException, RateNotExistsException, ClientIsRequiredException, RateIsRequiredException  {
         when(addressService.addAddress(any())).thenThrow(new ClientNotExistsException());
         ResponseEntity responseEntity = addressController.addAddress(getAddressDtoReceived());
     }
 
     @Test(expected = RateNotExistsException.class)
     public void testAddRateNotExistsException()
-            throws AddressExistsException, ClientNotExistsException, RateNotExistsException{
+            throws AddressExistsException, ClientNotExistsException, RateNotExistsException, ClientIsRequiredException, RateIsRequiredException  {
         when(addressService.addAddress(any())).thenThrow(new RateNotExistsException());
         ResponseEntity responseEntity = addressController.addAddress(getAddressDtoReceived());
     }
 
+    @Test(expected = ClientIsRequiredException.class)
+    public void testAddWithoutClient()
+            throws AddressExistsException, ClientNotExistsException, RateNotExistsException, ClientIsRequiredException, RateIsRequiredException  {
+        ResponseEntity responseEntity = addressController.addAddress(getAddressDtoReceivedWithoutClient());
+    }
+
+    @Test(expected = RateIsRequiredException.class)
+    public void testAddWithoutRate()
+            throws AddressExistsException, ClientNotExistsException, RateNotExistsException, ClientIsRequiredException, RateIsRequiredException  {
+        ResponseEntity responseEntity = addressController.addAddress(getAddressDtoReceivedWithoutRate());
+    }
 
     @Test
     public void testEditAddressOk ()

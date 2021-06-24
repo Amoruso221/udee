@@ -81,7 +81,7 @@ public class MeterControllerTest {
         Page<Meter> mockedPage = mock(Page.class);
         when(mockedPage.getTotalElements()).thenReturn(100L);
         when(mockedPage.getTotalPages()).thenReturn(10);
-        when(mockedPage.getContent()).thenReturn(getMeterList());
+        when(mockedPage.getContent()).thenReturn(getMeterNoMeasurementList());
         when(meterService.getAll(pageable)).thenReturn(mockedPage);
         try {
             //EXECUTION//
@@ -90,7 +90,7 @@ public class MeterControllerTest {
             assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
             assertEquals(100L, Long.parseLong(responseEntity.getHeaders().get("X-Total-Count").get(0)));
             assertEquals(10, Integer.parseInt(responseEntity.getHeaders().get("X-Total-Pages").get(0)));
-            assertEquals(getMeterList(), responseEntity.getBody());
+            assertEquals(getMeterNoMeasurementList(), responseEntity.getBody());
         }
         catch (Exception ex){
             fail("Unexpected Exception!");
@@ -154,7 +154,7 @@ public class MeterControllerTest {
     }
 
     @Test(expected = MeterNotExistsException.class)
-    public void testDeleteNotExistsException()
+    public void testDeleteMeterNotExistsException()
             throws MeterNotExistsException{
         doThrow(new MeterNotExistsException()).when(meterService).deleteBySerialNumber(anyInt());
         ResponseEntity responseEntity = meterController.deleteMeter(0);

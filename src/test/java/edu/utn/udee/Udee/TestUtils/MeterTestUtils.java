@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static edu.utn.udee.Udee.TestUtils.AddressTestUtils.*;
+import static edu.utn.udee.Udee.TestUtils.MeasurementTestUtils.*;
 
 public class MeterTestUtils {
 
@@ -41,10 +42,16 @@ public class MeterTestUtils {
     }
 
     public static MeterDto getMeterDtoAdded (){
-        return MeterDto.from(getMeterAdded());
+        return MeterDto.builder().
+                serialNumber(1).
+                brand("TestBrand").
+                model("TestModel").
+                measurements(Collections.emptyList()).
+                address(getAddressDtoAdded()).
+                build();
     }
 
-    public static List<Meter> getMeterList(){
+    public static List<Meter> getMeterNoMeasurementList(){
         List<Address> addresses = getAddressList();
         return List.of(
                 Meter.builder().
@@ -52,15 +59,33 @@ public class MeterTestUtils {
                         brand("TestBrand").
                         model("TestModel").
                         measurements(Collections.emptyList()).
-                        address(addresses.get(0)).
+                        address(/*addresses.get(0)*/null).
                         build(),
                 Meter.builder().
                         serialNumber(2).
                         brand("TestBrandTwo").
                         model("TestModelTwo").
                         measurements(Collections.emptyList()).
-                        address(addresses.get(1)).
+                        address(/*addresses.get(1)*/null).
                         build());
     }
 
+    public static List<Meter> getMeterWithMeasurementList(){
+        List<Address> addresses = getAddressList();
+        return List.of(
+                Meter.builder().
+                        serialNumber(1).
+                        brand("TestBrand").
+                        model("TestModel").
+                        measurements(getMeasurementUnbilledList()).
+                        address(/*addresses.get(0)*/null).
+                        build(),
+                Meter.builder().
+                        serialNumber(2).
+                        brand("TestBrandTwo").
+                        model("TestModelTwo").
+                        measurements(getMeasurementUnbilledList()).
+                        address(/*addresses.get(1)*/null).
+                        build());
+    }
 }

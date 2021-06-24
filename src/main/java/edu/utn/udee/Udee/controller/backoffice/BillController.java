@@ -102,7 +102,7 @@ public class BillController {
 
     private List<BillDto> listBillToDto (List<Bill> list){
         return list.stream().
-                map(x -> modelMapper.map(x, BillDto.class)).
+                map(x -> /*modelMapper.map(x, BillDto.class)*/BillDto.from(x)).
                 collect(Collectors.toList());
     }
 }

@@ -3,10 +3,7 @@ package edu.utn.udee.Udee.controller.backoffice;
 import edu.utn.udee.Udee.config.Conf;
 import edu.utn.udee.Udee.domain.Address;
 import edu.utn.udee.Udee.dto.AddressDto;
-import edu.utn.udee.Udee.exceptions.AddressExistsException;
-import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
-import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
-import edu.utn.udee.Udee.exceptions.RateNotExistsException;
+import edu.utn.udee.Udee.exceptions.*;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +30,12 @@ public class AddressController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity addAddress(@RequestBody AddressDto addressDto)
-            throws AddressExistsException, ClientNotExistsException, RateNotExistsException {
+            throws AddressExistsException, ClientNotExistsException, RateNotExistsException, ClientIsRequiredException, RateIsRequiredException {
+        if (addressDto.getClient() == null)
+            throw new ClientIsRequiredException();
+        if (addressDto.getRate() == null)
+            throw new RateIsRequiredException();
         Address newAddress = addressService.addAddress(modelMapper.map(addressDto, Address.class));
-
         return ResponseEntity.created(Conf.getLocation(newAddress)).build();
     }
 

@@ -39,6 +39,17 @@ public class MeasurementTestUtils {
                         build();
     }
 
+    public static Measurement getUnbilledMeasurementNullDateTime(){
+        Meter meter = getMeterAdded();
+        return Measurement.builder().
+                idMeasurement(1).
+                kwh(1.0).
+                dateTime(null).
+                meter(meter).
+                billed(false).
+                build();
+    }
+
     public static Measurement getBilledMeasurement(){
         Measurement measurement = getUnbilledMeasurement();
         measurement.setBilled(true);

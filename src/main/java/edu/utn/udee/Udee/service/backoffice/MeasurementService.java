@@ -25,9 +25,9 @@ public class MeasurementService {
 
     public Measurement addMeasurement(Measurement measurement) {
         measurement.setBilled(false);
-        if (measurement.getDateTime() == null) {
+        /*if (measurement.getDateTime() == null) {
             measurement.setDateTime(LocalDateTime.now());
-        }
+        }*/
         return measurementRepository.save(measurement);
     }
 

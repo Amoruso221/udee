@@ -33,8 +33,6 @@ public class ClientMeasurementService {
         this.measurementService = measurementService;
     }
 
-
-
     public KwhAndAmount getTotalKwhAndAmountBetweenDates(Integer client_id, LocalDate startDate, LocalDate endDate)
             throws AddressNotExistsException, MeterNotExistsException {
         List<Address> addresses = addressService.findAddressByClientId(client_id);

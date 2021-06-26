@@ -23,8 +23,6 @@ public class RateService {
         this.addressService = addressService;
     }
 
-
-
     public Rate addRate(Rate rate)
             throws RateExistsException{
         if (!rateRepository.existsByDescription(rate.getDescription()))
@@ -58,7 +56,7 @@ public class RateService {
         return editedRate;
     }
 
-    public void addAddressToRate(Integer idRate, Integer idAddress)
+    /*public void addAddressToRate(Integer idRate, Integer idAddress)
             throws RateNotExistsException, AddressNotExistsException {
         if (rateRepository.existsById(idRate)) {
             Rate rate = this.getById(idRate);
@@ -68,5 +66,5 @@ public class RateService {
             rateRepository.save(rate);
         }
         else throw new RateNotExistsException();
-    }
+    }*/
 }

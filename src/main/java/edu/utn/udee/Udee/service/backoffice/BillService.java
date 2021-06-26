@@ -55,7 +55,6 @@ public class BillService {
                 billRepository.save(newBill);
             }
         }
-
         return newBillList;
     }
 

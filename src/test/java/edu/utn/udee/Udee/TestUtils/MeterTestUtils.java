@@ -87,4 +87,14 @@ public class MeterTestUtils {
                         address(addresses.get(1)).
                         build());
     }
+
+    public static Meter getMeterWithMeasurement(){
+        return Meter.builder().
+                serialNumber(1).
+                brand("TestBrand").
+                model("TestModel").
+                measurements(getMeasurementUnbilledList()).
+                address(getAddressAdded()).
+                build();
+    }
 }

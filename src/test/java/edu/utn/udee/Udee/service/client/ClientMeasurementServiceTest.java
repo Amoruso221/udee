@@ -6,7 +6,9 @@ import edu.utn.udee.Udee.TestUtils.MeterTestUtils;
 import edu.utn.udee.Udee.config.Conf;
 import edu.utn.udee.Udee.domain.Measurement;
 import edu.utn.udee.Udee.exceptions.AddressNotExistsException;
+import edu.utn.udee.Udee.exceptions.ClientNotExistsException;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
+import edu.utn.udee.Udee.projections.KwhAndAmount;
 import edu.utn.udee.Udee.repository.ClientMeasurementRepository;
 import edu.utn.udee.Udee.service.backoffice.AddressService;
 import edu.utn.udee.Udee.service.backoffice.MeasurementService;
@@ -16,14 +18,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.springframework.data.projection.ProjectionFactory;
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Conf.class)
@@ -46,11 +49,53 @@ public class ClientMeasurementServiceTest {
         this.clientMeasurementService = new ClientMeasurementService(clientMeasurementRepository, addressService, meterService, measurementService);
     }
 
-    /*@Test
+    @Test
     public void testGetTotalKwhAndAmountBetweenDatesOk() throws AddressNotExistsException, MeterNotExistsException  {
+        LocalDate begin = LocalDate.now();
+        LocalDate end = LocalDate.now().plusMonths(1);
+        ProjectionFactory factory = new SpelAwareProxyProjectionFactory();
+        KwhAndAmount kwhAndAmount = factory.createProjection(KwhAndAmount.class);
+        kwhAndAmount.setAmount(2.0);
+        kwhAndAmount.setKwh(5.0);
         when(addressService.findAddressByClientId(any())).thenReturn(AddressTestUtils.getAddressList());
-        when(meterService.getByAddress(any())).thenReturn(MeterTestUtils.get);
+        when(meterService.getByAddress(any())).thenReturn(MeterTestUtils.getMeterWithMeasurement());
+        when(clientMeasurementRepository.findTotalKwhAndAmountByClient(1, begin, end)).thenReturn(kwhAndAmount);
 
+        KwhAndAmount kwhAndAmount1 = clientMeasurementService.getTotalKwhAndAmountBetweenDates(1, begin, end);
+
+        assertEquals(kwhAndAmount, kwhAndAmount1);
+    }
+
+    @Test(expected = AddressNotExistsException.class)
+    public void testGetTotalKwhAndAmountBetweenDatesAddressNotExistsException() throws AddressNotExistsException, MeterNotExistsException {
+        LocalDate begin = LocalDate.now();
+        LocalDate end = LocalDate.now().plusMonths(1);
+        KwhAndAmount kwhAndAmount1 = clientMeasurementService.getTotalKwhAndAmountBetweenDates(1, begin, end);
+    }
+
+    @Test(expected = MeterNotExistsException.class)
+    public void testGetTotalKwhAndAmountBetweenDatesMeterNotExistsException() throws AddressNotExistsException, MeterNotExistsException {
+        LocalDate begin = LocalDate.now();
+        LocalDate end = LocalDate.now().plusMonths(1);
+        when(addressService.findAddressByClientId(any())).thenReturn(AddressTestUtils.getAddressList());
+        when(meterService.getByAddress(any())).thenReturn(null);
+        KwhAndAmount kwhAndAmount1 = clientMeasurementService.getTotalKwhAndAmountBetweenDates(1, begin, end);
+    }
+
+    /*@Test
+    public void testGetTotalKwhAndAmountBetweenDatesMeterWithoutMeasurements() throws AddressNotExistsException, MeterNotExistsException {
+        LocalDate begin = LocalDate.now();
+        LocalDate end = LocalDate.now().plusMonths(1);
+        ProjectionFactory factory = new SpelAwareProxyProjectionFactory();
+        KwhAndAmount kwhAndAmount = factory.createProjection(KwhAndAmount.class);
+        kwhAndAmount.setAmount(0.0);
+        kwhAndAmount.setKwh(0.0);
+        when(addressService.findAddressByClientId(any())).thenReturn(AddressTestUtils.getAddressList());
+        when(meterService.getByAddress(any())).thenReturn(MeterTestUtils.getMeterAdded());
+//        doNothing().when(measurementService).addMeasurement(any());
+        when(measurementService.addMeasurement(MeasurementTestUtils.getNewMeasurement())).thenReturn(MeasurementTestUtils.getNewMeasurement());
+        KwhAndAmount kwhAndAmount1 = clientMeasurementService.getTotalKwhAndAmountBetweenDates(1, begin, end);
+        assertEquals(kwhAndAmount, kwhAndAmount1);
     }*/
 
     @Test

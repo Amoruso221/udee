@@ -23,11 +23,10 @@ public class MeterTestUtils {
 
     public static Meter getMeterReceived (){
         return Meter.builder().
-                serialNumber(1).
                 brand("TestBrand").
                 model("TestModel").
                 measurements(null).
-                address(getAddressReceived()).
+                address(getAddressAdded()).
                 build();
     }
 
@@ -78,14 +77,14 @@ public class MeterTestUtils {
                         brand("TestBrand").
                         model("TestModel").
                         measurements(getMeasurementUnbilledList()).
-                        address(/*addresses.get(0)*/null).
+                        address(addresses.get(0)).
                         build(),
                 Meter.builder().
                         serialNumber(2).
                         brand("TestBrandTwo").
                         model("TestModelTwo").
                         measurements(getMeasurementUnbilledList()).
-                        address(/*addresses.get(1)*/null).
+                        address(addresses.get(1)).
                         build());
     }
 }

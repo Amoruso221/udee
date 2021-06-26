@@ -46,6 +46,7 @@ public class ClientMeasurementController {
         UserDto userDto = (UserDto) auth.getPrincipal();
         KwhAndAmount kwhAndAmount = clientMeasurementService.getTotalKwhAndAmountBetweenDates(userDto.getClient_id(), startDate, endDate);
         return ResponseEntity.ok(kwhAndAmount);
+
     }
 
     @GetMapping(value = "{start}/{end}", produces = "application/json")

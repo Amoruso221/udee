@@ -1,12 +1,12 @@
 package edu.utn.udee.Udee.TestUtils;
 
+import edu.utn.udee.Udee.domain.Address;
 import edu.utn.udee.Udee.domain.Client;
 import edu.utn.udee.Udee.dto.ClientDto;
 
-import java.util.Collections;
 import java.util.List;
 
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
 
 public class ClientTestUtils {
 
@@ -46,6 +46,17 @@ public class ClientTestUtils {
                 .surname("Amoruso")
                 .dni(1234)
                 .address(null)
+                .build();
+    }
+
+    public static Client getClientWithAddresses(){
+        List<Address> addresses = AddressTestUtils.getAddressList();
+        return Client.builder()
+                .id(1)
+                .name("Matias")
+                .surname("Amoruso")
+                .dni(1234)
+                .address(addresses)
                 .build();
     }
 

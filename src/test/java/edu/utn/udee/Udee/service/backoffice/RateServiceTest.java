@@ -75,7 +75,6 @@ public class RateServiceTest {
     @Test
     public void testGetByIdOk() throws RateNotExistsException {
         when(rateRepository.findById(any())).thenReturn(Optional.of(RateTestUtils.getRateWithId()));
-
         try {
             Rate rate = rateService.getById(1);
             assertEquals(RateTestUtils.getRateWithId(), rate);

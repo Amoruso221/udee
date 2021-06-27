@@ -47,7 +47,7 @@ public class BillServiceTest {
     @Test
     public void testCreateAllBillsOk () throws MeterNotExistsException {
         when(measurementService.getUnbilledMeasurements(any())).thenReturn(getMeasurementUnbilledList());
-        doNothing().when(meterService).setBilledMeasumerent(any());
+        doNothing().when(meterService).setBilledMeasurement(any());
         try{
             List<Bill> newBillList = billService.createAllBills(getMeterWithMeasurementList());
             assertEquals(2, newBillList.size());
@@ -62,14 +62,14 @@ public class BillServiceTest {
     public void testCreateAllBillsMeterNotExistsException()
             throws MeterNotExistsException{
         when(measurementService.getUnbilledMeasurements(any())).thenReturn(getMeasurementUnbilledList());
-        doThrow(new MeterNotExistsException()).when(meterService).setBilledMeasumerent(any());
+        doThrow(new MeterNotExistsException()).when(meterService).setBilledMeasurement(any());
         billService.createAllBills(getMeterWithMeasurementList());
     }
 
     @Test
     public void testCreateAllBillsEmptyList () throws MeterNotExistsException {
         when(measurementService.getUnbilledMeasurements(any())).thenReturn(emptyList());
-        doNothing().when(meterService).setBilledMeasumerent(any());
+        doNothing().when(meterService).setBilledMeasurement(any());
         try{
             List<Bill> newBillList = billService.createAllBills(getMeterWithMeasurementList());
             assertEquals(0, newBillList.size());
@@ -103,7 +103,6 @@ public class BillServiceTest {
         when(billRepository.findAll(pageable)).thenReturn(mockedPage);
         try {
             Page<Bill> bills = billService.getAll(pageable);
-
             verify(billRepository, times(1)).findAll(pageable);
             assertEquals(0, bills.getContent().size());
             assertEquals(emptyList(), bills.getContent());
@@ -185,7 +184,7 @@ public class BillServiceTest {
     }
 
     @Test
-    public void testDeleteById()
+    public void testDeleteByIdOk()
             throws BillNotExistsException{
         when(billRepository.existsById(anyInt())).thenReturn(true);
         doNothing().when(billRepository).deleteById(any());
@@ -196,8 +195,10 @@ public class BillServiceTest {
             fail("Unexpected Exception!");
         }
     }
+
     @Test(expected = BillNotExistsException.class)
-    public void testDeleteByIdNotExistsException() throws BillNotExistsException {
+    public void testDeleteByIdNotExistsException()
+            throws BillNotExistsException {
         when(billRepository.existsById(anyInt())).thenReturn(false);
         billService.deleteById(1);
     }

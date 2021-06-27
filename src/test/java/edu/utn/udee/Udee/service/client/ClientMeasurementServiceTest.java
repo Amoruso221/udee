@@ -82,7 +82,7 @@ public class ClientMeasurementServiceTest {
         KwhAndAmount kwhAndAmount1 = clientMeasurementService.getTotalKwhAndAmountBetweenDates(1, begin, end);
     }
 
-    /*@Test
+    @Test
     public void testGetTotalKwhAndAmountBetweenDatesMeterWithoutMeasurements() throws AddressNotExistsException, MeterNotExistsException {
         LocalDate begin = LocalDate.now();
         LocalDate end = LocalDate.now().plusMonths(1);
@@ -92,11 +92,10 @@ public class ClientMeasurementServiceTest {
         kwhAndAmount.setKwh(0.0);
         when(addressService.findAddressByClientId(any())).thenReturn(AddressTestUtils.getAddressList());
         when(meterService.getByAddress(any())).thenReturn(MeterTestUtils.getMeterAdded());
-//        doNothing().when(measurementService).addMeasurement(any());
-        when(measurementService.addMeasurement(MeasurementTestUtils.getNewMeasurement())).thenReturn(MeasurementTestUtils.getNewMeasurement());
+        when(clientMeasurementRepository.findTotalKwhAndAmountByClient(anyInt(),any(),any())).thenReturn(kwhAndAmount);
         KwhAndAmount kwhAndAmount1 = clientMeasurementService.getTotalKwhAndAmountBetweenDates(1, begin, end);
         assertEquals(kwhAndAmount, kwhAndAmount1);
-    }*/
+    }
 
     @Test
     public void testGetBetweenDatesOk() {

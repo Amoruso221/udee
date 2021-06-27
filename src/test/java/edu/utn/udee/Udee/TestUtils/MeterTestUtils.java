@@ -50,6 +50,16 @@ public class MeterTestUtils {
                 build();
     }
 
+    public static Meter getMeterWithoutAddress(){
+        return Meter.builder().
+                serialNumber(1).
+                brand("TestBrand").
+                model("TestModel").
+                measurements(Collections.emptyList()).
+                address(null).
+                build();
+    }
+
     public static List<Meter> getMeterNoMeasurementList(){
         List<Address> addresses = getAddressList();
         return List.of(
@@ -94,6 +104,16 @@ public class MeterTestUtils {
                 brand("TestBrand").
                 model("TestModel").
                 measurements(getMeasurementUnbilledList()).
+                address(getAddressAdded()).
+                build();
+    }
+
+    public static Meter getMeterWithMeasurementsBilled(){
+        return Meter.builder().
+                serialNumber(1).
+                brand("TestBrand").
+                model("TestModel").
+                measurements(getMeasurementBilledList()).
                 address(getAddressAdded()).
                 build();
     }

@@ -169,7 +169,13 @@
 						<exclude>**/controller/advice/**</exclude>
 						<exclude>**/config/**</exclude>
 						<exclude>**/exceptions/**</exclude>
-						<exclude>**/domain/**</exclude>
+
+						<exclude>**/util/**</exclude>
+						<exclude>**/controller/receiver/**</exclude>
+						<exclude>**/service/*UserService.*</exclude>
+						<exclude>**/controller/*UserController.*</exclude>
+						<exclude>**/*UdeeApplication.*</exclude>
+						<exclude>**/filter/**</exclude>
 					</excludes>
 					<destFile>target/jacoco.exec</destFile>
 				</configuration>

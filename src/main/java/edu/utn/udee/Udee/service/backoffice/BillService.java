@@ -33,7 +33,7 @@ public class BillService {
         for (Meter meter: meterList) {
             List<Measurement> measurementList = measurementService.getUnbilledMeasurements(meter.getSerialNumber());
                 if (measurementList.size() != 0){
-                meterService.setBilledMeasumerent(meter);
+                meterService.setBilledMeasurement(meter);
                 Double totalMeasurement = measurementList.stream().mapToDouble(x -> x.getKwh()).sum();
                 Bill newBill = Bill.builder().
                         dni(meter.getAddress().getClient().getDni()).

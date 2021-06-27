@@ -3,6 +3,7 @@ package edu.utn.udee.Udee.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.utn.udee.Udee.domain.enums.Rol;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

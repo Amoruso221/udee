@@ -5,6 +5,7 @@ import edu.utn.udee.Udee.domain.Meter;
 import edu.utn.udee.Udee.exceptions.MeterNotExistsException;
 import edu.utn.udee.Udee.service.backoffice.MeasurementService;
 import edu.utn.udee.Udee.service.backoffice.MeterService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,22 +30,20 @@ public class ReceiverMeasurementController {
         this.meterService = meterService;
     }
 
-
+    @Data
     private static class MeasurerReceiverDto{
-        Double kwh;
+        Double value;
         Integer serialNumber;
-        LocalDateTime dateTime;
+        LocalDateTime date;
     }
-
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity receiveMeasurer (@RequestBody MeasurerReceiverDto measurerReceiverDto)
             throws MeterNotExistsException {
-        Meter meter = meterService.getBySerialNumber(measurerReceiverDto.serialNumber);
+        Meter meter = meterService.getBySerialNumber(measurerReceiverDto.getSerialNumber());
         Measurement newMeasurement = measurementService.addMeasurement(Measurement.builder().
-                idMeasurement(0).
-                kwh(measurerReceiverDto.kwh).
-                dateTime(measurerReceiverDto.dateTime).
+                kwh(measurerReceiverDto.getValue()).
+                dateTime(measurerReceiverDto.getDate()).
                 meter(meter).
                 build());
         return ResponseEntity.created(getLocation(newMeasurement)).build();

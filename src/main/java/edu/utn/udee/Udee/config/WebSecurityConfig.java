@@ -17,10 +17,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/receiver").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/api/backoffice/**").hasRole("BACKOFFICE")
                 .antMatchers("/api/client/**").hasRole("CLIENT")
-                .antMatchers("/api/receiver").hasRole("RECEIVER")
+                //.antMatchers("/api/receiver").hasRole("RECEIVER")
                 .anyRequest().authenticated()
                 .and().httpBasic();
 

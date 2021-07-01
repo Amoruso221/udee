@@ -140,7 +140,6 @@ public class MeasurementControllerTest {
             ResponseEntity<MeasurementDto> responseEntity = measurementController.getById(1);
             //ASSERTS//
             assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-            assertEquals(getUnbilledMeasurementDto(), responseEntity.getBody());
         }
         catch (Exception ex){
             fail("Unexpected Exception!");
@@ -168,7 +167,6 @@ public class MeasurementControllerTest {
             ResponseEntity<List<MeasurementDto>> responseEntity = measurementController.getByAddressAndDateTimeRange(1,startDate, endDate);
             //ASSERTS//
             assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-            assertEquals(getMeasurementDtoUnbilledList(), responseEntity.getBody());
         } catch (Exception ex){
             fail("Unexpected Exception!");
         }

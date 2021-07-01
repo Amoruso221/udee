@@ -4,7 +4,7 @@ UDEE - UTN Distribucion de Energia Electrica
 Models
 -------------
 
-![](LINK)
+![](https://github.com/Amoruso221/udee/blob/main/DER.png)
 
 Endpoints
 -------------
@@ -72,11 +72,6 @@ Endpoints
  |  ------------- |  ------------- |  ------------- | 
  | GET | /consumption/{start}/{end} | TotalKwhAndAmountBetweenDates |
  | GET | /{start}/{end} | GetBetweenDates |
-
-#### /receiver
- | | | |
- |  ------------- |  ------------- |  ------------- | 
- | POST | / | ReceiveMeasurer |
 
 #### /
  | | | |
